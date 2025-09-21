@@ -1,0 +1,25 @@
+@startuml
+actor Client
+usecase "UC-01 Inscription" as UC01
+usecase "KYC/AML" as KYC
+usecase "OTP d'activation" as OTP
+usecase "UC-02 Authentification" as UC02
+usecase "Défi MFA" as MFAChallenge
+usecase "UC-03 Approvisionnement" as UC03
+usecase "Validation anti-fraude" as AntiFraud
+usecase "Callback Settlement (async)" as Settlement
+
+Client --> UC01
+Client --> UC02
+Client --> UC03
+
+' include : base -> réutilisé (obligatoire)
+UC01 .> KYC : <<include>>
+UC01 .> OTP : <<include>>
+UC03 .> AntiFraud : <<include>>
+
+' extend : extension -> base (optionnel)
+MFAChallenge .> UC02 : <<extend>>\n[si MFA activée]
+MFAChallenge .> OTP : <<include>>   ' OTP réutilisé dans le défi
+Settlement .> UC03 : <<extend>>\n[si paiement asynchrone]
+@enduml

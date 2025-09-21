@@ -1,0 +1,159 @@
+@startuml BrokerX_MDD_UC01_02_03
+skinparam style strictuml
+title Modèle du domaine — BrokerX (UC-01/02/03 uniquement)
+
+hide stereotype
+skinparam class {
+  BackgroundColor<< ID >>  #D3E5FF  ' Identité & Comptes
+  BackgroundColor<< SEC >> #FBE6A2  ' Sécurité (Auth/MFA/OTP)
+  BackgroundColor<< PFR >> #F5BAB5  ' Portefeuille & Règlement
+  BackgroundColor<< OBS >> #EDE7F6  ' Observabilité & Audit
+}
+
+legend left
+  | Couleur | Sous-domaine |
+  |#D3E5FF| Identité & Comptes (ID) |
+  |#FBE6A2| Sécurité (SEC) |
+  |#F5BAB5| Portefeuille & Règlement (PFR) |
+  |#EDE7F6| Observabilité (OBS) |
+end legend
+
+' =======================
+'   IDENTITÉ & COMPTES
+' =======================
+package "Identité & Comptes" {
+  class Client << ID >> {
+    clientId: UUID
+    email: String
+    téléphone: String
+    nomComplet: String
+    dateNaissance: Date
+    statut: {Pending, Active, Rejected}
+    createdAt: DateTime
+  }
+
+  class Compte << ID >> {
+    accountId: UUID
+    accountNo: String
+    statut: {Active, Suspended, Closed}
+    createdAt: DateTime
+  }
+
+  ' Dossier réglementaire KYC/AML ouvert à l'inscription
+  class "DossierKYC" as KYC << ID >> {
+    kycId: UUID
+    niveau: String
+    statut: {Pending, Verified, Rejected}
+    updatedAt: DateTime
+  }
+
+  ' Vérification de contact pour activer (email/SMS OTP)
+  class "VerifContactOTP" as ContactOTP << ID >> {
+    otpId: UUID
+    canal: {Email, SMS}
+    statut: {Pending, Verified, Expired}
+    expiresAt: DateTime
+  }
+}
+
+' =======================
+'       SÉCURITÉ
+' =======================
+package "Sécurité (Auth/MFA)" {
+  class Session << SEC >> {
+    sessionId: UUID
+    tokenType: {JWT, Opaque}
+    issuedAt: DateTime
+    expiresAt: DateTime
+    ip: String
+    device: String
+  }
+
+  class "PolitiqueMFA" as MFAPolicy << SEC >> {
+    mfaId: UUID
+    type: {TOTP, SMS, WebAuthn}
+    estActive: Boolean
+    createdAt: DateTime
+  }
+
+  ' Défi ponctuel lors de l'authentification (si MFA active)
+  class "DefiMFA" as MFAChallenge << SEC >> {
+    challengeId: UUID
+    type: {TOTP, SMS, WebAuthn}
+    statut: {Pending, Passed, Failed, Expired}
+    createdAt: DateTime
+    expiresAt: DateTime
+  }
+}
+
+' =======================
+' PORTFEUILLE & RÈGLEMENT
+' =======================
+package "Portefeuille & Règlement" {
+  class Portefeuille << PFR >> {
+    portfolioId: UUID
+    soldeMonnaie: Decimal
+    devise: String
+    updatedAt: DateTime
+  }
+
+  class "Transaction Paiement" as PayTx << PFR >> {
+    paymentTxId: UUID
+    amount: Decimal
+    currency: String
+    statut: {Pending, Settled, Failed}
+    idempotencyKey: String
+    createdAt: DateTime
+    settledAt: DateTime?
+  }
+
+  class "Écriture Ledger" as Ledger << PFR >> {
+    ledgerEntryId: UUID
+    amount: Decimal
+    currency: String
+    kind: {DEPOSIT, ADJUSTMENT}
+    refType: {PAYMENT_TX, OTHER}
+    refId: UUID
+    createdAt: DateTime
+  }
+}
+
+' =======================
+'   OBSERVABILITÉ & AUDIT
+' =======================
+package "Observabilité & Audit" {
+  class AuditLog << OBS >> {
+    auditId: UUID
+    eventType: String
+    actor: String
+    accountId: UUID?
+    payloadJson: Text
+    createdAt: DateTime
+  }
+}
+
+' =======================
+'     ASSOCIATIONS
+' =======================
+
+' Identité & Comptes
+Client  "1"   --  "1..*" Compte      : Possède >
+Client  "1"   --  "0..1" KYC         : Dossier >
+Client  "1"   --  "0..*" ContactOTP  : Vérifie le contact >
+
+' Sécurité
+Client  "1"   --  "0..*" Session     : Ouvre >
+Client  "1"   --  "0..1" MFAPolicy   : Configure >
+Client  "1"   --  "0..*" MFAChallenge: Déclenche >
+
+' Portefeuille & Règlement
+Compte  "1"   --  "1"    Portefeuille : Détient >
+Compte  "1"   --  "0..*" PayTx        : Initie >
+Compte  "1"   --  "0..*" Ledger       : Affecte >
+
+' Rattachement des écritures
+PayTx   "1"   --  "1..*" Ledger       : Provoque >
+
+' Audit
+AuditLog "*"  --  "0..1" Compte       : Concerne >
+@enduml
