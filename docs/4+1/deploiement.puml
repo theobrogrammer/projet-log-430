@@ -1,0 +1,26 @@
+@startuml
+title Vue Déploiement — BrokerX Monolith (Phase 1)
+
+node "VM de démo" {
+  node "Docker" {
+    node "container: BrokerX Monolith (.NET 8)" as app {
+      component "REST API" as api
+      component "Webhook Paiement" as webhook
+    }
+    database "PostgreSQL" as db
+    ' (option) simulateurs locaux pour éviter Internet :
+    node "container: otp-sim" as otp
+    node "container: kyc-sim" as kyc
+    node "container: pay-sim" as pay
+  }
+}
+
+' Liaisons internes VM
+api --> db : EF Core (5432)
+webhook --> api : dispatch interne
+
+' Appels sortants (local sim ou services réels)
+api --> otp : HTTP (OTP simulé)
+api --> kyc : HTTP (KYC simulé)
+api --> pay : HTTP (Paiement simulé)
+@enduml

@@ -1,0 +1,31 @@
+@startuml
+title Scénario UC-03 Dépôt (sync/async)
+
+actor Client
+participant "REST API" as API
+participant "WalletService" as Wal
+participant "PaymentPort" as Pay
+participant "LedgerPort" as Led
+participant "AuditPort" as AUD
+database "DB" as DB
+actor "Webhook Paiement" as Hook
+
+Client -> API: POST /deposit {accountId,amount,key}
+API -> Wal: requestDeposit(cmd)
+Wal -> DB: save PayTx(Pending) [idempotencyKey]
+Wal -> Pay: authorizeAndSettle(txId, amount)
+alt Settled immédiat
+  Wal -> Wal: OnSettlement(txId, Settled)
+  Wal -> DB: PayTx Settled; Portfolio.Credit
+  Wal -> Led: append(credit)
+  Wal -> AUD: log(deposit.settled)
+  API --> Client: 200 OK
+else Pending (async)
+  Wal -> AUD: log(deposit.pending)
+  API --> Client: 202 Accepted (Pending)
+  == plus tard ==
+  Hook -> API: POST /payment/webhook {txId, Settled|Failed}
+  API -> Wal: onSettlement(txId, status)
+  Wal -> DB: update PayTx; (si Settled) credit + ledger
+end
+@enduml

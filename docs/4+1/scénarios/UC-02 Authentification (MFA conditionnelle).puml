@@ -1,0 +1,25 @@
+@startuml
+title Scénario UC-02 Authentification (MFA si active)
+
+actor Client
+participant "REST API" as API
+participant "AuthService" as Auth
+participant "OtpPort" as OTP
+participant "SessionPort" as SES
+participant "AuditPort" as AUD
+database "DB" as DB
+
+Client -> API: POST /login {email,pwd}
+API -> Auth: login(cmd)
+Auth -> DB: get Client + MfaPolicy
+alt MFA active
+  Auth -> OTP: issueChallenge(clientId)
+  API --> Client: 200 need_mfa
+  Client -> API: POST /login/mfa {code}
+  API -> Auth: verifyMfa(code)
+  Auth -> OTP: verify(code)
+end
+Auth -> SES: issue(clientId)
+Auth -> AUD: log(auth.login.success)
+API --> Client: 200 OK {token}
+@enduml

@@ -1,0 +1,74 @@
+@startuml
+title 4+1 - Vue Processus (C&C) — Hexagonal UC-01/02/03
+
+skinparam componentStyle rectangle
+actor Client
+
+package "UI (Adapters entrants)" {
+  [REST Controllers]
+  [Webhook Paiement]
+}
+
+package "Application (Use Cases)" {
+  [SignupService]
+  [AuthService]
+  [WalletService]
+}
+
+package "Domaine (pur)" {
+  [Entites & Regles]
+}
+
+package "Ports sortants (interfaces)" {
+  () IOtpPort
+  () IKycPort
+  () IPaymentPort
+  () ISessionPort
+  () IAuditPort
+  () ILedgerPort
+  () IClientRepository
+  () IAccountRepository
+  () IPortfolioRepository
+  () IPayTxRepository
+}
+
+package "Infrastructure (Adapters sortants)" {
+  [EmailSmsOtpAdapter] -down-|> IOtpPort
+  [KycAdapterSim] -down-|> IKycPort
+  [PaymentAdapterSim] -down-|> IPaymentPort
+  [JwtSessionAdapter] -down-|> ISessionPort
+  [StructuredAuditAdapter] -down-|> IAuditPort
+  [SqlLedgerAdapter] -down-|> ILedgerPort
+  [EFCore Repositories] -down-|> IClientRepository
+  [EFCore Repositories] -down-|> IAccountRepository
+  [EFCore Repositories] -down-|> IPortfolioRepository
+  [EFCore Repositories] -down-|> IPayTxRepository
+}
+
+Client --> [REST Controllers]
+[REST Controllers] --> [SignupService]
+[REST Controllers] --> [AuthService]
+[REST Controllers] --> [WalletService]
+[Webhook Paiement] --> [WalletService] : onSettlement()
+
+[SignupService] --> [Entites & Regles]
+[AuthService]   --> [Entites & Regles]
+[WalletService] --> [Entites & Regles]
+
+[SignupService] --> IOtpPort
+[SignupService] --> IKycPort
+[SignupService] --> IClientRepository
+[SignupService] --> IAccountRepository
+[SignupService] --> IAuditPort
+
+[AuthService] --> IClientRepository
+[AuthService] --> ISessionPort
+[AuthService] --> IOtpPort
+[AuthService] --> IAuditPort
+
+[WalletService] --> IPayTxRepository
+[WalletService] --> IPaymentPort
+[WalletService] --> ILedgerPort
+[WalletService] --> IPortfolioRepository
+[WalletService] --> IAuditPort
+@enduml

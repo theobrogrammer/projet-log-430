@@ -1,0 +1,94 @@
+@startuml
+title 4+1 - Vue Logique (UC-01/02/03)
+
+hide stereotype
+skinparam class {
+  BackgroundColor<<ID>>  #D3E5FF
+  BackgroundColor<<SEC>> #FBE6A2
+  BackgroundColor<<PFR>> #F5BAB5
+}
+
+package "Identité & Comptes" {
+  class Client <<ID>> {
+    Id: Guid
+    Email: string
+    Status: string
+  }
+
+  class Account <<ID>> {
+    Id: Guid
+    ClientId: Guid
+    Currency: string
+  }
+
+  class KycCase <<ID>> {
+    Id: Guid
+    ClientId: Guid
+    Status: string
+  }
+
+  class ContactOtp <<ID>> {
+    Id: Guid
+    ClientId: Guid
+    Status: string
+  }
+}
+
+package "Sécurité" {
+  class MfaPolicy <<SEC>> {
+    Id: Guid
+    ClientId: Guid
+    IsActive: bool
+    Type: string
+  }
+
+  class MfaChallenge <<SEC>> {
+    Id: Guid
+    ClientId: Guid
+    Status: string
+  }
+
+  class Session <<SEC>> {
+    Id: Guid
+    ClientId: Guid
+    Token: string
+  }
+}
+
+package "Portefeuille & Règlement" {
+  class Portfolio <<PFR>> {
+    Id: Guid
+    AccountId: Guid
+    CashBalance: decimal
+  }
+
+  class PayTx <<PFR>> {
+    Id: Guid
+    AccountId: Guid
+    Amount: decimal
+    Status: string
+    IdempotencyKey: string
+  }
+
+  class LedgerEntry <<PFR>> {
+    Id: Guid
+    AccountId: Guid
+    Amount: decimal
+    Kind: string
+    ReferenceId: Guid
+  }
+}
+
+' Associations clés
+Client "1" -- "1..*" Account
+Client "1" -- "0..1" KycCase
+Client "1" -- "0..*" ContactOtp
+Client "1" -- "0..1" MfaPolicy
+Client "1" -- "0..*" MfaChallenge
+Client "1" -- "0..*" Session
+
+Account "1" -- "1" Portfolio
+Account "1" -- "0..*" PayTx
+Account "1" -- "0..*" LedgerEntry
+PayTx "1" -- "1..*" LedgerEntry
+@enduml

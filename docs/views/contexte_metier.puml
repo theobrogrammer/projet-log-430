@@ -1,0 +1,88 @@
+@startuml
+title Contexte métier — BrokerX (menu + flux principaux)
+
+' Astuce compat: pas de strictuml, pas d'énum, ASCII only
+
+|Client|
+start
+:Voir le menu principal;
+
+|Client|
+if (Choisir une action) then (S'inscrire)
+  |Systeme BrokerX|
+  :Creer Client(Pending) + Account + Portfolio;
+  :Demarrer KYC;
+  :Envoyer OTP d'activation;
+  |Client|
+  :Saisir OTP;
+  |Systeme BrokerX|
+  if (OTP valide ?) then (oui)
+    if (KYC verifie ?) then (oui)
+      :Activer Client(Active);
+      :Journaliser (signup.verified);
+    else (non)
+      :Client reste Pending\n(en attente KYC);
+      :Journaliser (signup.pending_kyc);
+    endif
+  else (non)
+    :Rejeter tentative (OTP invalide/expire);
+    :Journaliser (otp.error);
+  endif
+elseif (Connexion)
+  |Client|
+  :Entrer email + mot de passe;
+  |Systeme BrokerX|
+  :Verifier cred.;
+  if (MFA active ?) then (oui)
+    |Client|
+    :Saisir code MFA;
+    |Systeme BrokerX|
+    if (MFA ok ?) then (oui)
+      :Emettre jeton de session;
+      :Journaliser (auth.login.success);
+    else (non)
+      :Refuser (MFA invalide);
+      :Journaliser (auth.mfa.failed);
+    endif
+  else (non)
+    :Emettre jeton de session;
+    :Journaliser (auth.login.success);
+  endif
+elseif (Voir portefeuille)
+  |Systeme BrokerX|
+  :Lire Portfolio (solde, positions);
+  |Client|
+  :Afficher portefeuille;
+elseif (Depot)
+  |Client|
+  :Saisir montant + idempotencyKey;
+  |Systeme BrokerX|
+  :Creer PayTx(Pending);
+  :Appeler service paiement;
+  if (Reglement immediat ?) then (oui)
+    :Passer PayTx -> Settled;
+    :Crediter Portfolio;
+    :Ecrire Ledger(credit);
+    :Journaliser (deposit.settled);
+  else (non)
+    :Rester en Pending;
+    :Journaliser (deposit.pending);
+    note right
+      Variante asynchrone :
+      plus tard, un callback/webhook
+      ou un job interne regleront la transaction
+      et crediteront le portefeuille.
+    end note
+  endif
+elseif (Quitter)
+  stop
+endif
+
+|Client|
+if (Continuer dans l'appli ?) then (oui)
+  :Retour au menu;
+  -> [back] start
+else (non)
+  stop
+endif
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+title Scénario UC-01 Inscription
+
+actor Client
+participant "REST API" as API
+participant "SignupService" as Svc
+participant "OtpPort" as OTP
+participant "KycPort" as KYC
+database "DB" as DB
+participant "AuditPort" as AUD
+
+Client -> API: POST /signup {email,...}
+API -> Svc: createAccount(cmd)
+Svc -> DB: create Client(Pending), Account, Portfolio
+Svc -> KYC: startKyc(clientId)
+Svc -> OTP: sendActivationOtp(clientId)
+Svc -> AUD: log(signup.requested)
+API --> Client: 201 Accepted (Pending)
+
+== Confirmation OTP ==
+Client -> API: POST /signup/confirm {otp}
+API -> Svc: confirmActivation(otp)
+Svc -> DB: mark ContactOtp Verified; Client Active (si KYC Verified)
+Svc -> AUD: log(signup.verified)
+API --> Client: 200 OK (Active si KYC ok)
+@enduml

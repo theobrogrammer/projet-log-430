@@ -1,0 +1,95 @@
+@startuml
+title 4+1 - Vue Développement (structure solution .NET)
+
+package "BrokerX.Domain" {
+  package "Model" {
+    class Client
+    class Account
+    class Portfolio
+    class PayTx
+    class LedgerEntry
+    class KycCase
+    class ContactOtp
+    class MfaPolicy
+    class MfaChallenge
+    class Session
+  }
+
+  package "Ports.Inbound" {
+    interface ISignupUseCase
+    interface IAuthUseCase
+    interface IDepositUseCase
+  }
+
+  package "Ports.Outbound" {
+    interface IOtpPort
+    interface IKycPort
+    interface IPaymentPort
+    interface ISessionPort
+    interface IAuditPort
+    interface ILedgerPort
+    interface IClientRepository
+    interface IAccountRepository
+    interface IPortfolioRepository
+    interface IPayTxRepository
+  }
+}
+
+package "BrokerX.Application" {
+  class SignupService
+  class AuthService
+  class WalletService
+}
+
+package "BrokerX.Infrastructure.Web" {
+  class SignupController
+  class AuthController
+  class WalletController
+  class PaymentWebhookController
+}
+
+package "BrokerX.Infrastructure.Persistence" {
+  class BrokerXDbContext
+  class EfClientRepository
+  class EfAccountRepository
+  class EfPortfolioRepository
+  class EfPayTxRepository
+  class Migrations
+}
+
+package "BrokerX.Infrastructure.Adapters" {
+  class EmailSmsOtpAdapter
+  class KycAdapterSim
+  class PaymentAdapterSim
+  class JwtSessionAdapter
+  class StructuredAuditAdapter
+  class SqlLedgerAdapter
+}
+
+' Relations (implémentations et dépendances)
+SignupService -up-|> ISignupUseCase
+AuthService   -up-|> IAuthUseCase
+WalletService -up-|> IDepositUseCase
+
+EfClientRepository    -down-|> IClientRepository
+EfAccountRepository   -down-|> IAccountRepository
+EfPortfolioRepository -down-|> IPortfolioRepository
+EfPayTxRepository     -down-|> IPayTxRepository
+
+EmailSmsOtpAdapter     -down-|> IOtpPort
+KycAdapterSim          -down-|> IKycPort
+PaymentAdapterSim      -down-|> IPaymentPort
+JwtSessionAdapter      -down-|> ISessionPort
+StructuredAuditAdapter -down-|> IAuditPort
+SqlLedgerAdapter       -down-|> ILedgerPort
+
+SignupController --> SignupService
+AuthController   --> AuthService
+WalletController --> WalletService
+PaymentWebhookController --> WalletService
+
+"BrokerX.Infrastructure.Web"        --> "BrokerX.Application"
+"BrokerX.Application"               --> "BrokerX.Domain"
+"BrokerX.Infrastructure.Adapters"   --> "BrokerX.Domain"
+"BrokerX.Infrastructure.Persistence" --> "BrokerX.Domain"
+@enduml
