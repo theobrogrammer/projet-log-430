@@ -1,74 +1,173 @@
 @startuml
-title 4+1 - Vue Processus (C&C) — Hexagonal UC-01/02/03
-
+title 4+1 - Vue Processus (C&C) — Ports/Adapters entrants (local, sans cloud)
 skinparam componentStyle rectangle
+
 actor Client
 
-package "UI (Adapters entrants)" {
-  [REST Controllers]
-  [Webhook Paiement]
+' =======================
+'   ADAPTERS ENTRANTS (UI)
+' =======================
+package "Adapters entrants (Web)" {
+  component SignupController
+  component AuthController
+  component WalletController
+  component PaymentWebhookController
 }
 
+' =======================
+'   PORTS ENTRANTS (APP)
+' =======================
+package "Ports entrants (Application)" {
+  interface ISignupUseCase
+  interface IAuthUseCase
+  interface IDepositUseCase
+  interface ISettlementCallbackUseCase
+}
+
+' =======================
+'   APPLICATION (SERVICES UC)
+' =======================
 package "Application (Use Cases)" {
-  [SignupService]
-  [AuthService]
-  [WalletService]
+  component SignupService
+  component AuthService
+  component WalletService
 }
 
-package "Domaine (pur)" {
-  [Entites & Regles]
-}
+' Implémentations des ports entrants par les services
+SignupService -up-|> ISignupUseCase
+AuthService   -up-|> IAuthUseCase
+WalletService -up-|> IDepositUseCase
+WalletService -up-|> ISettlementCallbackUseCase
 
+' Les contrôleurs appellent les ports (inbound)
+Client --> SignupController
+Client --> AuthController
+Client --> WalletController
+
+SignupController --> ISignupUseCase
+AuthController   --> IAuthUseCase
+WalletController --> IDepositUseCase
+
+' Webhook local (le simulateur paiement appellera ce contrôleur)
+PaymentWebhookController --> ISettlementCallbackUseCase
+
+' =======================
+'   DOMAINE (RÈGLES PURES)
+' =======================
+package "Domaine (entités/règles)" {
+  component "Entities & Policies"
+}
+SignupService --> "Entities & Policies"
+AuthService   --> "Entities & Policies"
+WalletService --> "Entities & Policies"
+
+' =======================
+'   PORTS SORTANTS (DÉPENDANCES)
+' =======================
 package "Ports sortants (interfaces)" {
-  () IOtpPort
-  () IKycPort
-  () IPaymentPort
-  () ISessionPort
-  () IAuditPort
-  () ILedgerPort
-  () IClientRepository
-  () IAccountRepository
-  () IPortfolioRepository
-  () IPayTxRepository
+  interface IOtpPort
+  interface IKycPort
+  interface IPaymentPort
+  interface ISessionPort
+  interface IAuditPort
+  interface ILedgerPort
+  interface IClientRepository
+  interface IAccountRepository
+  interface IPortfolioRepository
+  interface IPayTxRepository
 }
 
-package "Infrastructure (Adapters sortants)" {
-  [EmailSmsOtpAdapter] -down-|> IOtpPort
-  [KycAdapterSim] -down-|> IKycPort
-  [PaymentAdapterSim] -down-|> IPaymentPort
-  [JwtSessionAdapter] -down-|> ISessionPort
-  [StructuredAuditAdapter] -down-|> IAuditPort
-  [SqlLedgerAdapter] -down-|> ILedgerPort
-  [EFCore Repositories] -down-|> IClientRepository
-  [EFCore Repositories] -down-|> IAccountRepository
-  [EFCore Repositories] -down-|> IPortfolioRepository
-  [EFCore Repositories] -down-|> IPayTxRepository
+' Services -> ports sortants
+SignupService --> IOtpPort
+SignupService --> IKycPort
+SignupService --> IClientRepository
+SignupService --> IAccountRepository
+SignupService --> IAuditPort
+
+AuthService   --> ISessionPort
+AuthService   --> IClientRepository
+AuthService   --> IOtpPort
+AuthService   --> IAuditPort
+
+WalletService --> IPaymentPort
+WalletService --> IPayTxRepository
+WalletService --> IPortfolioRepository
+WalletService --> ILedgerPort
+WalletService --> IAuditPort
+
+' =======================
+'   ADAPTERS SORTANTS (INFRA)
+' =======================
+package "Adapters sortants (Infra locale)" {
+  component EmailSmsOtpAdapter
+  component KycAdapterSim
+  component PaymentAdapterSim
+  component JwtSessionAdapter
+  component StructuredAuditAdapter
+  component SqlLedgerAdapter
+  component EfClientRepository
+  component EfAccountRepository
+  component EfPortfolioRepository
+  component EfPayTxRepository
 }
 
-Client --> [REST Controllers]
-[REST Controllers] --> [SignupService]
-[REST Controllers] --> [AuthService]
-[REST Controllers] --> [WalletService]
-[Webhook Paiement] --> [WalletService] : onSettlement()
+' Réalisations des ports sortants
+EmailSmsOtpAdapter     -down-|> IOtpPort
+KycAdapterSim          -down-|> IKycPort
+PaymentAdapterSim      -down-|> IPaymentPort
+JwtSessionAdapter      -down-|> ISessionPort
+StructuredAuditAdapter -down-|> IAuditPort
+SqlLedgerAdapter       -down-|> ILedgerPort
+EfClientRepository     -down-|> IClientRepository
+EfAccountRepository    -down-|> IAccountRepository
+EfPortfolioRepository  -down-|> IPortfolioRepository
+EfPayTxRepository      -down-|> IPayTxRepository
 
-[SignupService] --> [Entites & Regles]
-[AuthService]   --> [Entites & Regles]
-[WalletService] --> [Entites & Regles]
+' =======================
+'   SYSTÈMES LOCAUX SIMULÉS
+' =======================
+package "Simulateurs (réseau Docker local)" {
+  component "otp-sim" as OtpSim
+  component "kyc-sim" as KycSim
+  component "pay-sim" as PaySim
+}
 
-[SignupService] --> IOtpPort
-[SignupService] --> IKycPort
-[SignupService] --> IClientRepository
-[SignupService] --> IAccountRepository
-[SignupService] --> IAuditPort
+EmailSmsOtpAdapter --> OtpSim
+KycAdapterSim      --> KycSim
+PaymentAdapterSim  --> PaySim
 
-[AuthService] --> IClientRepository
-[AuthService] --> ISessionPort
-[AuthService] --> IOtpPort
-[AuthService] --> IAuditPort
+' Le simulateur de paiement appelle le webhook local de l'app
+PaySim --> PaymentWebhookController : POST /payment/webhook
 
-[WalletService] --> IPayTxRepository
-[WalletService] --> IPaymentPort
-[WalletService] --> ILedgerPort
-[WalletService] --> IPortfolioRepository
-[WalletService] --> IAuditPort
+' =======================
+'   LÉGENDE
+' =======================
+legend right
+  **Type de diagramme** : Composants & Connecteurs (C&C)
+
+  **Couches et sens des deps** (vers l'interieur) :
+    UI/Infra entrants  ->  Application  ->  Domaine
+    Application  ->  Ports sortants (interfaces)  ->  Adapters sortants
+
+  **Ports entrants** :
+    Interfaces exposees par l'Application (ex. ISignupUseCase).
+    Les controllers (adapters entrants) APPELLENT ces interfaces.
+
+  **Services d'application** :
+    Implémentent les ports entrants (triangle blanc -|> = realisation).
+    Orchestrent les UC et appellent le Domaine + ports sortants.
+
+  **Ports sortants** :
+    Interfaces definies par l'Application pour ses dependances
+    (OTP, KYC, Paiement, Repositories, Session, Audit, Ledger).
+
+  **Adapters sortants** :
+    Implémentent les ports sortants (triangle blanc -|>).
+    Parlent aux simulateurs locaux (otp-sim, kyc-sim, pay-sim).
+
+  **Types de fleches** :
+    A --> B  : appel / dependance a l'execution
+    A -|> I  : A implemente l'interface I (realisation, triangle blanc)
+end legend
+
 @enduml

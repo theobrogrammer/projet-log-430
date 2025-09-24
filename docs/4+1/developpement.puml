@@ -1,95 +1,68 @@
 @startuml
-title 4+1 - Vue Développement (structure solution .NET)
+title 4+1 - Vue Développement (projets .NET + stéréotypes de dépendance)
+skinparam packageStyle rectangle
 
-package "BrokerX.Domain" {
-  package "Model" {
-    class Client
-    class Account
-    class Portfolio
-    class PayTx
-    class LedgerEntry
-    class KycCase
-    class ContactOtp
-    class MfaPolicy
-    class MfaChallenge
-    class Session
-  }
-
-  package "Ports.Inbound" {
-    interface ISignupUseCase
-    interface IAuthUseCase
-    interface IDepositUseCase
-  }
-
-  package "Ports.Outbound" {
-    interface IOtpPort
-    interface IKycPort
-    interface IPaymentPort
-    interface ISessionPort
-    interface IAuditPort
-    interface ILedgerPort
-    interface IClientRepository
-    interface IAccountRepository
-    interface IPortfolioRepository
-    interface IPayTxRepository
-  }
+package "BrokerX.Domain" as Domain {
+  package "Model" as DomModel {}
+  package "Ports.Inbound" as DomIn {}
+  package "Ports.Outbound" as DomOut {}
 }
 
-package "BrokerX.Application" {
-  class SignupService
-  class AuthService
-  class WalletService
+package "BrokerX.Application" as App {
+  package "Services" as AppSvc {}
+  package "DTOs" as AppDto {}
 }
 
-package "BrokerX.Infrastructure.Web" {
-  class SignupController
-  class AuthController
-  class WalletController
-  class PaymentWebhookController
+package "BrokerX.Infrastructure.Web" as Web {
+  package "Controllers" as WebCtl {}
+  package "DTOs" as WebDto {}
 }
 
-package "BrokerX.Infrastructure.Persistence" {
-  class BrokerXDbContext
-  class EfClientRepository
-  class EfAccountRepository
-  class EfPortfolioRepository
-  class EfPayTxRepository
-  class Migrations
+package "BrokerX.Infrastructure.Persistence" as Persist {
+  package "Repositories" as Repo {}
+  package "Migrations" as Mig {}
 }
 
-package "BrokerX.Infrastructure.Adapters" {
-  class EmailSmsOtpAdapter
-  class KycAdapterSim
-  class PaymentAdapterSim
-  class JwtSessionAdapter
-  class StructuredAuditAdapter
-  class SqlLedgerAdapter
+package "BrokerX.Infrastructure.Adapters" as Adapters {
+  package "Otp" {}
+  package "Kyc" {}
+  package "Payment" {}
+  package "Session" {}
+  package "Audit" {}
+  package "Ledger" {}
 }
 
-' Relations (implémentations et dépendances)
-SignupService -up-|> ISignupUseCase
-AuthService   -up-|> IAuthUseCase
-WalletService -up-|> IDepositUseCase
+' ===========================
+' Dépendances inter-projets
+' ===========================
+Web ..> App       : <<access>>
+App  ..> Domain   : <<access>>
+Persist ..> Domain: <<access>>
+Adapters ..> Domain: <<access>>
 
-EfClientRepository    -down-|> IClientRepository
-EfAccountRepository   -down-|> IAccountRepository
-EfPortfolioRepository -down-|> IPortfolioRepository
-EfPayTxRepository     -down-|> IPayTxRepository
+' Optionnel si tes ports sortants sont dans Application :
+' Persist ..> App    : <<access>>
+' Adapters ..> App   : <<access>>
 
-EmailSmsOtpAdapter     -down-|> IOtpPort
-KycAdapterSim          -down-|> IKycPort
-PaymentAdapterSim      -down-|> IPaymentPort
-JwtSessionAdapter      -down-|> ISessionPort
-StructuredAuditAdapter -down-|> IAuditPort
-SqlLedgerAdapter       -down-|> ILedgerPort
+' ===========================
+' Dépendances intra-projets
+' (simulent l'effet de "using")
+' ===========================
+WebCtl ..> DomIn   : <<import>>  ' les contrôleurs consomment les ports entrants
+WebCtl ..> AppDto  : <<import>>  ' mapping DTO web -> DTO application
+AppSvc  ..> DomModel: <<import>>  ' services manipulent directement le modèle
+Repo    ..> DomOut  : <<import>>  ' repos implémentent les ports sortants
 
-SignupController --> SignupService
-AuthController   --> AuthService
-WalletController --> WalletService
-PaymentWebhookController --> WalletService
+legend right
+  **Stéréotypes de dépendance (Visual Paradigm)**
+  - <<import>> : importe les noms publics (résolution non qualifiée)
+  - <<access>> : accès aux éléments publics sans import de noms
 
-"BrokerX.Infrastructure.Web"        --> "BrokerX.Application"
-"BrokerX.Application"               --> "BrokerX.Domain"
-"BrokerX.Infrastructure.Adapters"   --> "BrokerX.Domain"
-"BrokerX.Infrastructure.Persistence" --> "BrokerX.Domain"
+  **Recommandations**
+  - Entre projets .NET : preferer <<access>>
+  - A l'intérieur d'un projet (sous-packages) : <<import>> pour figurer les "using"
+
+  **Sens cible**
+  Infrastructure(Web/Adapters/Persistence) -> Application -> Domain
+end legend
 @enduml

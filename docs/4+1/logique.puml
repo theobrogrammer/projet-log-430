@@ -1,94 +1,194 @@
 @startuml
-title 4+1 - Vue Logique (UC-01/02/03)
+title 4+1 - Vue Logique (domaine détaillé + ports d'application)
 
 hide stereotype
 skinparam class {
+  BackgroundColor<<APP>> #FBE6A2
   BackgroundColor<<ID>>  #D3E5FF
   BackgroundColor<<SEC>> #FBE6A2
   BackgroundColor<<PFR>> #F5BAB5
+  BackgroundColor<<OBS>> #EDE7F6
 }
 
-package "Identité & Comptes" {
+' =======================
+' Application (ports = contrats d'UC)
+' =======================
+package "Application (ports)" {
+  interface ISignupUseCase <<APP>>
+  interface IAuthUseCase <<APP>>
+  interface IDepositUseCase <<APP>>
+}
+
+' =======================
+' Identite & Comptes
+' =======================
+package "Identite & Comptes" {
   class Client <<ID>> {
-    Id: Guid
-    Email: string
-    Status: string
+    clientId: UUID
+    email: String
+    telephone: String
+    nomComplet: String
+    dateNaissance: Date
+    statut: String
+    createdAt: DateTime
   }
 
-  class Account <<ID>> {
-    Id: Guid
-    ClientId: Guid
-    Currency: string
+  class Compte <<ID>> {
+    accountId: UUID
+    accountNo: String
+    statut: String
+    createdAt: DateTime
   }
 
-  class KycCase <<ID>> {
-    Id: Guid
-    ClientId: Guid
-    Status: string
+  class "DossierKYC" as DossierKYC <<ID>> {
+    kycId: UUID
+    niveau: String
+    statut: String
+    updatedAt: DateTime
   }
 
-  class ContactOtp <<ID>> {
-    Id: Guid
-    ClientId: Guid
-    Status: string
+ class "VerifContactOTP" as VerifContactOTP <<ID>> {
+    otpId: UUID
+    canal: String
+    statut: String
+    expiresAt: DateTime
   }
 }
 
-package "Sécurité" {
-  class MfaPolicy <<SEC>> {
-    Id: Guid
-    ClientId: Guid
-    IsActive: bool
-    Type: string
-  }
-
-  class MfaChallenge <<SEC>> {
-    Id: Guid
-    ClientId: Guid
-    Status: string
-  }
-
+' =======================
+' Securite (Auth/MFA)
+' =======================
+package "Securite (Auth/MFA)" {
   class Session <<SEC>> {
-    Id: Guid
-    ClientId: Guid
-    Token: string
+    sessionId: UUID
+    tokenType: String
+    issuedAt: DateTime
+    expiresAt: DateTime
+    ip: String
+    device: String
+  }
+
+  class "PolitiqueMFA" as MFAPolicy <<SEC>> {
+    mfaId: UUID
+    type: String
+    estActive: Boolean
+    createdAt: DateTime
+  }
+
+  class "DefiMFA" as MFAChallenge <<SEC>> {
+    challengeId: UUID
+    type: String
+    statut: String
+    createdAt: DateTime
+    expiresAt: DateTime
   }
 }
 
-package "Portefeuille & Règlement" {
-  class Portfolio <<PFR>> {
-    Id: Guid
-    AccountId: Guid
-    CashBalance: decimal
+' =======================
+' Portefeuille & Reglement
+' =======================
+package "Portefeuille & Reglement" {
+  class Portefeuille <<PFR>> {
+    portfolioId: UUID
+    soldeMonnaie: Decimal
+    devise: String
+    updatedAt: DateTime
   }
 
-  class PayTx <<PFR>> {
-    Id: Guid
-    AccountId: Guid
-    Amount: decimal
-    Status: string
-    IdempotencyKey: string
+  class "TransactionPaiement" as PayTx <<PFR>> {
+    paymentTxId: UUID
+    amount: Decimal
+    currency: String
+    statut: String
+    idempotencyKey: String
+    createdAt: DateTime
+    settledAt: DateTime
   }
 
-  class LedgerEntry <<PFR>> {
-    Id: Guid
-    AccountId: Guid
-    Amount: decimal
-    Kind: string
-    ReferenceId: Guid
+  class "EcritureLedger" as Ledger <<PFR>> {
+    ledgerEntryId: UUID
+    amount: Decimal
+    currency: String
+    kind: String
+    refType: String
+    refId: UUID
+    createdAt: DateTime
   }
 }
 
-' Associations clés
-Client "1" -- "1..*" Account
-Client "1" -- "0..1" KycCase
-Client "1" -- "0..*" ContactOtp
-Client "1" -- "0..1" MfaPolicy
-Client "1" -- "0..*" MfaChallenge
-Client "1" -- "0..*" Session
+' =======================
+' Observabilite & Audit
+' =======================
+package "Observabilite & Audit" {
+  class AuditLog <<OBS>> {
+    auditId: UUID
+    eventType: String
+    actor: String
+    accountId: UUID
+    payloadJson: Text
+    createdAt: DateTime
+  }
+}
 
-Account "1" -- "1" Portfolio
-Account "1" -- "0..*" PayTx
-Account "1" -- "0..*" LedgerEntry
-PayTx "1" -- "1..*" LedgerEntry
+' =======================
+' Dependances logiques (ports -> domaine)
+' =======================
+ISignupUseCase --> Client
+ISignupUseCase --> Compte
+ISignupUseCase --> DossierKYC
+ISignupUseCase --> VerifContactOTP
+
+IAuthUseCase --> Client
+IAuthUseCase --> MFAPolicy
+IAuthUseCase --> MFAChallenge
+IAuthUseCase --> Session
+
+IDepositUseCase --> PayTx
+IDepositUseCase --> Portefeuille
+IDepositUseCase --> Ledger
+IDepositUseCase --> AuditLog
+
+' =======================
+' Associations de domaine
+' =======================
+Client "1" -- "1..*" Compte : Possede >
+Client "1" -- "0..1" DossierKYC : Dossier >
+Client "1" -- "0..*" VerifContactOTP : Verifie le contact >
+Client "1" -- "0..*" Session : Ouvre >
+Client "1" -- "0..1" MFAPolicy : Configure >
+Client "1" -- "0..*" MFAChallenge : Declenche >
+
+Compte "1" -- "1" Portefeuille : Detient >
+Compte "1" -- "0..*" PayTx : Initie >
+Compte "1" -- "0..*" Ledger : Affecte >
+
+PayTx "1" -- "1..*" Ledger : Provoque >
+AuditLog "*" -- "0..1" Compte : Concerne >
+
+legend right
+  **Vue Logique (4+1) – Intention**
+  Montre la structure conceptuelle : 
+    • Domaine (entites/agregats)
+    • Contrats d’application (ports de cas d’utilisation)
+    • Relations logiques (quels ports manipulent quelles classes)
+
+  **Ce que la vue NE montre pas**
+    • Implémentations concretes (services, controllers)
+    • Adapters, base de données, frameworks
+    • Flèches de realisation (A -|> I)
+
+  **Convention des flèches**
+    Port --> ClasseDeDomaine : le cas d’utilisation manipule cet element
+    A -- B (multiplicites)  : association de domaine
+
+  **Pourquoi pas de "A -|> I" ici ?**
+    La realisation (implémente) est une decision d’assemblage 
+    montrees dans la vue Composants & Connecteurs (C&C).
+    On evite la redondance et on garde la vue logique agnostique.
+
+  **Où voir les implémentations ?**
+    Dans la vue C&C : ex. SignupService -|> ISignupUseCase
+end legend
+
+
 @enduml
