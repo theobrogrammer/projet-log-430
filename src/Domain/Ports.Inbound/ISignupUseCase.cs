@@ -1,0 +1,24 @@
+namespace ProjetLog430.Application.Ports.Inbound;
+
+using ProjetLog430.Application.Contracts;
+
+public interface ISignupUseCase
+{
+    /// <summary>
+    /// UC-01 : Inscription — crée le Client, ouvre le DossierKYC, lance un OTP de contact,
+    /// et crée un Compte + Portefeuille associé (statut client "Pending" tant que KYC/OTP non validés).
+    /// </summary>
+    Task<SignupResult> CreateAccountAsync(
+        string email,
+        string? phone,
+        string fullName,
+        DateOnly? birthDate,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Relance l'envoi d'un OTP de vérification de contact pour un client.
+    /// </summary>
+    Task ResendContactOtpAsync(
+        Guid clientId,
+        CancellationToken ct = default);
+}
