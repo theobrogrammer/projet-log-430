@@ -7,10 +7,7 @@
 public static class DtoMapping
 {
     // UC-03 Deposit
-    public static DepositCommand ToCommand(
-        this DepositRequestDto dto,
-        Guid accountId,
-        string? idempotencyKeyHeader) =>
+    public static DepositCommand ToCommand(this DepositRequestDto dto, Guid accountId,string? idempotencyKeyHeader) =>
         new(
             AccountId: accountId,
             Amount: dto.Amount,
