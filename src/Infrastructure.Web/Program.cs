@@ -10,6 +10,7 @@ using ProjetLog430.Infrastructure.Adapters.Otp;
 using ProjetLog430.Infrastructure.Adapters.Payment;
 using ProjetLog430.Infrastructure.Adapters.Session;
 using ProjetLog430.Infrastructure.Adapters.Kyc;
+using Microsoft.AspNetCore.Rewrite;
 
 // ... autres using (use cases, adapters OTP/Payment/Ledger/Audit etc.)
 
@@ -18,8 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // EF Core + MySQL (Pomelo)
-var cs = builder.Configuration.GetConnectionString("DefaultConnection")
-         ?? "Server=localhost;Port=3306;Database=projetlog430_db;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false";
+var cs = builder.Configuration.GetConnectionString("BrokerX")
+         ?? "Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false";
 builder.Services.AddDbContext<BrokerXDbContext>(opt =>
     opt.UseMySql(cs, ServerVersion.AutoDetect(cs)));
 
@@ -52,6 +53,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// URL Rewriting pour pages HTML sans extension
+var rewriteOptions = new RewriteOptions()
+    .AddRewrite("^signin$", "signin.html", skipRemainingRules: false)
+    .AddRewrite("^signup$", "signup.html", skipRemainingRules: false)
+    .AddRewrite("^login$", "signin.html", skipRemainingRules: false);
+app.UseRewriter(rewriteOptions);
 
 if (app.Environment.IsDevelopment()) 
 { 

@@ -78,7 +78,7 @@ login.addEventListener('submit', async (e)=>{
     }else{
       msg.innerHTML = '<span class="err">Identifiants invalides</span>';
     }
-  }catch{
+  }catch(err){
     msg.innerHTML = '<span class="err">Erreur réseau</span>';
   }
 });
@@ -103,7 +103,7 @@ mfa.addEventListener('submit', async (e)=>{
     }else{
       msg.innerHTML = '<span class="err">Code invalide</span>';
     }
-  }catch{
+  }catch(err){
     msg.innerHTML = '<span class="err">Erreur réseau</span>';
   }
 });

@@ -3,13 +3,13 @@ namespace ProjetLog430.Domain.Model.Identite;
 
 public sealed class Client
 {
-    public Guid ClientId { get; }
+    public Guid ClientId { get; private set; }
     public string Email { get; private set; }
     public string? Telephone { get; private set; }
     public string NomComplet { get; private set; }
     public DateOnly? DateNaissance { get; private set; }
     public StatutClient Statut { get; private set; }
-    public DateTimeOffset CreatedAt { get; }
+    public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset UpdatedAt { get; private set; }
 
     // Relations
@@ -20,6 +20,19 @@ public sealed class Client
 
     private readonly List<Compte> _comptes = new();
     public IReadOnlyCollection<Compte> Comptes => _comptes.AsReadOnly();
+
+    // Constructeur privé pour Entity Framework
+    private Client()
+    {
+        ClientId = Guid.NewGuid();
+        Email = string.Empty;
+        Telephone = null;
+        NomComplet = string.Empty;
+        DateNaissance = null;
+        Statut = StatutClient.Pending;
+        CreatedAt = DateTimeOffset.UtcNow;
+        UpdatedAt = CreatedAt;
+    }
 
     private Client(Guid id, string email, string? telephone, string nomComplet, DateOnly? dateNaissance)
     {
@@ -79,9 +92,22 @@ public sealed class Client
 
     private static string ValiderEmail(string email)
     {
-        if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
+        if (string.IsNullOrWhiteSpace(email))
             throw new ArgumentException("Email invalide.", nameof(email));
-        return email.Trim().ToLowerInvariant();
+        
+        var trimmed = email.Trim();
+        
+        // Validation ultra-simple : juste un @ au milieu avec du contenu des deux côtés
+        if (trimmed.Length < 3 || 
+            !trimmed.Contains('@') ||
+            trimmed.IndexOf('@') == 0 ||
+            trimmed.LastIndexOf('@') == trimmed.Length - 1 ||
+            trimmed.IndexOf('@') != trimmed.LastIndexOf('@'))
+        {
+            throw new ArgumentException("Email invalide.", nameof(email));
+        }
+        
+        return trimmed.ToLowerInvariant();
     }
 
     private static string ExigerNonVide(string v, string nom)

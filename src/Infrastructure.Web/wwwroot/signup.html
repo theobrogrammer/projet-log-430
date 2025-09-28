@@ -54,7 +54,7 @@ f.addEventListener('submit', async (e) => {
     const data = await res.json();
     msg.innerHTML = res.ok ? '<span class="ok">Compte créé ✔️</span>' : '<span class="err">Erreur</span>';
     out.textContent = JSON.stringify(data,null,2);
-  }catch{ msg.innerHTML = '<span class="err">Erreur réseau</span>'; }
+  }catch(err){ msg.innerHTML = '<span class="err">Erreur réseau</span>'; }
 });
 </script>
 </body>
