@@ -1,9 +1,10 @@
 // src/Application/Services/SignupService.cs
-using ProjetLog430.Application.Contracts;
-using ProjetLog430.Application.Ports.Inbound;
+using ProjetLog430.Domain.Contracts;
+using ProjetLog430.Domain.Ports.Inbound;
 using ProjetLog430.Domain.Model.Identite;
 using ProjetLog430.Domain.Model.PortefeuilleReglement;
 using ProjetLog430.Domain.Ports.Outbound;
+using ProjetLog430.Domain.Model.Observabilite;
 
 namespace ProjetLog430.Application.Services;
 
@@ -61,7 +62,8 @@ public sealed class SignupService : ISignupUseCase
 
         // 5) Audit
         await _audit.WriteAsync(
-            Observabilite.AuditLog.Ecrire("CLIENT_SIGNUP", $"user:{email}",
+           
+            AuditLog.Ecrire("CLIENT_SIGNUP", $"user:{email}",
                 payload: new { clientId = client.ClientId, accountId = compte.AccountId }), ct);
 
         return new SignupResult(client.ClientId, compte.AccountId, client.Statut.ToString());
@@ -77,7 +79,7 @@ public sealed class SignupService : ISignupUseCase
         await _otp.SendContactOtpAsync(client.ClientId, otp.OtpId, CanalOTP.Email, client.Email, code, ct);
 
         await _audit.WriteAsync(
-            Observabilite.AuditLog.Ecrire("CONTACT_OTP_RESENT", $"user:{client.Email}",
+            AuditLog.Ecrire("CONTACT_OTP_RESENT", $"user:{client.Email}",
                 payload: new { clientId }), ct);
     }
 

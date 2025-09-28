@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ProjetLog430.Application.Ports.Inbound; // ISettlementCallbackUseCase
+using ProjetLog430.Domain.Ports.Inbound; // ISettlementCallbackUseCase
 using ProjetLog430.Infrastructure.Web.DTOs;
 
 namespace ProjetLog430.Infrastructure.Web.Controllers;

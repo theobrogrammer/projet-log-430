@@ -1,8 +1,10 @@
 // src/Application/Services/WalletService.cs
-using ProjetLog430.Application.Contracts;
-using ProjetLog430.Application.Ports.Inbound;
+using ProjetLog430.Domain.Contracts;
+using ProjetLog430.Domain.Ports.Inbound;
 using ProjetLog430.Domain.Model.PortefeuilleReglement;
 using ProjetLog430.Domain.Ports.Outbound;
+using ProjetLog430.Domain.Model.Observabilite;
+
 
 namespace ProjetLog430.Application.Services;
 
@@ -43,7 +45,7 @@ public sealed class WalletService : IDepositUseCase, ISettlementCallbackUseCase
         await _payments.RequestDepositAsync(tx.PaymentTxId, accountId, amount, currency, ct);
 
         await _audit.WriteAsync(
-            Observabilite.AuditLog.Ecrire("DEPOSIT_REQUESTED", "system",
+           AuditLog.Ecrire("DEPOSIT_REQUESTED", "system",
                 payload: new { paymentTxId = tx.PaymentTxId, accountId, amount, currency }), ct);
 
         var wallet = await _wallets.GetByAccountIdAsync(accountId, ct);
@@ -67,14 +69,14 @@ public sealed class WalletService : IDepositUseCase, ISettlementCallbackUseCase
             await _ledger.AddAsync(entry, ct);
 
             await _audit.WriteAsync(
-                Observabilite.AuditLog.Ecrire("DEPOSIT_SETTLED", "webhook:pay-sim",
+              AuditLog.Ecrire("DEPOSIT_SETTLED", "webhook:pay-sim",
                     payload: new { paymentTxId, tx.AccountId, tx.Amount, tx.Currency }), ct);
         }
         else
         {
             tx.MarquerEchoue("provider_declined");
             await _audit.WriteAsync(
-                Observabilite.AuditLog.Ecrire("DEPOSIT_FAILED", "webhook:pay-sim",
+              AuditLog.Ecrire("DEPOSIT_FAILED", "webhook:pay-sim",
                     payload: new { paymentTxId, reason = "provider_declined" }), ct);
         }
 

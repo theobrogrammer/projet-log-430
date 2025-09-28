@@ -1,8 +1,10 @@
 // src/Application/Services/AuthService.cs
-using ProjetLog430.Application.Contracts;
-using ProjetLog430.Application.Ports.Inbound;
+using ProjetLog430.Domain.Contracts;
+using ProjetLog430.Domain.Ports.Inbound;
 using ProjetLog430.Domain.Model.Securite;
 using ProjetLog430.Domain.Ports.Outbound;
+using ProjetLog430.Domain.Model.Observabilite;
+
 
 namespace ProjetLog430.Application.Services;
 
@@ -57,11 +59,11 @@ public sealed class AuthService : IAuthUseCase
             {
                 var code = GenererCode6();
                 // Ici on n’a pas la destination SMS ; pour la démo, on trace via audit.
-                await _otp.SendContactOtpAsync(client.ClientId, challenge.ChallengeId, Identite.CanalOTP.Email, email, code, ct);
+                await _otp.SendContactOtpAsync(client.ClientId, challenge.ChallengeId, CanalOTP.Email, email, code, ct);
             }
 
             await _audit.WriteAsync(
-                Observabilite.AuditLog.Ecrire("AUTH_MFA_CHALLENGE", $"user:{email}",
+                AuditLog.Ecrire("AUTH_MFA_CHALLENGE", $"user:{email}",
                     payload: new { clientId = client.ClientId, challengeId = challenge.ChallengeId, policy = policy.Type.ToString() }), ct);
 
             // On signale juste que le MFA est requis (token non émis à ce stade).
@@ -74,7 +76,7 @@ public sealed class AuthService : IAuthUseCase
         var token = await _sessionPort.IssueAsync(sess, ct);
 
         await _audit.WriteAsync(
-            Observabilite.AuditLog.Ecrire("AUTH_LOGIN", $"user:{email}", payload: new { clientId = client.ClientId, sessionId = sess.SessionId }), ct);
+          AuditLog.Ecrire("AUTH_LOGIN", $"user:{email}", payload: new { clientId = client.ClientId, sessionId = sess.SessionId }), ct);
 
         return new LoginResult(Token: token, MfaRequired: false);
     }
@@ -96,7 +98,7 @@ public sealed class AuthService : IAuthUseCase
         var token = await _sessionPort.IssueAsync(sess, ct);
 
         await _audit.WriteAsync(
-            Observabilite.AuditLog.Ecrire("AUTH_MFA_PASSED", "system", payload: new { clientId, challengeId, sessionId = sess.SessionId }), ct);
+            AuditLog.Ecrire("AUTH_MFA_PASSED", "system", payload: new { clientId, challengeId, sessionId = sess.SessionId }), ct);
 
         return new LoginResult(Token: token, MfaRequired: false);
     }

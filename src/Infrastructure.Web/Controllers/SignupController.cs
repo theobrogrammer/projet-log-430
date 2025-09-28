@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ProjetLog430.Application.Ports.Inbound; // ISignupUseCase
+using ProjetLog430.Domain.Ports.Inbound; // ISignupUseCase
 using ProjetLog430.Infrastructure.Web.DTOs;
 // using ProjetLog430.Infrastructure.Web.Mapping;
 

@@ -1,6 +1,9 @@
-namespace ProjetLog430.Application.Ports.Inbound;
+namespace ProjetLog430.Domain.Ports.Inbound;
 
-using ProjetLog430.Application.Contracts;
+using ProjetLog430.Domain.Contracts;
+
+
+
 public interface IAuthUseCase
 {
     /// <summary>

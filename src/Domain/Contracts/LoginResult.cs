@@ -1,4 +1,5 @@
-namespace ProjetLog430.Application.Contracts;
+
+namespace ProjetLog430.Domain.Contracts;
 
 /// <summary>Result of UC-02: authentication. If MFA is required, Token is empty and MfaRequired = true.</summary>
 public sealed record LoginResult(

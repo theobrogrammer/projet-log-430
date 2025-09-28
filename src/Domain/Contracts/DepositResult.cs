@@ -1,4 +1,5 @@
-namespace ProjetLog430.Application.Contracts;
+
+namespace ProjetLog430.Domain.Contracts;
 
 /// <summary>Result of UC-03: deposit request (idempotent).</summary>
 public sealed record DepositResult(

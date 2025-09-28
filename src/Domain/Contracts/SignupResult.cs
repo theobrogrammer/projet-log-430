@@ -1,4 +1,5 @@
-namespace ProjetLog430.Application.Contracts;
+
+namespace ProjetLog430.Domain.Contracts;
 
 /// <summary>Result of UC-01: signup (client + account created, status pending/active/rejected).</summary>
 public sealed record SignupResult(
