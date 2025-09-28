@@ -1,6 +1,5 @@
 namespace ProjetLog430.Domain.Model.Identite;
 
-public enum StatutKYC { Pending, Verified, Rejected }
 
 public sealed class DossierKYC
 {

@@ -1,34 +1,30 @@
-using System.Collections.Concurrent;
+using Microsoft.EntityFrameworkCore;
 using ProjetLog430.Domain.Model.Identite;
 using ProjetLog430.Domain.Ports.Outbound;
+using ProjetLog430.Infrastructure.Persistence;
 
 namespace ProjetLog430.Infrastructure.Adapters.Repositories;
 
 public sealed class InMemoryClientRepository : IClientRepository
 {
-    private readonly ConcurrentDictionary<Guid, Client> _byId = new();
-    private readonly ConcurrentDictionary<string, Guid> _byEmail = new(StringComparer.OrdinalIgnoreCase);
+    private readonly BrokerXDbContext _db;
+    public InMemoryClientRepository(BrokerXDbContext db) => _db = db;
 
     public Task<Client?> GetByIdAsync(Guid clientId, CancellationToken ct = default)
-        => Task.FromResult(_byId.TryGetValue(clientId, out var c) ? c : null);
+        => _db.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.ClientId == clientId, ct);
 
     public Task<Client?> GetByEmailAsync(string email, CancellationToken ct = default)
+        => _db.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email, ct);
+
+    public async Task AddAsync(Client client, CancellationToken ct = default)
     {
-        var key = email.Trim().ToLowerInvariant();
-        return Task.FromResult(_byEmail.TryGetValue(key, out var id) && _byId.TryGetValue(id, out var c) ? c : null);
+        _db.Clients.Add(client);
+        await _db.SaveChangesAsync(ct);
     }
 
-    public Task AddAsync(Client client, CancellationToken ct = default)
+    public async Task UpdateAsync(Client client, CancellationToken ct = default)
     {
-        _byId[client.ClientId] = client;
-        _byEmail[client.Email] = client.ClientId;
-        return Task.CompletedTask;
-    }
-
-    public Task UpdateAsync(Client client, CancellationToken ct = default)
-    {
-        _byId[client.ClientId] = client;
-        _byEmail[client.Email] = client.ClientId;
-        return Task.CompletedTask;
+        _db.Clients.Update(client);
+        await _db.SaveChangesAsync(ct);
     }
 }

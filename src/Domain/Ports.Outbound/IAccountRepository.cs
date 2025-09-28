@@ -2,7 +2,7 @@ namespace ProjetLog430.Domain.Ports.Outbound;
 
 using ProjetLog430.Domain.Model.Identite;
 
-public interface ICompteRepository
+public interface IAccountRepository
 {
     Task<Compte?> GetByIdAsync(Guid accountId, CancellationToken ct = default);
     Task AddAsync(Compte compte, CancellationToken ct = default);

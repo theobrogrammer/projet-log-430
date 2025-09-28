@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Connexion — BrokerX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{font-family:system-ui,Arial;margin:2rem;max-width:720px}
+    label{display:block;margin:.5rem 0 .25rem}
+    input,button{padding:.5rem;font-size:1rem;width:100%;box-sizing:border-box}
+    form{border:1px solid #ddd;padding:1rem;border-radius:.5rem;margin-bottom:1rem}
+    pre{background:#f7f7f7;padding:.75rem;border-radius:.5rem;overflow:auto}
+    .ok{color:#0a7}.err{color:#c00}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  </style>
+</head>
+<body>
+  <h1>Connexion</h1>
+  <p><a href="/">← Retour</a></p>
+
+  <form id="login">
+    <label>Email</label>
+    <input name="email" type="email" required />
+    <label>Mot de passe</label>
+    <input name="password" type="password" required />
+    <button type="submit">Se connecter</button>
+  </form>
+
+  <form id="mfa" style="display:none;">
+    <h3>Vérification MFA</h3>
+    <div class="row">
+      <div>
+        <label>ClientId</label>
+        <input name="clientId" type="text" required />
+      </div>
+      <div>
+        <label>ChallengeId</label>
+        <input name="challengeId" type="text" required />
+      </div>
+    </div>
+    <label>Code</label>
+    <input name="code" type="text" required />
+    <button type="submit">Valider</button>
+  </form>
+
+  <p id="msg"></p>
+  <h3>Réponse</h3>
+  <pre id="out"></pre>
+
+<script>
+const login = document.getElementById('login');
+const mfa   = document.getElementById('mfa');
+const out   = document.getElementById('out');
+const msg   = document.getElementById('msg');
+
+login.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const payload = { email: login.email.value, password: login.password.value };
+  try{
+    const res = await fetch('/api/v1/auth/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    out.textContent = JSON.stringify(data,null,2);
+    if(res.ok){
+      if(data.mfaRequired){
+        msg.innerHTML = '<span class="ok">MFA requis — entrez le code reçu.</span>';
+        mfa.style.display = '';
+        // Renseigne automatiquement le clientId si tu l’as dans la réponse (sinon saisie manuelle)
+        if(data.clientId) mfa.clientId.value = data.clientId;
+        if(data.challengeId) mfa.challengeId.value = data.challengeId;
+      }else{
+        msg.innerHTML = '<span class="ok">Connecté ✔️</span>';
+        localStorage.setItem('token', data.token);
+        mfa.style.display = 'none';
+      }
+    }else{
+      msg.innerHTML = '<span class="err">Identifiants invalides</span>';
+    }
+  }catch{
+    msg.innerHTML = '<span class="err">Erreur réseau</span>';
+  }
+});
+
+mfa.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const payload = {
+    clientId:    mfa.clientId.value,
+    challengeId: mfa.challengeId.value,
+    code:        mfa.code.value
+  };
+  try{
+    const res = await fetch('/api/v1/auth/mfa/verify', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    out.textContent = JSON.stringify(data,null,2);
+    if(res.ok){
+      msg.innerHTML = '<span class="ok">MFA validé ✔️</span>';
+      localStorage.setItem('token', data.token);
+    }else{
+      msg.innerHTML = '<span class="err">Code invalide</span>';
+    }
+  }catch{
+    msg.innerHTML = '<span class="err">Erreur réseau</span>';
+  }
+});
+</script>
+</body>
+</html>

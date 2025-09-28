@@ -1,0 +1,15 @@
+# === Build ===
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY . .
+RUN dotnet restore
+RUN dotnet publish ./src/Infrastructure.Web/Infrastructure.Web.csproj -c Release -o /app/publish
+
+# === Runtime ===
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/publish ./
+# Expose 5000 and bind to it
+ENV ASPNETCORE_URLS=http://+:5000
+EXPOSE 5000
+ENTRYPOINT ["dotnet", "Infrastructure.Web.dll"]

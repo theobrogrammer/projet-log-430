@@ -11,14 +11,14 @@ namespace ProjetLog430.Application.Services;
 public sealed class WalletService : IDepositUseCase, ISettlementCallbackUseCase
 {
     private readonly IPayTxRepository _paytx;
-    private readonly IPortefeuilleRepository _wallets;
+    private readonly IPortfolioRepository _wallets;
     private readonly ILedgerPort _ledger;
     private readonly IPaymentPort _payments;
     private readonly IAuditPort _audit;
 
     public WalletService(
         IPayTxRepository paytx,
-        IPortefeuilleRepository wallets,
+        IPortfolioRepository wallets,
         ILedgerPort ledger,
         IPaymentPort payments,
         IAuditPort audit)

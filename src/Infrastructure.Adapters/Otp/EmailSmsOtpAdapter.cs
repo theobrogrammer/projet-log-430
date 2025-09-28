@@ -2,6 +2,7 @@
 using System.Text.Json;
 using ProjetLog430.Domain.Model.Identite;
 using ProjetLog430.Domain.Ports.Outbound;
+using ProjetLog430.Domain.Model.Observabilite;
 
 namespace ProjetLog430.Infrastructure.Adapters.Otp;
 
@@ -15,6 +16,6 @@ public sealed class EmailSmsOtpAdapter : IOtpPort
         // Démo : on trace le “send” via audit + console.
         Console.WriteLine($"[OTP] canal={canal} dest={destination} code={code} client={clientId} otp={otpId}");
         var payload = JsonSerializer.Serialize(new { clientId, otpId, canal = canal.ToString(), destination, code });
-        await _audit.WriteAsync(Observabilite.AuditLog.Ecrire("OTP_SENT", "system", accountId: null, payloadJson: payload), ct);
+        await _audit.WriteAsync(AuditLog.Ecrire("OTP_SENT", "system", accountId: null, payloadJson: payload), ct);
     }
 }

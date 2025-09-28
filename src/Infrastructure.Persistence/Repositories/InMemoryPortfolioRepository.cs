@@ -1,19 +1,27 @@
-using System.Collections.Concurrent;
+using Microsoft.EntityFrameworkCore;
 using ProjetLog430.Domain.Model.PortefeuilleReglement;
 using ProjetLog430.Domain.Ports.Outbound;
+using ProjetLog430.Infrastructure.Persistence;
 
 namespace ProjetLog430.Infrastructure.Adapters.Repositories;
 
 public sealed class InMemoryPortfolioRepository : IPortfolioRepository
 {
-    private readonly ConcurrentDictionary<Guid, Portefeuille> _byAccount = new();
+    private readonly BrokerXDbContext _db;
+    public InMemoryPortfolioRepository(BrokerXDbContext db) => _db = db;
 
     public Task<Portefeuille?> GetByAccountIdAsync(Guid accountId, CancellationToken ct = default)
-        => Task.FromResult(_byAccount.TryGetValue(accountId, out var p) ? p : null);
+        => _db.Portfolios.AsNoTracking().FirstOrDefaultAsync(x => x.AccountId == accountId, ct);
 
-    public Task AddAsync(Portefeuille portfolio, CancellationToken ct = default)
-    { _byAccount[portfolio.AccountId] = portfolio; return Task.CompletedTask; }
+    public async Task AddAsync(Portefeuille portfolio, CancellationToken ct = default)
+    {
+        _db.Portfolios.Add(portfolio);
+        await _db.SaveChangesAsync(ct);
+    }
 
-    public Task UpdateAsync(Portefeuille portfolio, CancellationToken ct = default)
-    { _byAccount[portfolio.AccountId] = portfolio; return Task.CompletedTask; }
+    public async Task UpdateAsync(Portefeuille portfolio, CancellationToken ct = default)
+    {
+        _db.Portfolios.Update(portfolio);
+        await _db.SaveChangesAsync(ct);
+    }
 }

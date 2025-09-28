@@ -1,6 +1,5 @@
 namespace ProjetLog430.Domain.Model.Identite;
 
-public enum StatutCompte { Active, Suspended, Closed }
 
 public sealed class Compte
 {

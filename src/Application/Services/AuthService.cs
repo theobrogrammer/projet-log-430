@@ -4,6 +4,8 @@ using ProjetLog430.Domain.Ports.Inbound;
 using ProjetLog430.Domain.Model.Securite;
 using ProjetLog430.Domain.Ports.Outbound;
 using ProjetLog430.Domain.Model.Observabilite;
+using ProjetLog430.Domain.Model.Identite;
+
 
 
 namespace ProjetLog430.Application.Services;

@@ -1,0 +1,16 @@
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\Infrastructure.Adapters.csproj.AssemblyReference.cache
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\Infrastructure.Adapters.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\Infrastructure.Adapters.AssemblyInfoInputs.cache
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\Infrastructure.Adapters.AssemblyInfo.cs
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\Infrastructure.Adapters.csproj.CoreCompileInputs.cache
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\Infrastructure.Adapters.sourcelink.json
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\bin\Debug\net9.0\Infrastructure.Adapters.deps.json
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\bin\Debug\net9.0\Infrastructure.Adapters.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\bin\Debug\net9.0\Infrastructure.Adapters.pdb
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\bin\Debug\net9.0\Domain.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\bin\Debug\net9.0\Domain.pdb
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\Infrastr.4CACC272.Up2Date
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\Infrastructure.Adapters.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\refint\Infrastructure.Adapters.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\Infrastructure.Adapters.pdb
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Adapters\obj\Debug\net9.0\ref\Infrastructure.Adapters.dll

@@ -1,0 +1,54 @@
+CREATE TABLE IF NOT EXISTS Clients (
+  ClientId CHAR(36) PRIMARY KEY,
+  Email VARCHAR(254) NOT NULL UNIQUE,
+  Telephone VARCHAR(30) NULL,
+  NomComplet VARCHAR(100) NOT NULL,
+  DateNaissance DATE NULL,
+  Statut VARCHAR(16) NOT NULL,
+  CreatedAt DATETIME(6) NOT NULL,
+  UpdatedAt DATETIME(6) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Accounts (
+  AccountId CHAR(36) PRIMARY KEY,
+  ClientId  CHAR(36) NOT NULL,
+  AccountNo VARCHAR(40) NOT NULL UNIQUE,
+  Statut    VARCHAR(16) NOT NULL,
+  CreatedAt DATETIME(6) NOT NULL,
+  UpdatedAt DATETIME(6) NOT NULL,
+  CONSTRAINT FK_Account_Client FOREIGN KEY (ClientId) REFERENCES Clients(ClientId)
+);
+
+CREATE TABLE IF NOT EXISTS Portfolios (
+  Id CHAR(36) PRIMARY KEY,
+  AccountId CHAR(36) NOT NULL UNIQUE,
+  Devise CHAR(3) NOT NULL,
+  SoldeMonnaie DECIMAL(18,2) NOT NULL,
+  UpdatedAt DATETIME(6) NOT NULL,
+  CONSTRAINT FK_Portfolio_Account FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
+);
+
+CREATE TABLE IF NOT EXISTS PayTxs (
+  PaymentTxId CHAR(36) PRIMARY KEY,
+  AccountId   CHAR(36) NOT NULL,
+  Amount      DECIMAL(18,2) NOT NULL,
+  Currency    CHAR(3) NOT NULL,
+  Statut      VARCHAR(16) NOT NULL,
+  IdempotencyKey VARCHAR(80) NOT NULL UNIQUE,
+  CreatedAt   DATETIME(6) NOT NULL,
+  SettledAt   DATETIME(6) NULL,
+  FailureReason VARCHAR(120) NULL,
+  CONSTRAINT FK_PayTx_Account FOREIGN KEY (AccountId) REFERENCES Accounts(AccountId)
+);
+
+CREATE TABLE IF NOT EXISTS LedgerEntries (
+  LedgerEntryId CHAR(36) PRIMARY KEY,
+  AccountId CHAR(36) NOT NULL,
+  Amount DECIMAL(18,2) NOT NULL,
+  Currency CHAR(3) NOT NULL,
+  Kind VARCHAR(16) NOT NULL,
+  RefType VARCHAR(16) NOT NULL,
+  RefId CHAR(36) NOT NULL,
+  CreatedAt DATETIME(6) NOT NULL,
+  INDEX IX_Ledger_Ref (AccountId, RefType, RefId, Kind)
+);

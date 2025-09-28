@@ -1,6 +1,5 @@
 namespace ProjetLog430.Domain.Model.Identite;
 
-public enum StatutClient { Pending, Active, Rejected }
 
 public sealed class Client
 {

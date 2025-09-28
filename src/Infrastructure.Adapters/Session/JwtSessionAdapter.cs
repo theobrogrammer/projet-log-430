@@ -3,11 +3,12 @@ using System.Text;
 using ProjetLog430.Domain.Model.Securite;
 using ProjetLog430.Domain.Ports.Outbound;
 
+
 namespace ProjetLog430.Infrastructure.Adapters.Session;
 
 public sealed class JwtSessionAdapter : ISessionPort
 {
-    public Task<string> IssueAsync(Session session, CancellationToken ct = default)
+    public Task<string> IssueAsync(ProjetLog430.Domain.Model.Securite.Session session, CancellationToken ct = default)
     {
         // Démo: jeton light (NE PAS utiliser en prod)
         var payload = $"{session.SessionId}|{session.ExpiresAt:O}";

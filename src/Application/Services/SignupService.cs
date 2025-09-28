@@ -11,16 +11,16 @@ namespace ProjetLog430.Application.Services;
 public sealed class SignupService : ISignupUseCase
 {
     private readonly IClientRepository _clients;
-    private readonly ICompteRepository _comptes;
-    private readonly IPortefeuilleRepository _portefeuilles;
+    private readonly IAccountRepository _comptes;
+    private readonly IPortfolioRepository _portefeuilles;
     private readonly IKycPort _kyc;
     private readonly IOtpPort _otp;
     private readonly IAuditPort _audit;
 
     public SignupService(
         IClientRepository clients,
-        ICompteRepository comptes,
-        IPortefeuilleRepository portefeuilles,
+        IAccountRepository comptes,
+        IPortfolioRepository portefeuilles,
         IKycPort kyc,
         IOtpPort otp,
         IAuditPort audit)

@@ -1,3 +1,5 @@
+/*
+
 // Infrastructure.Web/Mapping/DtoMapping.cs
 // namespace Infrastructure.Web.Mapping;
 
@@ -7,7 +9,7 @@
 public static class DtoMapping
 {
     // UC-03 Deposit
-    public static DepositCommand ToCommand(this DepositRequestDto dto, Guid accountId,string? idempotencyKeyHeader) =>
+    public static DepositCommand ToCommand(this DepositRequestDto dto, Guid accountId, string? idempotencyKeyHeader) =>
         new(
             AccountId: accountId,
             Amount: dto.Amount,
@@ -42,3 +44,4 @@ public static class DtoMapping
         MfaRequired = res.MfaRequired
     };
 }
+*/

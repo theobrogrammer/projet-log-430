@@ -1,0 +1,6 @@
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.csproj.AssemblyReference.cache
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.AssemblyInfoInputs.cache
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.AssemblyInfo.cs
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.csproj.CoreCompileInputs.cache
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.sourcelink.json
