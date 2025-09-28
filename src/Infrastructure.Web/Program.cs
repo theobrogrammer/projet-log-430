@@ -17,8 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // EF Core + MySQL (Pomelo)
-var cs = builder.Configuration.GetConnectionString("BrokerX")
-         ?? "Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false";
+var cs = builder.Configuration.GetConnectionString("DefaultConnection")
+         ?? "Server=localhost;Port=3306;Database=projetlog430_db;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false";
 builder.Services.AddDbContext<BrokerXDbContext>(opt =>
     opt.UseMySql(cs, ServerVersion.AutoDetect(cs)));
 
@@ -48,8 +48,20 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(); }
+if (app.Environment.IsDevelopment()) 
+{ 
+    app.UseSwagger(); 
+    app.UseSwaggerUI(); 
+}
+
+// Health check endpoint
+app.MapGet("/health", () => "Healthy")
+   .WithName("HealthCheck")
+   .WithOpenApi();
+
+// API routing
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapControllers();
+
 app.Run();

@@ -4,3 +4,15 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\ob
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.AssemblyInfo.cs
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.csproj.CoreCompileInputs.cache
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.sourcelink.json
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\bin\Debug\net9.0\Infrastructure.Persistence.deps.json
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\bin\Debug\net9.0\Infrastructure.Persistence.runtimeconfig.json
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\bin\Debug\net9.0\Infrastructure.Persistence.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\bin\Debug\net9.0\Infrastructure.Persistence.pdb
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\bin\Debug\net9.0\Domain.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\bin\Debug\net9.0\Domain.pdb
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastr.56C47081.Up2Date
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\refint\Infrastructure.Persistence.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.pdb
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\Infrastructure.Persistence.genruntimeconfig.cache
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Persistence\obj\Debug\net9.0\ref\Infrastructure.Persistence.dll
