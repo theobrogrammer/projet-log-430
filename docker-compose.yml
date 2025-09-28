@@ -2,9 +2,10 @@ services:
   brokerx_app:
     build: .
     ports:
-      - "5000:5000"           # VM:5000 → container:5000
+      - "5000:5000"           # Host:5000 → container:5000
     environment:
-      ASPNETCORE_URLS: http://+:5000
+      ASPNETCORE_URLS: http://0.0.0.0:5000
+      ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__BrokerX: Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false
     depends_on:
       mysql:
