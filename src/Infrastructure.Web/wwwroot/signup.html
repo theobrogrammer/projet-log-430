@@ -4,58 +4,22 @@
   <meta charset="utf-8" />
   <title>Inscription — BrokerX</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="refresh" content="0; url=/signup-otp.html">
   <style>
     body{font-family:system-ui,Arial;margin:2rem;max-width:720px}
-    label{display:block;margin:.5rem 0 .25rem}
-    input,button{padding:.5rem;font-size:1rem;width:100%;box-sizing:border-box}
-    form{border:1px solid #ddd;padding:1rem;border-radius:.5rem}
-    pre{background:#f7f7f7;padding:.75rem;border-radius:.5rem;overflow:auto}
-    .ok{color:#0a7}.err{color:#c00}
+    .redirect{text-align:center;padding:2rem;background:#f8f9fa;border-radius:8px}
   </style>
 </head>
 <body>
-  <h1>Inscription</h1>
-  <p><a href="/">← Retour</a></p>
+  <div class="redirect">
+    <h1>Redirection...</h1>
+    <p>Vous allez être redirigé vers la nouvelle page d'inscription avec OTP.</p>
+    <p><a href="/signup-otp.html">Cliquez ici si la redirection ne fonctionne pas</a></p>
+  </div>
 
-  <form id="f">
-    <label>Email</label>
-    <input name="email" type="email" required />
-    <label>Nom complet</label>
-    <input name="fullName" type="text" required />
-    <label>Téléphone (optionnel)</label>
-    <input name="phone" type="text" />
-    <label>Date de naissance (optionnel)</label>
-    <input name="birthDate" type="date" />
-    <button type="submit">Créer le compte</button>
-  </form>
-
-  <p id="msg"></p>
-  <h3>Réponse</h3>
-  <pre id="out"></pre>
-
-<script>
-const f   = document.getElementById('f');
-const out = document.getElementById('out');
-const msg = document.getElementById('msg');
-
-f.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const payload = {
-    email:     f.email.value,
-    fullName:  f.fullName.value,
-    phone:     f.phone.value || null,
-    birthDate: f.birthDate.value || null
-  };
-  try{
-    const res = await fetch('/api/v1/signup', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
-    msg.innerHTML = res.ok ? '<span class="ok">Compte créé ✔️</span>' : '<span class="err">Erreur</span>';
-    out.textContent = JSON.stringify(data,null,2);
-  }catch(err){ msg.innerHTML = '<span class="err">Erreur réseau</span>'; }
-});
-</script>
+  <script>
+    // Redirection automatique vers la nouvelle page OTP
+    window.location.href = '/signup-otp.html';
+  </script>
 </body>
 </html>

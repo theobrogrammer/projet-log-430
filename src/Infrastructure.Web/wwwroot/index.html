@@ -4,14 +4,31 @@
   <meta charset="utf-8" />
   <title>BrokerX — Accueil</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>body{font-family:system-ui,Arial;margin:2rem} a{display:inline-block;margin:.5rem 0}</style>
+  <style>
+    body{font-family:system-ui,Arial;margin:2rem;max-width:600px}
+    a{display:inline-block;margin:.5rem 0;padding:.75rem 1.5rem;text-decoration:none;
+      background:#007bff;color:white;border-radius:4px;transition:background 0.3s}
+    a:hover{background:#0056b3}
+    .secondary{background:#6c757d} .secondary:hover{background:#545b62}
+  </style>
 </head>
 <body>
-  <h1>BrokerX</h1>
-  <p>Bienvenue. Choisissez une action :</p>
+  <h1>🏦 BrokerX</h1>
+  <p>Plateforme de trading sécurisée avec authentification OTP</p>
+  
+  <h3>Actions disponibles :</h3>
   <p>
-    <a href="/signup">Créer un compte (Signup)</a><br/>
-    <a href="/login">Se connecter (Login)</a>
+    <a href="/signup-otp.html">📝 Créer un compte (avec OTP)</a><br/>
+    <a href="/login" class="secondary">🔐 Se connecter</a><br/>
+    <a href="/swagger" class="secondary">📚 Documentation API</a>
   </p>
+  
+  <h3>Fonctionnalités :</h3>
+  <ul>
+    <li>✅ Inscription sécurisée avec vérification OTP par email</li>
+    <li>✅ Authentification multi-facteurs (MFA)</li>
+    <li>✅ Gestion de portefeuille</li>
+    <li>✅ API REST complète</li>
+  </ul>
 </body>
 </html>

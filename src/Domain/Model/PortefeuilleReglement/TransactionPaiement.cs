@@ -4,15 +4,27 @@ public enum StatutTransaction { Pending, Settled, Failed }
 
 public sealed class TransactionPaiement
 {
-    public Guid PaymentTxId { get; }
-    public Guid AccountId { get; }
-    public decimal Amount { get; }
-    public string Currency { get; }
-    public string IdempotencyKey { get; }
+    public Guid PaymentTxId { get; private set; }
+    public Guid AccountId { get; private set; }
+    public decimal Amount { get; private set; }
+    public string Currency { get; private set; }
+    public string IdempotencyKey { get; private set; }
     public StatutTransaction Statut { get; private set; }
-    public DateTimeOffset CreatedAt { get; }
+    public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset? SettledAt { get; private set; }
     public string? FailureReason { get; private set; }
+
+    // Constructeur privé pour Entity Framework
+    private TransactionPaiement()
+    {
+        PaymentTxId = Guid.NewGuid();
+        AccountId = Guid.Empty;
+        Amount = 0m;
+        Currency = "CAD";
+        IdempotencyKey = string.Empty;
+        Statut = StatutTransaction.Pending;
+        CreatedAt = DateTimeOffset.UtcNow;
+    }
 
     private TransactionPaiement(Guid id, Guid accountId, decimal amount, string currency, string idempotencyKey)
     {

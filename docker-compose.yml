@@ -23,7 +23,7 @@ services:
       - "3307:3306"           # (optionnel) pour te connecter depuis l'hôte :3307
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./db-init:/docker-entrypoint-initdb.d
+      # - ./db-init:/docker-entrypoint-initdb.d  # Désactivé temporairement pour permettre à EF Core de créer les tables
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot --silent"]
       interval: 10s

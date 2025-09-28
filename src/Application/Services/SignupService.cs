@@ -37,11 +37,13 @@ public sealed class SignupService : ISignupUseCase
         string email,
         string? phone,
         string fullName,
+        string password,
         DateOnly? birthDate,
         CancellationToken ct = default)
     {
         // 1) Créer le client (Pending), dossier KYC & OTP de contact
-        var client = Client.Creer(email, phone, fullName, birthDate);
+        var passwordHash = Client.HashPassword(password);
+        var client = Client.Creer(email, phone, fullName, passwordHash, birthDate);
         client.DemarrerKycSiNecessaire();
         var otp = client.DemarrerOtpActivation(CanalOTP.Email, TimeSpan.FromMinutes(10)); // email par défaut
 
@@ -58,6 +60,11 @@ public sealed class SignupService : ISignupUseCase
         // 4) Déclencher KYC (simulateur) + envoyer OTP de contact
         _ = _kyc.SubmitAsync(client.ClientId, client.Kyc!.KycId, ct); // fire-and-forget (démo)
         var code = GenererCode6();
+        otp.SetCodeHash(code); // Stocker le hash du code dans l'OTP
+        
+        // IMPORTANT: Sauvegarder le client avec l'OTP mis à jour (hash du code)
+        await _clients.UpdateAsync(client, ct);
+        
         await _otp.SendContactOtpAsync(client.ClientId, otp.OtpId, CanalOTP.Email, email, code, ct);
 
         // 5) Audit
@@ -76,11 +83,44 @@ public sealed class SignupService : ISignupUseCase
         await _clients.UpdateAsync(client, ct);
 
         var code = GenererCode6();
+        otp.SetCodeHash(code); // Stocker le hash du code dans l'OTP
         await _otp.SendContactOtpAsync(client.ClientId, otp.OtpId, CanalOTP.Email, client.Email, code, ct);
 
         await _audit.WriteAsync(
             AuditLog.Ecrire("CONTACT_OTP_RESENT", $"user:{client.Email}",
                 payload: new { clientId }), ct);
+    }
+
+    public async Task<OtpVerificationResult> VerifyContactOtpAsync(Guid clientId, string code, CancellationToken ct = default)
+    {
+        try
+        {
+            var client = await _clients.GetByIdAsync(clientId, ct) ?? 
+                throw new InvalidOperationException("Client inconnu.");
+
+            // Vérifier le code OTP avec le domaine
+            var isValid = client.VerifyContactOtp(code);
+            if (!isValid)
+                return OtpVerificationResult.Failed("Code OTP invalide ou expiré.");
+
+            // Sauvegarder les changements (statut OTP + potentiellement statut Client)
+            await _clients.UpdateAsync(client, ct);
+
+            // Audit de la vérification OTP
+            await _audit.WriteAsync(
+                AuditLog.Ecrire("CONTACT_OTP_VERIFIED", $"user:{client.Email}",
+                    payload: new { clientId, newStatus = client.Statut.ToString() }), ct);
+
+            return OtpVerificationResult.Succeed(client.Statut.ToString());
+        }
+        catch (Exception ex)
+        {
+            await _audit.WriteAsync(
+                AuditLog.Ecrire("CONTACT_OTP_VERIFICATION_FAILED", $"client:{clientId}",
+                    payload: new { clientId, error = ex.Message }), ct);
+                    
+            return OtpVerificationResult.Failed(ex.Message);
+        }
     }
 
     private static string GenererCode6() => Random.Shared.Next(0, 999_999).ToString("D6");

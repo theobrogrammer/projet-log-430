@@ -85,8 +85,6 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\scopedcss\bundle\Infrastructure.Web.styles.css
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\vn5gnr9673-bai8x0h4ih.gz
-C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\1gntpnq2bs-tj7yrx6yg4.gz
-C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\727rd72i7w-6j445wws9v.gz
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\staticwebassets.development.json
@@ -97,3 +95,7 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\Infrastructure.Web.pdb
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\Infrastructure.Web.genruntimeconfig.cache
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\ref\Infrastructure.Web.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\BCrypt.Net-Next.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\1gntpnq2bs-mab1s03hyw.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\727rd72i7w-ipmqk6i9lc.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll

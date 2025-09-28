@@ -1,3 +1,5 @@
+using BCrypt.Net;
+
 namespace ProjetLog430.Domain.Model.Identite;
 
 
@@ -8,6 +10,7 @@ public sealed class Client
     public string? Telephone { get; private set; }
     public string NomComplet { get; private set; }
     public DateOnly? DateNaissance { get; private set; }
+    public string PasswordHash { get; private set; } // Hash sécurisé du mot de passe
     public StatutClient Statut { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset UpdatedAt { get; private set; }
@@ -29,25 +32,27 @@ public sealed class Client
         Telephone = null;
         NomComplet = string.Empty;
         DateNaissance = null;
+        PasswordHash = string.Empty;
         Statut = StatutClient.Pending;
         CreatedAt = DateTimeOffset.UtcNow;
         UpdatedAt = CreatedAt;
     }
 
-    private Client(Guid id, string email, string? telephone, string nomComplet, DateOnly? dateNaissance)
+    private Client(Guid id, string email, string? telephone, string nomComplet, DateOnly? dateNaissance, string passwordHash)
     {
         ClientId = id;
         Email = ValiderEmail(email);
         Telephone = NormaliserTelephone(telephone);
         NomComplet = ExigerNonVide(nomComplet, nameof(nomComplet));
         DateNaissance = dateNaissance;
+        PasswordHash = ExigerNonVide(passwordHash, nameof(passwordHash));
         Statut = StatutClient.Pending;
         CreatedAt = DateTimeOffset.UtcNow;
         UpdatedAt = CreatedAt;
     }
 
-    public static Client Creer(string email, string? telephone, string nomComplet, DateOnly? dateNaissance = null)
-        => new(Guid.NewGuid(), email, telephone, nomComplet, dateNaissance);
+    public static Client Creer(string email, string? telephone, string nomComplet, string passwordHash, DateOnly? dateNaissance = null)
+        => new(Guid.NewGuid(), email, telephone, nomComplet, dateNaissance, passwordHash);
 
     public void DemarrerKycSiNecessaire()
     {
@@ -61,6 +66,40 @@ public sealed class Client
         _contactOtps.Add(otp);
         Touch();
         return otp;
+    }
+
+    public bool VerifyContactOtp(string code)
+    {
+        // Trouver l'OTP actif (Pending et non expiré)
+        var activeOtp = _contactOtps
+            .Where(o => o.Statut == StatutOTP.Pending && o.ExpiresAt > DateTimeOffset.UtcNow)
+            .OrderByDescending(o => o.CreatedAt)
+            .FirstOrDefault();
+
+        if (activeOtp == null)
+            throw new InvalidOperationException("Aucun OTP actif trouvé ou OTP expiré.");
+
+        try 
+        {
+            activeOtp.Verifier(code); // Vérifie le code et change le statut à Verified
+            Touch();
+            
+            // Tenter d'activer automatiquement si éligible
+            try 
+            {
+                ActiverSiAdmissible();
+            }
+            catch (InvalidOperationException)
+            {
+                // KYC pas encore vérifié - normal, on continue
+            }
+            
+            return true;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
     }
 
     public void ActiverSiAdmissible()
@@ -118,4 +157,25 @@ public sealed class Client
 
     private static string? NormaliserTelephone(string? tel)
         => string.IsNullOrWhiteSpace(tel) ? null : tel.Trim();
+
+    // Méthodes pour la gestion sécurisée des mots de passe
+    public static string HashPassword(string plainTextPassword)
+    {
+        if (string.IsNullOrWhiteSpace(plainTextPassword))
+            throw new ArgumentException("Le mot de passe ne peut pas être vide.", nameof(plainTextPassword));
+        
+        return BCrypt.Net.BCrypt.HashPassword(plainTextPassword, BCrypt.Net.BCrypt.GenerateSalt());
+    }
+
+    public bool VerifyPassword(string plainTextPassword)
+    {
+        if (string.IsNullOrWhiteSpace(plainTextPassword)) return false;
+        return BCrypt.Net.BCrypt.Verify(plainTextPassword, PasswordHash);
+    }
+
+    public void UpdatePassword(string newPlainTextPassword)
+    {
+        PasswordHash = HashPassword(newPlainTextPassword);
+        Touch();
+    }
 }

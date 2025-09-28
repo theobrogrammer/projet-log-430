@@ -13,6 +13,8 @@ public sealed class BrokerXDbContext : DbContext
     public DbSet<Portefeuille> Portfolios => Set<Portefeuille>();
     public DbSet<TransactionPaiement> PayTxs => Set<TransactionPaiement>();
     public DbSet<EcritureLedger> LedgerEntries => Set<EcritureLedger>();
+    public DbSet<DossierKYC> KycDossiers => Set<DossierKYC>();
+    public DbSet<VerifContactOTP> ContactOtps => Set<VerifContactOTP>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {
@@ -23,16 +25,27 @@ public sealed class BrokerXDbContext : DbContext
             eb.Property(x => x.Email).IsRequired().HasMaxLength(254);
             eb.Property(x => x.NomComplet).IsRequired().HasMaxLength(100);
             eb.Property(x => x.Telephone).HasMaxLength(30);
+            eb.Property(x => x.PasswordHash).IsRequired().HasMaxLength(100);
             eb.Property(x => x.Statut).HasConversion<string>().HasMaxLength(16);
             eb.Property(x => x.CreatedAt);
             eb.Property(x => x.UpdatedAt);
             eb.HasIndex(x => x.Email).IsUnique();
 
-            // On ignore les collections/objets non nécessaires en P1
-            // (si tes entités les exposent)
-            // eb.Ignore(x => x.Comptes);
-            // eb.Ignore(x => x.ContactOtps);
-            // eb.Ignore(x => x.Kyc);
+            // Relations configurées explicitement
+            eb.HasOne(x => x.Kyc)
+              .WithOne()
+              .HasForeignKey<DossierKYC>(k => k.ClientId)
+              .OnDelete(DeleteBehavior.Cascade);
+              
+            eb.HasMany(x => x.ContactOtps)
+              .WithOne()
+              .HasForeignKey(o => o.ClientId)
+              .OnDelete(DeleteBehavior.Cascade);
+              
+            eb.HasMany(x => x.Comptes)
+              .WithOne()
+              .HasForeignKey(c => c.ClientId)
+              .OnDelete(DeleteBehavior.Cascade);
         });
 
         // === Compte ===
@@ -90,6 +103,27 @@ public sealed class BrokerXDbContext : DbContext
             eb.Property(x => x.RefId).IsRequired();
             eb.Property(x => x.CreatedAt);
             eb.HasIndex(x => new { x.AccountId, x.RefType, x.RefId, x.Kind });
+        });
+
+        // === DossierKYC ===
+        b.Entity<DossierKYC>(eb =>
+        {
+            eb.HasKey(x => x.KycId);
+            eb.Property(x => x.ClientId).IsRequired();
+            eb.Property(x => x.Niveau).IsRequired().HasMaxLength(20);
+            eb.Property(x => x.Statut).HasConversion<string>().HasMaxLength(16);
+            eb.Property(x => x.UpdatedAt);
+        });
+
+        // === VerifContactOTP ===
+        b.Entity<VerifContactOTP>(eb =>
+        {
+            eb.HasKey(x => x.OtpId);
+            eb.Property(x => x.ClientId).IsRequired();
+            eb.Property(x => x.Canal).HasConversion<string>().HasMaxLength(10);
+            eb.Property(x => x.Statut).HasConversion<string>().HasMaxLength(16);
+            eb.Property(x => x.ExpiresAt);
+            eb.Property(x => x.CreatedAt);
         });
     }
 }

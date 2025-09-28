@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "F5Y9/PsCmSM=",
+  "dgSpecHash": "WxAfx603Tps=",
   "success": true,
   "projectFilePath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Adapters\\Infrastructure.Adapters.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Theot\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

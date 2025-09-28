@@ -2,11 +2,21 @@ namespace ProjetLog430.Domain.Model.PortefeuilleReglement;
 
 public sealed class Portefeuille
 {
-    public Guid Id { get; }
-    public Guid AccountId { get; }
-    public string Devise { get; }
+    public Guid Id { get; private set; }
+    public Guid AccountId { get; private set; }
+    public string Devise { get; private set; }
     public decimal SoldeMonnaie { get; private set; }
     public DateTimeOffset UpdatedAt { get; private set; }
+
+    // Constructeur privé pour Entity Framework
+    private Portefeuille()
+    {
+        Id = Guid.NewGuid();
+        AccountId = Guid.Empty;
+        Devise = "CAD";
+        SoldeMonnaie = 0m;
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
 
     private Portefeuille(Guid id, Guid accountId, string devise, decimal solde)
     {

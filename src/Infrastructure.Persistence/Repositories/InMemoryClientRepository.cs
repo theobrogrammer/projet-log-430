@@ -11,10 +11,16 @@ public sealed class InMemoryClientRepository : IClientRepository
     public InMemoryClientRepository(BrokerXDbContext db) => _db = db;
 
     public Task<Client?> GetByIdAsync(Guid clientId, CancellationToken ct = default)
-        => _db.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.ClientId == clientId, ct);
+        => _db.Clients
+            .Include(c => c.ContactOtps) // Charger les OTPs liés
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.ClientId == clientId, ct);
 
     public Task<Client?> GetByEmailAsync(string email, CancellationToken ct = default)
-        => _db.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email, ct);
+        => _db.Clients
+            .Include(c => c.ContactOtps) // Charger les OTPs liés
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email == email, ct);
 
     public async Task AddAsync(Client client, CancellationToken ct = default)
     {

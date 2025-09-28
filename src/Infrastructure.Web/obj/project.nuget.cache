@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "UgYy6qV1dnM=",
+  "dgSpecHash": "Qd3GjwVxZnk=",
   "success": true,
   "projectFilePath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Web\\Infrastructure.Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Theot\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Theot\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+    "C:\\Users\\Theot\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Theot\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.9\\microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",
     "C:\\Users\\Theot\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Theot\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
@@ -14,6 +15,7 @@
     "C:\\Users\\Theot\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.9\\microsoft.entityframeworkcore.9.0.9.nupkg.sha512",
     "C:\\Users\\Theot\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.9\\microsoft.entityframeworkcore.abstractions.9.0.9.nupkg.sha512",
     "C:\\Users\\Theot\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.9\\microsoft.entityframeworkcore.analyzers.9.0.9.nupkg.sha512",
+    "C:\\Users\\Theot\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\9.0.9\\microsoft.entityframeworkcore.inmemory.9.0.9.nupkg.sha512",
     "C:\\Users\\Theot\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\9.0.9\\microsoft.entityframeworkcore.relational.9.0.9.nupkg.sha512",
     "C:\\Users\\Theot\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\9.0.9\\microsoft.entityframeworkcore.sqlserver.9.0.9.nupkg.sha512",
     "C:\\Users\\Theot\\.nuget\\packages\\microsoft.extensions.apidescription.server\\9.0.0\\microsoft.extensions.apidescription.server.9.0.0.nupkg.sha512",

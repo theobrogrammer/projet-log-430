@@ -26,6 +26,7 @@ public sealed class SignupController : ControllerBase
             email: dto.Email,
             phone: dto.Phone,
             fullName: dto.FullName,
+            password: dto.Password,
             birthDate: dto.BirthDate,
             ct: ct);
 
@@ -37,11 +38,32 @@ public sealed class SignupController : ControllerBase
         return Ok(resp);
     }
 
-    /// <summary>Relancer l’OTP de vérification de contact (optionnel pour la démo)</summary>
+    /// <summary>Relancer l'OTP de vérification de contact (optionnel pour la démo)</summary>
     [HttpPost("resend-otp")]
     public async Task<IActionResult> ResendOtp([FromQuery] Guid clientId, CancellationToken ct)
     {
         await _signup.ResendContactOtpAsync(clientId, ct);
         return Accepted();
+    }
+
+    /// <summary>Vérifier le code OTP saisi par l'utilisateur pour activer le compte</summary>
+    [HttpPost("verify-otp")]
+    public async Task<ActionResult> VerifyOtp([FromBody] VerifyOtpRequestDto dto, CancellationToken ct)
+    {
+        if (!ModelState.IsValid) return UnprocessableEntity(ModelState);
+
+        var result = await _signup.VerifyContactOtpAsync(dto.ClientId, dto.Code, ct);
+        
+        if (result.Success)
+            return Ok(new { 
+                success = true,
+                message = "Code OTP vérifié avec succès", 
+                newStatus = result.NewStatus 
+            });
+        else
+            return BadRequest(new { 
+                success = false,
+                error = result.ErrorMessage 
+            });
     }
 }

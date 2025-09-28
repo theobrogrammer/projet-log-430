@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "BrokerX": "Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx"
+  }
+}

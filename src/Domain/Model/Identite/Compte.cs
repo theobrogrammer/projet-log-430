@@ -3,12 +3,23 @@ namespace ProjetLog430.Domain.Model.Identite;
 
 public sealed class Compte
 {
-    public Guid AccountId { get; }
-    public Guid ClientId { get; }
-    public string AccountNo { get; }
+    public Guid AccountId { get; private set; }
+    public Guid ClientId { get; private set; }
+    public string AccountNo { get; private set; }
     public StatutCompte Statut { get; private set; }
-    public DateTimeOffset CreatedAt { get; }
+    public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset UpdatedAt { get; private set; }
+
+    // Constructeur privé pour Entity Framework
+    private Compte()
+    {
+        AccountId = Guid.NewGuid();
+        ClientId = Guid.Empty;
+        AccountNo = string.Empty;
+        Statut = StatutCompte.Active;
+        CreatedAt = DateTimeOffset.UtcNow;
+        UpdatedAt = CreatedAt;
+    }
 
     private Compte(Guid id, Guid clientId, string accountNo)
     {

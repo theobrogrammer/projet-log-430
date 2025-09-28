@@ -12,6 +12,7 @@ public interface ISignupUseCase
         string email,
         string? phone,
         string fullName,
+        string password,
         DateOnly? birthDate,
         CancellationToken ct = default);
 
@@ -20,5 +21,13 @@ public interface ISignupUseCase
     /// </summary>
     Task ResendContactOtpAsync(
         Guid clientId,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Vérifie le code OTP saisi par l'utilisateur et active le compte si éligible.
+    /// </summary>
+    Task<OtpVerificationResult> VerifyContactOtpAsync(
+        Guid clientId,
+        string code,
         CancellationToken ct = default);
 }

@@ -10,3 +10,4 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\src\Domain\obj\Debug\net9.0\Domai
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Domain\obj\Debug\net9.0\refint\Domain.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Domain\obj\Debug\net9.0\Domain.pdb
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Domain\obj\Debug\net9.0\ref\Domain.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Domain\obj\Debug\net9.0\Domain.csproj.AssemblyReference.cache

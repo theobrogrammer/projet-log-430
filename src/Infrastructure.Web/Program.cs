@@ -18,11 +18,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// EF Core + MySQL (Pomelo)
+// EF Core + MySQL (Pomelo) - avec support pour les tests
 var cs = builder.Configuration.GetConnectionString("BrokerX")
          ?? "Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false";
-builder.Services.AddDbContext<BrokerXDbContext>(opt =>
-    opt.UseMySql(cs, ServerVersion.AutoDetect(cs)));
+
+// Vérifier si nous sommes en environnement de test
+if (builder.Environment.EnvironmentName == "Testing")
+{
+    // Utiliser InMemory pour les tests
+    builder.Services.AddDbContext<BrokerXDbContext>(opt =>
+        opt.UseInMemoryDatabase("TestDatabase"));
+}
+else
+{
+    // Utiliser MySQL pour production/développement
+    builder.Services.AddDbContext<BrokerXDbContext>(opt =>
+        opt.UseMySql(cs, ServerVersion.AutoDetect(cs)));
+}
 
 // Ports entrants (use cases)
 builder.Services.AddScoped<ISignupUseCase, SignupService>();
@@ -42,7 +54,23 @@ builder.Services.AddScoped<ISessionRepository,   InMemorySessionRepository>();
 // Adapters sortants (audit/ledger/otp/payment/session)
 builder.Services.AddSingleton<IAuditPort>(new StructuredAuditAdapter("logs/audit.jsonl"));
 builder.Services.AddSingleton<ILedgerPort>(new FileLedgerAdapter("logs/ledger.jsonl"));
-builder.Services.AddSingleton<IOtpPort, EmailSmsOtpAdapter>();
+builder.Services.AddScoped<IOtpPort>(serviceProvider => 
+{
+    var audit = serviceProvider.GetRequiredService<IAuditPort>();
+    var config = serviceProvider.GetRequiredService<IConfiguration>();
+    
+    // Configuration SMTP depuis appsettings.json
+    var smtpConfig = new ProjetLog430.Infrastructure.Adapters.Otp.SmtpConfig(
+        Host: config["Smtp:Host"] ?? "smtp.gmail.com",
+        Port: int.Parse(config["Smtp:Port"] ?? "587"),
+        User: config["Smtp:User"] ?? "",
+        Password: config["Smtp:Password"] ?? "",
+        FromEmail: config["Smtp:FromEmail"] ?? "noreply@brokerx.com",
+        FromName: config["Smtp:FromName"] ?? "BrokerX Security"
+    );
+    
+    return new ProjetLog430.Infrastructure.Adapters.Otp.HybridEmailOtpAdapter(audit, smtpConfig);
+});
 builder.Services.AddSingleton<ISessionPort, JwtSessionAdapter>();
 builder.Services.AddSingleton<IKycPort, KycAdapterSim>();
 builder.Services.AddHttpClient<PaymentAdapterSim>();
@@ -58,6 +86,8 @@ var app = builder.Build();
 var rewriteOptions = new RewriteOptions()
     .AddRewrite("^signin$", "signin.html", skipRemainingRules: false)
     .AddRewrite("^signup$", "signup.html", skipRemainingRules: false)
+    .AddRewrite("^signup-otp$", "signup-otp.html", skipRemainingRules: false)
+    .AddRewrite("^test-mfa$", "test-mfa.html", skipRemainingRules: false)
     .AddRewrite("^login$", "signin.html", skipRemainingRules: false);
 app.UseRewriter(rewriteOptions);
 
@@ -77,4 +107,39 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapControllers();
 
+// ===================================================================
+// FORCER ENTITY FRAMEWORK À CRÉER LA BASE DE DONNÉES
+// ===================================================================
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<BrokerXDbContext>();
+    
+    try 
+    {
+        // Créer la base de données si elle n'existe pas
+        dbContext.Database.EnsureCreated();
+        
+        // Log pour confirmer que la DB a été créée/vérifiée
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogInformation("✅ Base de données vérifiée/créée avec succès");
+        
+        // Optionnel: Lister les tables créées pour debug
+        var tableNames = dbContext.Model.GetEntityTypes()
+            .Select(t => t.GetTableName())
+            .Where(name => !string.IsNullOrEmpty(name))
+            .ToList();
+            
+        logger.LogInformation("📋 Tables configurées dans EF: {Tables}", string.Join(", ", tableNames));
+    }
+    catch (Exception ex)
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "❌ Erreur lors de la création/vérification de la base de données");
+        throw; // Arrêter l'application si la DB ne peut pas être créée
+    }
+}
+
 app.Run();
+
+// Expose Program class for testing
+public partial class Program { }

@@ -5,14 +5,27 @@ public enum TypeReference { PAYMENT_TX, EXECUTION, ORDER, OTHER }
 
 public sealed class EcritureLedger
 {
-    public Guid LedgerEntryId { get; }
-    public Guid AccountId { get; }
-    public decimal Amount { get; }
-    public string Currency { get; }
-    public TypeEcriture Kind { get; }
-    public TypeReference RefType { get; }
-    public Guid RefId { get; }
-    public DateTimeOffset CreatedAt { get; }
+    public Guid LedgerEntryId { get; private set; }
+    public Guid AccountId { get; private set; }
+    public decimal Amount { get; private set; }
+    public string Currency { get; private set; }
+    public TypeEcriture Kind { get; private set; }
+    public TypeReference RefType { get; private set; }
+    public Guid RefId { get; private set; }
+    public DateTimeOffset CreatedAt { get; private set; }
+
+    // Constructeur privé pour Entity Framework
+    private EcritureLedger()
+    {
+        LedgerEntryId = Guid.NewGuid();
+        AccountId = Guid.Empty;
+        Amount = 0m;
+        Currency = "CAD";
+        Kind = TypeEcriture.DEPOSIT;
+        RefType = TypeReference.OTHER;
+        RefId = Guid.Empty;
+        CreatedAt = DateTimeOffset.UtcNow;
+    }
 
     private EcritureLedger(Guid id, Guid accountId, decimal amount, string currency,
                            TypeEcriture kind, TypeReference refType, Guid refId)

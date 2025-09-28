@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - BrokerX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .otp-container { max-width: 500px; margin: 0 auto; }
+        .otp-input { 
+            width: 50px; height: 50px; text-align: center; 
+            font-size: 1.5rem; font-weight: bold;
+            border: 2px solid #dee2e6; border-radius: 8px;
+        }
+        .otp-input:focus { border-color: #0d6efd; box-shadow: 0 0 5px rgba(13, 110, 253, 0.3); }
+        .step-indicator { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 1rem;
+        }
+        .step-circle { 
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.2); margin: 0 10px;
+        }
+        .step-circle.active { background: #28a745; }
+        .step-circle.completed { background: #28a745; }
+        .error-message { color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem; }
+        .success-message { color: #28a745; font-size: 0.875rem; margin-top: 0.25rem; }
+        .loading-spinner { display: none; }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        #devOtpCode:hover {
+            background-color: rgba(13, 110, 253, 0.1);
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Indicateur d'étapes -->
+    <div class="step-indicator">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-center">
+                <div class="step-circle active" id="step1">1</div>
+                <div class="flex-grow-1 bg-white" style="height: 2px; opacity: 0.3;"></div>
+                <div class="step-circle" id="step2">2</div>
+                <div class="flex-grow-1 bg-white" style="height: 2px; opacity: 0.3;"></div>
+                <div class="step-circle" id="step3">✓</div>
+            </div>
+            <div class="text-center mt-2">
+                <small id="stepText">Étape 1 : Informations personnelles</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="otp-container">
+            <!-- ÉTAPE 1: Formulaire d'inscription -->
+            <div id="signupForm" class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-user-plus"></i> Créer votre compte BrokerX</h4>
+                </div>
+                <div class="card-body">
+                    <form id="registrationForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label"><i class="fas fa-phone"></i> Téléphone (optionnel)</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="+1 234 567-8900">
+                            <div class="form-text">Format international recommandé (ex: +33 6 12 34 56 78)</div>
+                            <div class="error-message" id="phoneError"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label"><i class="fas fa-user"></i> Nom complet</label>
+                            <input type="text" class="form-control" id="fullName" required>
+                            <div class="error-message" id="nameError"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="birthDate" class="form-label"><i class="fas fa-calendar"></i> Date de naissance (optionnel)</label>
+                            <input type="date" class="form-control" id="birthDate">
+                            <div class="form-text">Requis pour certains services de trading</div>
+                            <div class="error-message" id="birthDateError"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label"><i class="fas fa-lock"></i> Mot de passe</label>
+                            <input type="password" class="form-control" id="password" required>
+                            <div class="form-text">Minimum 8 caractères avec majuscules, chiffres et symboles</div>
+                            <div class="error-message" id="passwordError"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label"><i class="fas fa-lock"></i> Confirmer le mot de passe</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                            <div class="error-message" id="confirmError"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <span class="loading-spinner spinner-border spinner-border-sm me-2"></span>
+                            <i class="fas fa-arrow-right"></i> Créer le compte
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 2: Vérification OTP -->
+            <div id="otpForm" class="card shadow" style="display: none;">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0"><i class="fas fa-shield-alt"></i> Vérification de sécurité</h4>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-envelope-open-text fa-3x text-warning mb-3"></i>
+                        <h5>Code de vérification envoyé</h5>
+                        <p class="text-muted">Nous avons envoyé un code à 6 chiffres à votre email <strong id="userEmail"></strong></p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-center gap-2">
+                            <input type="text" class="otp-input" maxlength="1" id="otp1" autocomplete="off">
+                            <input type="text" class="otp-input" maxlength="1" id="otp2" autocomplete="off">
+                            <input type="text" class="otp-input" maxlength="1" id="otp3" autocomplete="off">
+                            <input type="text" class="otp-input" maxlength="1" id="otp4" autocomplete="off">
+                            <input type="text" class="otp-input" maxlength="1" id="otp5" autocomplete="off">
+                            <input type="text" class="otp-input" maxlength="1" id="otp6" autocomplete="off">
+                        </div>
+                        <div class="error-message" id="otpError"></div>
+                        <div class="success-message" id="otpSuccess"></div>
+                    </div>
+
+                    <button type="button" class="btn btn-success w-100 mb-3" id="verifyOtpBtn">
+                        <span class="loading-spinner spinner-border spinner-border-sm me-2"></span>
+                        <i class="fas fa-check"></i> Vérifier le code
+                    </button>
+                    
+                    <div class="text-center">
+                        <small class="text-muted">Vous n'avez pas reçu le code ?</small><br>
+                        <button type="button" class="btn btn-link btn-sm" id="resendOtpBtn">
+                            <i class="fas fa-redo"></i> Renvoyer le code
+                        </button>
+                    </div>
+
+                    <!-- Zone d'affichage du code OTP pour développement -->
+                    <div id="devOtpDisplay" class="alert alert-info mt-3" style="display: none;">
+                        <i class="fas fa-code"></i> <strong>Mode Développement:</strong><br>
+                        <span class="fs-4 fw-bold" id="devOtpCode"></span>
+                        <small class="d-block mt-1">Code OTP généré (cliquez pour copier)</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 3: Succès -->
+            <div id="successForm" class="card shadow" style="display: none;">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                    <h3 class="text-success">Compte créé avec succès ! 🎉</h3>
+                    <p class="text-muted">Votre compte BrokerX a été activé. Vous pouvez maintenant vous connecter.</p>
+                    <a href="/signin" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentClientId = null;
+        
+        // Gestion du formulaire d'inscription
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await handleSignup();
+        });
+
+        // Gestion de la vérification OTP
+        document.getElementById('verifyOtpBtn').addEventListener('click', async function() {
+            await handleOtpVerification();
+        });
+
+        // Gestion du renvoi d'OTP
+        document.getElementById('resendOtpBtn').addEventListener('click', async function() {
+            await handleResendOtp();
+        });
+
+        // Navigation automatique entre les champs OTP
+        document.querySelectorAll('.otp-input').forEach((input, index) => {
+            input.addEventListener('input', function() {
+                if (this.value.length === 1 && index < 5) {
+                    document.getElementById(`otp${index + 2}`).focus();
+                }
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                    document.getElementById(`otp${index}`).focus();
+                }
+            });
+        });
+
+        async function handleSignup() {
+            const submitBtn = document.querySelector('#registrationForm button[type="submit"]');
+            const spinner = submitBtn.querySelector('.loading-spinner');
+            
+            try {
+                // Afficher le spinner
+                spinner.style.display = 'inline-block';
+                submitBtn.disabled = true;
+                
+                // Récupérer les données du formulaire
+                const formData = {
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value || null,
+                    fullName: document.getElementById('fullName').value,
+                    birthDate: document.getElementById('birthDate').value || null,
+                    password: document.getElementById('password').value,
+                    confirmPassword: document.getElementById('confirmPassword').value
+                };
+
+                // Validation côté client
+                clearErrors();
+                if (!validateForm(formData)) {
+                    return;
+                }
+
+                // Appel API
+                const response = await fetch('/api/v1/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    currentClientId = result.clientId;
+                    
+                    // Passer à l'étape OTP
+                    showOtpForm(formData.email);
+                    
+                    // Récupérer et afficher le code OTP en mode développement
+                    await fetchAndDisplayDevOtpCode(result.clientId);
+                } else {
+                    const error = await response.json();
+                    showError('emailError', error.message || 'Erreur lors de l\'inscription');
+                }
+            } catch (error) {
+                showError('emailError', 'Erreur de connexion au serveur');
+                console.error('Signup error:', error);
+            } finally {
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        }
+
+        async function handleOtpVerification() {
+            const verifyBtn = document.getElementById('verifyOtpBtn');
+            const spinner = verifyBtn.querySelector('.loading-spinner');
+            
+            try {
+                spinner.style.display = 'inline-block';
+                verifyBtn.disabled = true;
+                
+                // Récupérer le code OTP
+                const otpCode = Array.from({length: 6}, (_, i) => 
+                    document.getElementById(`otp${i + 1}`).value
+                ).join('');
+
+                if (otpCode.length !== 6) {
+                    showError('otpError', 'Veuillez saisir le code complet à 6 chiffres');
+                    return;
+                }
+
+                // Appel API
+                const response = await fetch('/api/v1/signup/verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        clientId: currentClientId,
+                        code: otpCode
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        showSuccessForm();
+                    } else {
+                        showError('otpError', result.error || 'Code invalide');
+                    }
+                } else {
+                    const error = await response.json();
+                    showError('otpError', error.error || 'Code invalide ou expiré');
+                }
+            } catch (error) {
+                showError('otpError', 'Erreur de connexion au serveur');
+                console.error('OTP verification error:', error);
+            } finally {
+                spinner.style.display = 'none';
+                verifyBtn.disabled = false;
+            }
+        }
+
+        async function handleResendOtp() {
+            if (!currentClientId) return;
+            
+            try {
+                const response = await fetch(`/api/v1/signup/resend-otp?clientId=${currentClientId}`, {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    showSuccess('otpSuccess', 'Nouveau code envoyé !');
+                    // Effacer les champs OTP
+                    document.querySelectorAll('.otp-input').forEach(input => input.value = '');
+                    document.getElementById('otp1').focus();
+                    
+                    // Récupérer et afficher le nouveau code en développement
+                    if (currentClientId) {
+                        await fetchAndDisplayDevOtpCode(currentClientId);
+                    }
+                } else {
+                    showError('otpError', 'Erreur lors du renvoi du code');
+                }
+            } catch (error) {
+                showError('otpError', 'Erreur de connexion au serveur');
+            }
+        }
+
+        function validateForm(data) {
+            let isValid = true;
+            
+            if (!data.email.includes('@')) {
+                showError('emailError', 'Email invalide');
+                isValid = false;
+            }
+            
+            // Validation optionnelle du téléphone
+            if (data.phone && data.phone.trim() !== '') {
+                const phoneRegex = /^[\+]?[\d\s\-\(\)]{8,15}$/;
+                if (!phoneRegex.test(data.phone)) {
+                    showError('phoneError', 'Format de téléphone invalide');
+                    isValid = false;
+                }
+            }
+            
+            if (data.fullName.length < 2) {
+                showError('nameError', 'Le nom doit contenir au moins 2 caractères');
+                isValid = false;
+            }
+            
+            // Validation optionnelle de l'âge
+            if (data.birthDate) {
+                const birthDate = new Date(data.birthDate);
+                const today = new Date();
+                const age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                
+                if (age < 18) {
+                    showError('birthDateError', 'Vous devez avoir au moins 18 ans');
+                    isValid = false;
+                }
+            }
+            
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(data.password)) {
+                showError('passwordError', 'Le mot de passe ne respecte pas les critères');
+                isValid = false;
+            }
+            
+            if (data.password !== data.confirmPassword) {
+                showError('confirmError', 'Les mots de passe ne correspondent pas');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        function showOtpForm(email) {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('otpForm').style.display = 'block';
+            document.getElementById('userEmail').textContent = email;
+            document.getElementById('otp1').focus();
+            
+            // Mettre à jour l'indicateur d'étapes
+            updateStepIndicator(2, 'Étape 2 : Vérification par email');
+        }
+
+        function showSuccessForm() {
+            document.getElementById('otpForm').style.display = 'none';
+            document.getElementById('successForm').style.display = 'block';
+            
+            // Mettre à jour l'indicateur d'étapes
+            updateStepIndicator(3, 'Compte créé avec succès !');
+        }
+
+        function updateStepIndicator(step, text) {
+            // Réinitialiser les étapes
+            document.querySelectorAll('.step-circle').forEach(circle => {
+                circle.classList.remove('active', 'completed');
+            });
+            
+            // Marquer les étapes complétées
+            for (let i = 1; i < step; i++) {
+                document.getElementById(`step${i}`).classList.add('completed');
+            }
+            
+            // Marquer l'étape active
+            if (step <= 3) {
+                document.getElementById(`step${step}`).classList.add('active');
+            }
+            
+            // Mettre à jour le texte
+            document.getElementById('stepText').textContent = text;
+        }
+
+        function showError(elementId, message) {
+            document.getElementById(elementId).textContent = message;
+        }
+
+        function showSuccess(elementId, message) {
+            document.getElementById(elementId).textContent = message;
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            document.querySelectorAll('.success-message').forEach(el => el.textContent = '');
+        }
+
+        function displayDevOtpCode(code) {
+            const devDisplay = document.getElementById('devOtpDisplay');
+            const devCodeSpan = document.getElementById('devOtpCode');
+            
+            devCodeSpan.textContent = code;
+            devDisplay.style.display = 'block';
+            
+            // Rendre le code cliquable pour auto-remplissage
+            devCodeSpan.style.cursor = 'pointer';
+            devCodeSpan.title = 'Cliquez pour remplir automatiquement';
+            
+            devCodeSpan.addEventListener('click', () => {
+                // Remplir automatiquement les champs OTP
+                Array.from(code).forEach((digit, index) => {
+                    const input = document.getElementById(`otp${index + 1}`);
+                    if (input) input.value = digit;
+                });
+                
+                // Focus sur le dernier champ
+                document.getElementById('otp6').focus();
+                
+                // Feedback visuel
+                devCodeSpan.style.animation = 'pulse 0.5s';
+                setTimeout(() => devCodeSpan.style.animation = '', 500);
+            });
+        }
+
+        async function fetchAndDisplayDevOtpCode(clientId) {
+            try {
+                // Attendre un peu que l'OTP soit généré côté backend
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                const response = await fetch(`/api/dev/otp/${clientId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.lastOtp && data.lastOtp.hasCode) {
+                        // Faire un appel aux logs Docker pour récupérer le code
+                        showDevOtpHint(data);
+                    } else {
+                        console.log('OTP info:', data);
+                    }
+                } else {
+                    console.log('Debug: Impossible de récupérer les infos OTP');
+                }
+            } catch (error) {
+                console.log('Debug: Erreur lors de la récupération du code OTP', error);
+            }
+        }
+
+        function showDevOtpHint(otpInfo) {
+            const devDisplay = document.getElementById('devOtpDisplay');
+            const devCodeSpan = document.getElementById('devOtpCode');
+            
+            devDisplay.style.display = 'block';
+            devCodeSpan.textContent = 'Voir console Docker';
+            devCodeSpan.style.cursor = 'help';
+            devCodeSpan.title = 'Code OTP disponible dans les logs console. Utilisez: docker logs projet-log-430-brokerx_app-1 --tail 10';
+            
+            // Afficher les instructions
+            const instructions = document.createElement('div');
+            instructions.className = 'mt-2';
+            instructions.innerHTML = `
+                <small class="text-muted">
+                    <i class="fas fa-terminal"></i> <strong>Pour récupérer le code :</strong><br>
+                    <code>docker logs projet-log-430-brokerx_app-1 --tail 10</code><br>
+                    <em>Cherchez la ligne [OTP] avec votre email</em>
+                </small>
+            `;
+            
+            if (!devDisplay.querySelector('.mt-2')) {
+                devDisplay.appendChild(instructions);
+            }
+        }
+
+        function showSuccess(elementId, message) {
+            document.getElementById(elementId).textContent = message;
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            document.querySelectorAll('.success-message').forEach(el => el.textContent = '');
+        }
+    </script>
+</body>
+</html>
