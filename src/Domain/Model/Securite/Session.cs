@@ -14,6 +14,20 @@ public sealed class Session
     public string? Device { get; private set; }
     public bool Revoked { get; private set; }
 
+    // Constructeur privé pour Entity Framework
+    private Session()
+    {
+        SessionId = Guid.Empty;
+        ClientId = Guid.Empty;
+        TokenType = TypeJeton.Jwt;
+        Token = string.Empty;
+        IssuedAt = DateTimeOffset.MinValue;
+        ExpiresAt = DateTimeOffset.MinValue;
+        Ip = null;
+        Device = null;
+        Revoked = false;
+    }
+
     private Session(Guid id, Guid clientId, TypeJeton type, string token, DateTimeOffset issuedAt,
                     DateTimeOffset expiresAt, string? ip, string? device)
     {

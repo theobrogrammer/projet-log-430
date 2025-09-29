@@ -11,6 +11,17 @@ public sealed class PolitiqueMFA
     public DateTimeOffset CreatedAt { get; }
     public DateTimeOffset UpdatedAt { get; private set; }
 
+    // Constructeur privé pour Entity Framework
+    private PolitiqueMFA()
+    {
+        MfaId = Guid.Empty;
+        ClientId = Guid.Empty;
+        Type = TypeMfa.Totp;
+        EstActive = false;
+        CreatedAt = DateTimeOffset.MinValue;
+        UpdatedAt = DateTimeOffset.MinValue;
+    }
+
     private PolitiqueMFA(Guid mfaId, Guid clientId, TypeMfa type, bool active)
     {
         MfaId = mfaId;

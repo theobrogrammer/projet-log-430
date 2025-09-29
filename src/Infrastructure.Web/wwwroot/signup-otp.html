@@ -243,8 +243,9 @@
                     // Passer à l'étape OTP
                     showOtpForm(formData.email);
                     
-                    // Récupérer et afficher le code OTP en mode développement
-                    await fetchAndDisplayDevOtpCode(result.clientId);
+                    // Récupérer et afficher le code OTP en mode développement (désactivé temporairement)
+                    console.log('Compte créé avec succès:', result);
+                    // await fetchAndDisplayDevOtpCode(result.clientId);
                 } else {
                     const error = await response.json();
                     showError('emailError', error.message || 'Erreur lors de l\'inscription');
@@ -322,7 +323,7 @@
                     
                     // Récupérer et afficher le nouveau code en développement
                     if (currentClientId) {
-                        await fetchAndDisplayDevOtpCode(currentClientId);
+                        // await fetchAndDisplayDevOtpCode(currentClientId);
                     }
                 } else {
                     showError('otpError', 'Erreur lors du renvoi du code');

@@ -11,11 +11,13 @@ public sealed class DevController : ControllerBase
 {
     private readonly IClientRepository _clients;
     private readonly IMfaChallengeRepository _mfaChallenges;
+    private readonly IMfaPolicyRepository _mfaPolicies;
 
-    public DevController(IClientRepository clients, IMfaChallengeRepository mfaChallenges)
+    public DevController(IClientRepository clients, IMfaChallengeRepository mfaChallenges, IMfaPolicyRepository mfaPolicies)
     {
         _clients = clients;
         _mfaChallenges = mfaChallenges;
+        _mfaPolicies = mfaPolicies;
     }
 
     /// <summary>Endpoint de développement pour récupérer les infos d'OTP d'un client</summary>
@@ -128,5 +130,46 @@ public sealed class DevController : ControllerBase
             return Task.FromResult<IEnumerable<ProjetLog430.Domain.Model.Securite.DefiMFA>>(emptyList);
         }
     }
+
+    /// <summary>Créer une politique MFA pour un client (dev seulement)</summary>
+    [HttpPost("create-mfa-policy")]
+    public async Task<ActionResult> CreateMfaPolicy([FromBody] CreateMfaPolicyRequest request, CancellationToken ct)
+    {
+        try
+        {
+            var client = await _clients.GetByEmailAsync(request.Email, ct);
+            if (client == null)
+            {
+                return NotFound(new { error = "Client non trouvé", email = request.Email });
+            }
+
+            var policy = ProjetLog430.Domain.Model.Securite.PolitiqueMFA.Creer(
+                client.ClientId, 
+                request.Type, 
+                true); // Activée par défaut
+
+            await _mfaPolicies.AddAsync(policy, ct);
+
+            return Ok(new
+            {
+                message = "Politique MFA créée avec succès",
+                clientId = client.ClientId,
+                email = client.Email,
+                policy = new
+                {
+                    mfaId = policy.MfaId,
+                    type = policy.Type.ToString(),
+                    active = policy.EstActive
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
 }
+
+public record CreateMfaPolicyRequest(string Email, ProjetLog430.Domain.Model.Securite.TypeMfa Type);
+
 #endif

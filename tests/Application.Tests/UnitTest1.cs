@@ -27,6 +27,7 @@ public class SignupServiceTests
         _mockKycPort = new Mock<IKycPort>();
         _mockOtpPort = new Mock<IOtpPort>();
         _mockAuditPort = new Mock<IAuditPort>();
+        var mockMfaPolicyRepository = new Mock<IMfaPolicyRepository>();
 
         _signupService = new SignupService(
             _mockClientRepository.Object,
@@ -34,7 +35,8 @@ public class SignupServiceTests
             _mockPortfolioRepository.Object,
             _mockKycPort.Object,
             _mockOtpPort.Object,
-            _mockAuditPort.Object);
+            _mockAuditPort.Object,
+            mockMfaPolicyRepository.Object);
     }
 
     [Fact]

@@ -3,6 +3,7 @@ using ProjetLog430.Domain.Contracts;
 using ProjetLog430.Domain.Ports.Inbound;
 using ProjetLog430.Domain.Model.Identite;
 using ProjetLog430.Domain.Model.PortefeuilleReglement;
+using ProjetLog430.Domain.Model.Securite;
 using ProjetLog430.Domain.Ports.Outbound;
 using ProjetLog430.Domain.Model.Observabilite;
 
@@ -16,6 +17,7 @@ public sealed class SignupService : ISignupUseCase
     private readonly IKycPort _kyc;
     private readonly IOtpPort _otp;
     private readonly IAuditPort _audit;
+    private readonly IMfaPolicyRepository _mfaPolicies;
 
     public SignupService(
         IClientRepository clients,
@@ -23,11 +25,13 @@ public sealed class SignupService : ISignupUseCase
         IPortfolioRepository portefeuilles,
         IKycPort kyc,
         IOtpPort otp,
-        IAuditPort audit)
+        IAuditPort audit,
+        IMfaPolicyRepository mfaPolicies)
     {
         _clients = clients;
         _comptes = comptes;
         _portefeuilles = portefeuilles;
+        _mfaPolicies = mfaPolicies;
         _kyc = kyc;
         _otp = otp;
         _audit = audit;
@@ -56,6 +60,13 @@ public sealed class SignupService : ISignupUseCase
 
         var portefeuille = Portefeuille.Ouvrir(compte.AccountId, "USD");
         await _portefeuilles.AddAsync(portefeuille, ct);
+
+        // 3.5) Activer MFA par email par défaut pour tous les nouveaux utilisateurs
+        var mfaPolicy = PolitiqueMFA.Creer(
+            client.ClientId, 
+            TypeMfa.Sms, // SMS pour tester (on utilisera le même système OTP)
+            true); // Activé par défaut
+        await _mfaPolicies.AddAsync(mfaPolicy, ct);
 
         // 4) Déclencher KYC (simulateur) + envoyer OTP de contact
         _ = _kyc.SubmitAsync(client.ClientId, client.Kyc!.KycId, ct); // fire-and-forget (démo)

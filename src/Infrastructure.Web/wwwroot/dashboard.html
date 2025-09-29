@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - BrokerX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-chart-line"></i> BrokerX
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/signin.html">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0"><i class="fas fa-check-circle"></i> Connexion réussie !</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="alert alert-success">
+                            <h5><i class="fas fa-shield-alt"></i> Authentification MFA complétée</h5>
+                            <p class="mb-0">Vous êtes maintenant connecté de façon sécurisée à votre compte BrokerX.</p>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6><i class="fas fa-wallet"></i> Portefeuille</h6>
+                                        <p class="text-muted">Gestion de vos fonds</p>
+                                        <a href="/test-mfa.html" class="btn btn-outline-primary btn-sm">Accéder</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6><i class="fas fa-shield-alt"></i> Sécurité</h6>
+                                        <p class="text-muted">Paramètres MFA</p>
+                                        <a href="/test-mfa.html" class="btn btn-outline-primary btn-sm">Configurer</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6><i class="fas fa-user-plus"></i> Inscription</h6>
+                                        <p class="text-muted">Créer un nouveau compte</p>
+                                        <a href="/signup-otp.html" class="btn btn-outline-primary btn-sm">Nouveau compte</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <p class="text-muted">
+                                <i class="fas fa-info-circle"></i>
+                                Cette application de démonstration montre le système d'authentification MFA complet.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

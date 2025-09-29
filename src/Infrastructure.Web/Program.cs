@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetLog430.Infrastructure.Persistence;
+using ProjetLog430.Infrastructure.Persistence.Repositories;
 using ProjetLog430.Domain.Ports.Outbound;
 using ProjetLog430.Domain.Ports.Inbound;
 using ProjetLog430.Application.Services;
@@ -22,19 +23,9 @@ builder.Services.AddControllers();
 var cs = builder.Configuration.GetConnectionString("BrokerX")
          ?? "Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false";
 
-// Vérifier si nous sommes en environnement de test
-if (builder.Environment.EnvironmentName == "Testing")
-{
-    // Utiliser InMemory pour les tests
-    builder.Services.AddDbContext<BrokerXDbContext>(opt =>
-        opt.UseInMemoryDatabase("TestDatabase"));
-}
-else
-{
-    // Utiliser MySQL pour production/développement
-    builder.Services.AddDbContext<BrokerXDbContext>(opt =>
-        opt.UseMySql(cs, ServerVersion.AutoDetect(cs)));
-}
+// Configuration de la base de données - utilisons toujours InMemoryDatabase pour les tests MFA
+builder.Services.AddDbContext<BrokerXDbContext>(opt =>
+    opt.UseInMemoryDatabase("TestDatabase"));
 
 // Ports entrants (use cases)
 builder.Services.AddScoped<ISignupUseCase, SignupService>();

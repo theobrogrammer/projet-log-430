@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetLog430.Domain.Model.Identite;
 using ProjetLog430.Domain.Model.PortefeuilleReglement;
+using ProjetLog430.Domain.Model.Securite;
 
 namespace ProjetLog430.Infrastructure.Persistence;
 
@@ -15,6 +16,11 @@ public sealed class BrokerXDbContext : DbContext
     public DbSet<EcritureLedger> LedgerEntries => Set<EcritureLedger>();
     public DbSet<DossierKYC> KycDossiers => Set<DossierKYC>();
     public DbSet<VerifContactOTP> ContactOtps => Set<VerifContactOTP>();
+    
+    // Tables MFA et sécurité
+    public DbSet<PolitiqueMFA> MfaPolicies => Set<PolitiqueMFA>();
+    public DbSet<DefiMFA> MfaChallenges => Set<DefiMFA>();
+    public DbSet<Session> Sessions => Set<Session>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {
@@ -124,6 +130,49 @@ public sealed class BrokerXDbContext : DbContext
             eb.Property(x => x.Statut).HasConversion<string>().HasMaxLength(16);
             eb.Property(x => x.ExpiresAt);
             eb.Property(x => x.CreatedAt);
+        });
+
+        // === PolitiqueMFA ===
+        b.Entity<PolitiqueMFA>(eb =>
+        {
+            eb.HasKey(x => x.MfaId);
+            eb.Property(x => x.ClientId).IsRequired();
+            eb.Property(x => x.Type).HasConversion<string>().HasMaxLength(20);
+            eb.Property(x => x.EstActive).IsRequired();
+            eb.Property(x => x.CreatedAt).IsRequired();
+            eb.Property(x => x.UpdatedAt).IsRequired();
+            eb.HasIndex(x => x.ClientId);
+        });
+
+        // === DefiMFA ===
+        b.Entity<DefiMFA>(eb =>
+        {
+            eb.HasKey(x => x.ChallengeId);
+            eb.Property(x => x.ClientId).IsRequired();
+            eb.Property(x => x.Type).HasConversion<string>().HasMaxLength(20);
+            eb.Property(x => x.Statut).HasConversion<string>().HasMaxLength(20);
+            eb.Property(x => x.CreatedAt).IsRequired();
+            eb.Property(x => x.ExpiresAt).IsRequired();
+            eb.Property(x => x.CompletedAt);
+            eb.HasIndex(x => x.ClientId);
+            eb.HasIndex(x => x.ExpiresAt);
+        });
+
+        // === Session ===
+        b.Entity<Session>(eb =>
+        {
+            eb.HasKey(x => x.SessionId);
+            eb.Property(x => x.ClientId).IsRequired();
+            eb.Property(x => x.TokenType).HasConversion<string>().HasMaxLength(20);
+            eb.Property(x => x.Token).IsRequired().HasMaxLength(500);
+            eb.Property(x => x.IssuedAt).IsRequired();
+            eb.Property(x => x.ExpiresAt).IsRequired();
+            eb.Property(x => x.Ip).HasMaxLength(45); // IPv6
+            eb.Property(x => x.Device).HasMaxLength(255);
+            eb.Property(x => x.Revoked).IsRequired();
+            eb.HasIndex(x => x.ClientId);
+            eb.HasIndex(x => x.Token).IsUnique();
+            eb.HasIndex(x => x.ExpiresAt);
         });
     }
 }

@@ -12,6 +12,18 @@ public sealed class DefiMFA
     public DateTimeOffset ExpiresAt { get; }
     public DateTimeOffset? CompletedAt { get; private set; }
 
+    // Constructeur privé pour Entity Framework
+    private DefiMFA()
+    {
+        ChallengeId = Guid.Empty;
+        ClientId = Guid.Empty;
+        Type = TypeMfa.Totp;
+        Statut = StatutDefi.Pending;
+        CreatedAt = DateTimeOffset.MinValue;
+        ExpiresAt = DateTimeOffset.MinValue;
+        CompletedAt = null;
+    }
+
     private DefiMFA(Guid id, Guid clientId, TypeMfa type, DateTimeOffset expiresAt)
     {
         ChallengeId = id;

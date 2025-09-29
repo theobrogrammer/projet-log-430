@@ -15,10 +15,10 @@ public sealed class PaymentAdapterSim : IPaymentPort
         _webhookUrl = webhookUrl.TrimEnd('/');
     }
 
-    public async Task RequestDepositAsync(Guid paymentTxId, Guid accountId, decimal amount, string currency, CancellationToken ct = default)
+    public Task RequestDepositAsync(Guid paymentTxId, Guid accountId, decimal amount, string currency, CancellationToken ct = default)
     {
         // Démo: on simule un "provider" qui règle la transaction 1s plus tard
-        _ = Task.Run(async () =>
+        return Task.Run(async () =>
         {
             try
             {

@@ -9,6 +9,7 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\bin\Debug\net9
 C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\bin\Debug\net9.0\Domain.Tests.runtimeconfig.json
 C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\bin\Debug\net9.0\Domain.Tests.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\bin\Debug\net9.0\Domain.Tests.pdb
+C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\bin\Debug\net9.0\BCrypt.Net-Next.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\bin\Debug\net9.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\bin\Debug\net9.0\Microsoft.TestPlatform.CoreUtilities.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\bin\Debug\net9.0\Microsoft.TestPlatform.PlatformAbstractions.dll
@@ -101,4 +102,3 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\obj\Debug\net9
 C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\obj\Debug\net9.0\Domain.Tests.pdb
 C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\obj\Debug\net9.0\Domain.Tests.genruntimeconfig.cache
 C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\obj\Debug\net9.0\ref\Domain.Tests.dll
-C:\Users\Theot\Documents\GitHub\projet-log-430\tests\Domain.Tests\bin\Debug\net9.0\BCrypt.Net-Next.dll

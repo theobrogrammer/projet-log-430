@@ -10,11 +10,13 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Infrastructure.Web.pdb
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Azure.Identity.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\BCrypt.Net-Next.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
@@ -84,7 +86,11 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\scopedcss\bundle\Infrastructure.Web.styles.css
-C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\vn5gnr9673-bai8x0h4ih.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\vn5gnr9673-pvrvyluep7.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\1gntpnq2bs-49vaewsac7.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\xerl46ubxa-2nnh7qo1q1.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\727rd72i7w-92z422rqw9.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\nreiq9ll8n-sxfm4t0ijz.gz
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\staticwebassets.development.json
@@ -95,7 +101,3 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\Infrastructure.Web.pdb
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\Infrastructure.Web.genruntimeconfig.cache
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\ref\Infrastructure.Web.dll
-C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\BCrypt.Net-Next.dll
-C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\1gntpnq2bs-mab1s03hyw.gz
-C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\727rd72i7w-ipmqk6i9lc.gz
-C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll
