@@ -7,7 +7,7 @@ node "VM de démo" {
       component "REST API" as api
       component "Webhook Paiement" as webhook
     }
-    database "PostgreSQL" as db
+    database "MySQL" as db
     ' (option) simulateurs locaux pour éviter Internet :
     node "container: otp-sim" as otp
     node "container: kyc-sim" as kyc

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration MFA - BrokerX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard.html">
+                <i class="fas fa-chart-line"></i> BrokerX
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/signin.html">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h4 class="mb-0"><i class="fas fa-shield-alt"></i> Configuration de l'authentification à deux facteurs (2FA)</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="statusMessage" class="mb-3"></div>
+                        
+                        <!-- Section: État actuel -->
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-info-circle"></i> État actuel du 2FA</h5>
+                            <div id="mfaStatus">
+                                <p id="statusText">Chargement...</p>
+                                <div id="statusDetails" style="display: none;">
+                                    <strong>Type:</strong> <span id="mfaType"></span><br>
+                                    <strong>Activé le:</strong> <span id="activatedDate"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section: Contrôles -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <i class="fas fa-shield-alt fa-3x text-success"></i>
+                                        </div>
+                                        <h5>Activer le 2FA</h5>
+                                        <p class="text-muted">Renforcez la sécurité de votre compte avec l'authentification par email</p>
+                                        <button id="enableMfaBtn" class="btn btn-success">
+                                            <i class="fas fa-lock"></i> Activer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <i class="fas fa-unlock-alt fa-3x text-danger"></i>
+                                        </div>
+                                        <h5>Désactiver le 2FA</h5>
+                                        <p class="text-muted">Connexion simple sans étape supplémentaire</p>
+                                        <button id="disableMfaBtn" class="btn btn-outline-danger">
+                                            <i class="fas fa-unlock"></i> Désactiver
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section: Test -->
+                        <div class="mt-4">
+                            <div class="alert alert-secondary">
+                                <h6><i class="fas fa-vial"></i> Tester votre configuration</h6>
+                                <p class="mb-2">Une fois configuré, testez votre 2FA :</p>
+                                <a href="/test-mfa.html" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-play"></i> Tester le 2FA
+                                </a>
+                                <a href="/signin.html" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-sign-in-alt"></i> Tester la connexion
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Section développement -->
+                        <div class="mt-4">
+                            <div class="alert alert-light border">
+                                <h6><i class="fas fa-code"></i> Mode développement</h6>
+                                <p class="mb-1">Outils de développement :</p>
+                                <button id="checkPolicyBtn" class="btn btn-outline-info btn-sm me-2">
+                                    <i class="fas fa-search"></i> Vérifier politique
+                                </button>
+                                <button id="resetMfaBtn" class="btn btn-outline-warning btn-sm">
+                                    <i class="fas fa-redo"></i> Réinitialiser
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Variables globales
+        let currentClientId = null;
+        let currentPolicy = null;
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadMfaStatus();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('enableMfaBtn').addEventListener('click', enableMfa);
+            document.getElementById('disableMfaBtn').addEventListener('click', disableMfa);
+            document.getElementById('checkPolicyBtn').addEventListener('click', loadMfaStatus);
+            document.getElementById('resetMfaBtn').addEventListener('click', resetMfa);
+        }
+
+        async function loadMfaStatus() {
+            try {
+                showStatus('Chargement du statut MFA...', 'info');
+                
+                // Debug: Vérifier le token
+                const token = getStoredToken();
+                console.log('[DEBUG] Token récupéré:', token ? token.substring(0, 20) + '...' : 'AUCUN TOKEN');
+                
+                if (!token) {
+                    showStatus('⚠️ Aucun token trouvé. Reconnectez-vous.', 'warning');
+                    setTimeout(() => window.location.href = '/signin.html', 2000);
+                    return;
+                }
+                
+                // Appel API pour récupérer la politique MFA de l'utilisateur connecté
+                const response = await fetch(`/api/v1/auth/mfa/policy`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                console.log('[DEBUG] Response status:', response.status);
+                const responseText = await response.text();
+                console.log('[DEBUG] Response body:', responseText);
+                
+                if (response.ok) {
+                    const policy = JSON.parse(responseText);
+                    currentPolicy = policy;
+                    displayMfaStatus(policy);
+                } else {
+                    console.error('[ERROR] Échec de récupération MFA:', responseText);
+                    displayMfaStatus(null);
+                }
+            } catch (error) {
+                showStatus('Erreur lors du chargement du statut MFA', 'danger');
+                console.error('Error loading MFA status:', error);
+            }
+        }
+
+        function displayMfaStatus(policy) {
+            // Effacer le message de chargement
+            document.getElementById('statusMessage').innerHTML = '';
+            
+            const statusText = document.getElementById('statusText');
+            const statusDetails = document.getElementById('statusDetails');
+            const enableBtn = document.getElementById('enableMfaBtn');
+            const disableBtn = document.getElementById('disableMfaBtn');
+
+            if (policy && policy.estActive) {
+                statusText.innerHTML = '<span class="text-success"><i class="fas fa-check-circle"></i> 2FA activé</span>';
+                document.getElementById('mfaType').textContent = policy.type || 'EMAIL';
+                document.getElementById('activatedDate').textContent = policy.activatedAt || 'Non disponible';
+                statusDetails.style.display = 'block';
+                
+                enableBtn.disabled = true;
+                enableBtn.innerHTML = '<i class="fas fa-check"></i> Déjà activé';
+                disableBtn.disabled = false;
+            } else {
+                statusText.innerHTML = '<span class="text-warning"><i class="fas fa-exclamation-triangle"></i> 2FA désactivé</span>';
+                statusDetails.style.display = 'none';
+                
+                enableBtn.disabled = false;
+                enableBtn.innerHTML = '<i class="fas fa-lock"></i> Activer';
+                disableBtn.disabled = true;
+            }
+        }
+
+        async function enableMfa() {
+            try {
+                showStatus('Activation du 2FA en cours...', 'info');
+                
+                // Debug: Vérifier le token avant l'envoi
+                const token = getStoredToken();
+                console.log('[DEBUG ENABLE] Token:', token ? token.substring(0, 20) + '...' : 'AUCUN TOKEN');
+                
+                if (!token) {
+                    showStatus('⚠️ Aucun token trouvé. Reconnectez-vous.', 'warning');
+                    setTimeout(() => window.location.href = '/signin.html', 2000);
+                    return;
+                }
+                
+                // Appel API pour créer/activer la politique MFA
+                const response = await fetch('/api/v1/auth/mfa/policy', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        type: 'Sms' // Maintenant accepté grâce à JsonStringEnumConverter
+                    })
+                });
+
+                console.log('[DEBUG ENABLE] Response status:', response.status);
+                const responseText = await response.text();
+                console.log('[DEBUG ENABLE] Response body:', responseText);
+
+                if (response.ok) {
+                    showStatus('2FA activé avec succès !', 'success');
+                    await loadMfaStatus();
+                } else {
+                    const error = await response.text();
+                    showStatus(`Erreur lors de l'activation: ${error}`, 'danger');
+                }
+            } catch (error) {
+                showStatus('Erreur de connexion lors de l\'activation', 'danger');
+                console.error('Error enabling MFA:', error);
+            }
+        }
+
+        async function disableMfa() {
+            if (!confirm('Êtes-vous sûr de vouloir désactiver le 2FA ? Cela réduira la sécurité de votre compte.')) {
+                return;
+            }
+
+            try {
+                showStatus('Désactivation du 2FA en cours...', 'info');
+                
+                // Appel API pour désactiver la politique MFA
+                const response = await fetch(`/api/v1/auth/mfa/policy/disable`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${getStoredToken()}`
+                    }
+                });
+
+                if (response.ok) {
+                    showStatus('2FA désactivé avec succès', 'warning');
+                    await loadMfaStatus();
+                } else {
+                    const error = await response.text();
+                    showStatus(`Erreur lors de la désactivation: ${error}`, 'danger');
+                }
+            } catch (error) {
+                showStatus('Erreur de connexion lors de la désactivation', 'danger');
+                console.error('Error disabling MFA:', error);
+            }
+        }
+
+        async function resetMfa() {
+            if (!confirm('Réinitialiser complètement la configuration MFA ?')) {
+                return;
+            }
+
+            try {
+                showStatus('Réinitialisation en cours...', 'info');
+                
+                // Ici on pourrait appeler un endpoint de reset
+                await disableMfa();
+                setTimeout(() => loadMfaStatus(), 1000);
+                
+            } catch (error) {
+                showStatus('Erreur lors de la réinitialisation', 'danger');
+                console.error('Error resetting MFA:', error);
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>`;
+        }
+
+        // Fonction utilitaire pour récupérer le token JWT stocké
+        function getStoredToken() {
+            return localStorage.getItem('authToken') || sessionStorage.getItem('authToken') || '';
+        }
+    </script>
+</body>
+</html>

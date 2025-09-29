@@ -1,27 +1,34 @@
+using Microsoft.EntityFrameworkCore;
 using ProjetLog430.Domain.Model.Securite;
 using ProjetLog430.Domain.Ports.Outbound;
+using ProjetLog430.Infrastructure.Persistence;
 
 namespace ProjetLog430.Infrastructure.Adapters.Repositories;
 
 public sealed class InMemoryMfaPolicyRepository : IMfaPolicyRepository
 {
-    private readonly Dictionary<Guid, PolitiqueMFA> _policies = new();
+    private readonly BrokerXDbContext _context;
 
-    public Task<PolitiqueMFA?> GetByClientIdAsync(Guid clientId, CancellationToken ct = default)
+    public InMemoryMfaPolicyRepository(BrokerXDbContext context)
     {
-        var policy = _policies.Values.FirstOrDefault(p => p.ClientId == clientId);
-        return Task.FromResult(policy);
+        _context = context;
     }
 
-    public Task AddAsync(PolitiqueMFA policy, CancellationToken ct = default)
+    public async Task<PolitiqueMFA?> GetByClientIdAsync(Guid clientId, CancellationToken ct = default)
     {
-        _policies[policy.MfaId] = policy;
-        return Task.CompletedTask;
+        return await _context.MfaPolicies
+            .FirstOrDefaultAsync(p => p.ClientId == clientId, ct);
     }
 
-    public Task UpdateAsync(PolitiqueMFA policy, CancellationToken ct = default)
+    public async Task AddAsync(PolitiqueMFA policy, CancellationToken ct = default)
     {
-        _policies[policy.MfaId] = policy;
-        return Task.CompletedTask;
+        _context.MfaPolicies.Add(policy);
+        await _context.SaveChangesAsync(ct);
+    }
+
+    public async Task UpdateAsync(PolitiqueMFA policy, CancellationToken ct = default)
+    {
+        _context.MfaPolicies.Update(policy);
+        await _context.SaveChangesAsync(ct);
     }
 }

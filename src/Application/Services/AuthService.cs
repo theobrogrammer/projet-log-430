@@ -65,7 +65,20 @@ public sealed class AuthService : IAuthUseCase
                     policyType = policy != null ? policy.Type.ToString() : "null"
                 }), ct);
 
-        if (policy != null && policy.EstActive)
+        // Mode bypass pour développement - vérifier si on veut skip le MFA
+        bool bypassMfa = ip?.Contains("bypass") == true || device?.Contains("bypass") == true;
+        
+        await _audit.WriteAsync(
+            AuditLog.Ecrire("DEBUG_MFA_BYPASS", "user:" + email, 
+                payload: new { 
+                    ip = ip,
+                    device = device,
+                    bypassMfa = bypassMfa,
+                    policyActive = policy?.EstActive,
+                    willRequireMfa = policy != null && policy.EstActive && !bypassMfa
+                }), ct);
+        
+        if (policy != null && policy.EstActive && !bypassMfa)
         {
             var ttl = TimeSpan.FromMinutes(5);
             var challenge = DefiMFA.Demarrer(client.ClientId, policy.Type, ttl);
@@ -81,7 +94,7 @@ public sealed class AuthService : IAuthUseCase
                 AuditLog.Ecrire("AUTH_MFA_CHALLENGE", "user:" + email,
                     payload: new { clientId = client.ClientId, challengeId = challenge.ChallengeId, policy = policy.Type.ToString() }), ct);
 
-            return new LoginResult(Token: string.Empty, MfaRequired: true);
+            return new LoginResult(Token: string.Empty, MfaRequired: true, ClientId: client.ClientId, ChallengeId: challenge.ChallengeId);
         }
 
         var sess = Session.Creer(client.ClientId, TypeJeton.Jwt, token: Guid.NewGuid().ToString("N"), ttl: TimeSpan.FromHours(2), ip, device);

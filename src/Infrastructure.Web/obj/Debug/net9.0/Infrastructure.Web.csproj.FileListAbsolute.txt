@@ -87,8 +87,6 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\scopedcss\bundle\Infrastructure.Web.styles.css
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\vn5gnr9673-pvrvyluep7.gz
-C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\1gntpnq2bs-49vaewsac7.gz
-C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\xerl46ubxa-2nnh7qo1q1.gz
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\727rd72i7w-92z422rqw9.gz
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\nreiq9ll8n-sxfm4t0ijz.gz
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\staticwebassets.build.json
@@ -101,3 +99,7 @@ C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\Infrastructure.Web.pdb
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\Infrastructure.Web.genruntimeconfig.cache
 C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\ref\Infrastructure.Web.dll
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\vqqwectlyu-s0gnblfjos.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\xerl46ubxa-6qzqfixo1a.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\4mesbq26w6-dd5qhnvx21.gz
+C:\Users\Theot\Documents\GitHub\projet-log-430\src\Infrastructure.Web\obj\Debug\net9.0\compressed\1gntpnq2bs-01pu7kciqf.gz

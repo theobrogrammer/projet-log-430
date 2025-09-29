@@ -1,4 +1,19 @@
-# ADR 003 – Stratégie d’erreurs et versionnage interne des contrats
+# ADR 003 Décision
+Défin## Conséquences
+*  **API prévisible** : Clients front savent réagir (UI/flows) aux erreurs HTTP standard avec messages JSON structurés.
+*  **Séparation claire** : Domaine lève des `InvalidOperationException`, contrôleurs traduisent en réponses HTTP avec mapping approprié.
+*  **Développement rapide** : Pas de versionnage complexe, DTOs simples, focus sur la fonctionnalité plutôt que sur l'évolutivité prématurée.
+*  **Token Authentication solide** : JWT avec validation centralisée via `GetCurrentClientAsync()` dans `AuthController`.
+*  **Observabilité** : Journalisation via `AuditLog` et logs ASP.NET Core avec détails d'erreur appropriés.
+* **Évolutivité future** : Architecture permet d'ajouter versionnage explicite si nécessaire sans refactor majeur.
+*  **Gestion d'erreur centralisée** : Pattern cohérent `try-catch-BadRequest/Unauthorized` dans tous les contrôleurs. **stratégie d'erreurs stable** au niveau Application et gérer le **mapping** dans l'adapter Web. Utiliser des **DTOs simples** sans versionnage explicite pour le développement rapide.
+
+* **Codes d'erreurs HTTP** : 400 (BadRequest - validation), 401 (Unauthorized - token invalide/expiré), 403 (Forbidden), 404 (NotFound - ressource), 422 (UnprocessableEntity - ModelState), 500 (unexpected).
+* **Messages d'erreur** : objets JSON structurés `{ error: "message", details?: "..." }`, messages français clairs, pas de secrets ni détails internes.
+* **Mapping HTTP** : Contrôleurs ASP.NET Core font le mapping **sans** logique métier, utilisation d'`InvalidOperationException` du domaine.
+* **DTOs actuels** : `LoginRequestDto/ResponseDto`, `SignupRequestDto/ResponseDto`, `VerifyMfaRequestDto`, `DepositRequestDto/ResponseDto` - sans versionnage pour simplifier.
+* **Token Authentication** : JWT avec `Authorization: Bearer <token>` pour les endpoints protégés, validation via `GetCurrentClientAsync()`.
+* **Audit** : Utilisation d'`AuditLog.Ecrire()` pour journaliser les opérations importantes (AUTH_MFA_PASSED, etc.).tégie d’erreurs et versionnage interne des contrats
 
 ## Statut
 Acceptée

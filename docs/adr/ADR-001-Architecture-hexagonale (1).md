@@ -1,4 +1,8 @@
-# ADR 001 – Architecture hexagonale (Ports & Adapters) avec Repositories (C#/.NET)
+# ADR 001 – Archi* **Adapters** :
+  * *Entrants* : contrôleurs REST (mapping DTO ↔ Use Cases).
+  * *Sortants* : implémentations concrètes (EF Core InMemoryDatabase pour Repos, JWT pour `SessionPort`, HybridEmailOtpAdapter pour `OtpPort`, simulateur pour `PaymentPort`, logs structurés pour `AuditPort`, EF Core pour `LedgerPort`).
+* **Sens des dépendances** : `Infrastructure → Application → Domaine` (jamais l'inverse).
+* **Persistance** : Repositories "InMemory*" utilisant `BrokerXDbContext` + EF Core ; contrainte **UNIQUE** sur `TransactionPaiement.IdempotencyKey` ; table **EcritureLedger** en **append-only**.re hexagonale (Ports & Adapters) avec Repositories (C#/.NET)
 
 ## Statut
 Acceptée

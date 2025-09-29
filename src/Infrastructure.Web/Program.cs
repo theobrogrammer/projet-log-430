@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetLog430.Infrastructure.Persistence;
-using ProjetLog430.Infrastructure.Persistence.Repositories;
 using ProjetLog430.Domain.Ports.Outbound;
 using ProjetLog430.Domain.Ports.Inbound;
 using ProjetLog430.Application.Services;
@@ -17,7 +16,12 @@ using Microsoft.AspNetCore.Rewrite;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Permettre la désérialisation des enums par leur nom (string)
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 
 // EF Core + MySQL (Pomelo) - avec support pour les tests
 var cs = builder.Configuration.GetConnectionString("BrokerX")
@@ -96,6 +100,10 @@ app.MapGet("/health", () => "Healthy")
 // API routing
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+// Configuration des routes par défaut
+app.MapFallbackToFile("index.html");
+
 app.MapControllers();
 
 // ===================================================================
