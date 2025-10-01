@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>arc42.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="brokerx---architecture-documentation-arc42">BrokerX - Architecture Documentation (arc42)</h1>
+<p><strong>Version</strong>: 1.0<br>
+<strong>Date</strong>: 28 septembre 2025<br>
+<strong>Équipe</strong>: Projet LOG-430<br>
+<strong>Status</strong>: Phase 1 - Développement</p>
+<hr>
+<h2 id="table-des-mati%C3%A8res">Table des matières</h2>
+<ol>
+<li><a href="#1-exigences-et-contraintes">Exigences et contraintes</a></li>
+<li><a href="#2-contraintes-darchitecture">Contraintes d'architecture</a></li>
+<li><a href="#3-port%C3%A9e-et-contexte-du-syst%C3%A8me">Portée et contexte du système</a></li>
+<li><a href="#4-strat%C3%A9gie-de-solution">Stratégie de solution</a></li>
+<li><a href="#5-vue-densemble-de-la-solution">Vue d'ensemble de la solution</a></li>
+<li><a href="#6-vue-dimpl%C3%A9mentation">Vue d'implémentation</a></li>
+<li><a href="#7-vue-de-d%C3%A9ploiement">Vue de déploiement</a></li>
+<li><a href="#8-concepts-transversaux">Concepts transversaux</a></li>
+</ol>
+<hr>
+<h2 id="1-exigences-et-contraintes">1. Exigences et contraintes</h2>
+<h3 id="11-fonctionnalit%C3%A9s-cl%C3%A9s">1.1 Fonctionnalités clés</h3>
+<p><strong>BrokerX</strong> est une plateforme de démonstration de trading sécurisé implémentant trois cas d'utilisation prioritaires :</p>
+<ul>
+<li><strong>UC-01 : Inscription</strong> avec activation OTP et vérification KYC</li>
+<li><strong>UC-02 : Authentification</strong> avec MFA (Multi-Factor Authentication) conditionnelle</li>
+<li><strong>UC-03 : Dépôt de fonds</strong> avec traitement asynchrone et idempotence</li>
+</ul>
+<h3 id="12-exigences-de-qualit%C3%A9">1.2 Exigences de qualité</h3>
+<table>
+<thead>
+<tr>
+<th>Qualité</th>
+<th>Exigence</th>
+<th>Justification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Testabilité</strong></td>
+<td>Domaine métier 100% testable sans infrastructure</td>
+<td>Architecture hexagonale avec mocks</td>
+</tr>
+<tr>
+<td><strong>Sécurité</strong></td>
+<td>MFA obligatoire, chiffrement OTP, JWT</td>
+<td>Conformité financière</td>
+</tr>
+<tr>
+<td><strong>Idempotence</strong></td>
+<td>Pas de double crédit/débit</td>
+<td>Intégrité des transactions</td>
+</tr>
+<tr>
+<td><strong>Évolutivité</strong></td>
+<td>Intégration facile systèmes externes</td>
+<td>Pattern Ports &amp; Adapters</td>
+</tr>
+<tr>
+<td><strong>Observabilité</strong></td>
+<td>Audit trail complet</td>
+<td>Conformité réglementaire</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-contraintes-techniques">1.3 Contraintes techniques</h3>
+<ul>
+<li><strong>Plateforme</strong> : .NET 9.0, C#</li>
+<li><strong>Base de données</strong> : EF Core InMemoryDatabase (développement), MySQL/PostgreSQL (production)</li>
+<li><strong>Conteneurisation</strong> : Docker + Docker Compose</li>
+<li><strong>Frontend</strong> : HTML5 + Bootstrap 5 + Vanilla JavaScript</li>
+<li><strong>Architecture</strong> : Hexagonale (Ports &amp; Adapters)</li>
+</ul>
+<hr>
+<h2 id="2-contraintes-darchitecture">2. Contraintes d'architecture</h2>
+<h3 id="21-contraintes-organisationnelles">2.1 Contraintes organisationnelles</h3>
+<ul>
+<li><strong>Équipe</strong> : 1 développeurs, cycles par phases de 4 semaines</li>
+<li><strong>Environnement</strong> : CI/CD avec tests automatisés</li>
+<li><strong>Documentation</strong> : ADR (Architecture Decision Records) obligatoires</li>
+</ul>
+<h3 id="22-contraintes-techniques">2.2 Contraintes techniques</h3>
+<table>
+<thead>
+<tr>
+<th>Contrainte</th>
+<th>Description</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Clean Architecture</strong></td>
+<td>Dépendances Domain ← Application ← Infrastructure</td>
+<td>Tests unitaires faciles</td>
+</tr>
+<tr>
+<td><strong>Pas de frameworks dans Domain</strong></td>
+<td>Aucune dépendance EF/HTTP dans le cœur métier</td>
+<td>Portabilité maximale</td>
+</tr>
+<tr>
+<td><strong>Repository Pattern</strong></td>
+<td>Abstraction de la persistance</td>
+<td>Testabilité et flexibilité</td>
+</tr>
+<tr>
+<td><strong>Immutabilité Ledger</strong></td>
+<td>Table EcritureLedger en append-only</td>
+<td>Audit trail inaltérable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-contraintes-de-d%C3%A9veloppement">2.3 Contraintes de développement</h3>
+<ul>
+<li><strong>Base de données</strong> : InMemoryDatabase pour développement rapide</li>
+<li><strong>Pas de migrations</strong> : EnsureCreated() pour simplicité</li>
+<li><strong>Configuration</strong> : Variables d'environnement Docker</li>
+<li><strong>Logs</strong> : Structured logging avec Serilog</li>
+</ul>
+<hr>
+<h2 id="3-port%C3%A9e-et-contexte-du-syst%C3%A8me">3. Portée et contexte du système</h2>
+<h3 id="31-contexte-m%C3%A9tier">3.1 Contexte métier</h3>
+<p>Le système BrokerX s'insère dans l'écosystème financier avec les acteurs externes suivants :</p>
+<p><img src="../../out/docs/views/contexte_metier/contexte_metier.png" alt="Contexte métier"></p>
+<p><strong>Acteurs externes</strong> :</p>
+<ul>
+<li><strong>Client</strong> : Utilisateur final créant compte et effectuant dépôts</li>
+<li><strong>Système KYC</strong> : Vérification d'identité (simulé)</li>
+<li><strong>Système de paiement</strong> : Traitement des transactions (simulé)</li>
+<li><strong>Système Email/SMS</strong> : Envoi OTP et notifications</li>
+</ul>
+<h3 id="32-cas-dutilisation-principaux">3.2 Cas d'utilisation principaux</h3>
+<p><img src="../../out/docs/views/use_case/use_case.png" alt="Cas d'utilisation"></p>
+<h3 id="33-interfaces-externes">3.3 Interfaces externes</h3>
+<table>
+<thead>
+<tr>
+<th>Interface</th>
+<th>Type</th>
+<th>Description</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Web API</strong></td>
+<td>REST</td>
+<td>Endpoints clients</td>
+<td>JSON/HTTP</td>
+</tr>
+<tr>
+<td><strong>Email OTP</strong></td>
+<td>SMTP</td>
+<td>Codes d'activation</td>
+<td>HTML Email</td>
+</tr>
+<tr>
+<td><strong>Payment Gateway</strong></td>
+<td>HTTP</td>
+<td>Dépôts/retraits</td>
+<td>JSON Webhook</td>
+</tr>
+<tr>
+<td><strong>Audit Log</strong></td>
+<td>File</td>
+<td>Journalisation</td>
+<td>Structured JSON</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="4-strat%C3%A9gie-de-solution">4. Stratégie de solution</h2>
+<h3 id="41-d%C3%A9cisions-darchitecture-cl%C3%A9s">4.1 Décisions d'architecture clés</h3>
+<p>La solution repose sur <strong>3 ADR (Architecture Decision Records)</strong> principales :</p>
+<h4 id="adr-001--architecture-hexagonale">ADR-001 : Architecture hexagonale</h4>
+<ul>
+<li><strong>Décision</strong> : Ports &amp; Adapters avec séparation Domain/Application/Infrastructure</li>
+<li><strong>Justification</strong> : Testabilité maximale, évolutivité vers microservices</li>
+<li><strong>Impact</strong> : Inversion de dépendances, interfaces multiples</li>
+</ul>
+<h4 id="adr-002--persistance-ef-core-inmemorydatabase">ADR-002 : Persistance EF Core InMemoryDatabase</h4>
+<ul>
+<li><strong>Décision</strong> : Repositories &quot;InMemory*&quot; utilisant EF Core sous le capot</li>
+<li><strong>Justification</strong> : Développement rapide, tests isolés, transition facile vers production</li>
+<li><strong>Impact</strong> : Pas de migrations, restart = perte données (acceptable en dev)</li>
+</ul>
+<h4 id="adr-003--gestion-derreurs-http-standard">ADR-003 : Gestion d'erreurs HTTP standard</h4>
+<ul>
+<li><strong>Décision</strong> : Codes HTTP (400/401/404/422) avec messages JSON</li>
+<li><strong>Justification</strong> : API prévisible, séparation domaine/présentation</li>
+<li><strong>Impact</strong> : Contrôleurs minces, mapping exception→HTTP</li>
+</ul>
+<h3 id="42-patterns-architecturaux">4.2 Patterns architecturaux</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Usage</th>
+<th>Avantage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hexagonal</strong></td>
+<td>Structure globale</td>
+<td>Testabilité, évolutivité</td>
+</tr>
+<tr>
+<td><strong>Repository</strong></td>
+<td>Accès données</td>
+<td>Abstraction persistance</td>
+</tr>
+<tr>
+<td><strong>Factory/Builder</strong></td>
+<td>Création entités</td>
+<td>Domaine encapsulé</td>
+</tr>
+<tr>
+<td><strong>Adapter</strong></td>
+<td>Intégrations externes</td>
+<td>Découplage systèmes</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="5-vue-densemble-de-la-solution">5. Vue d'ensemble de la solution</h2>
+<h3 id="51-vue-logique-41">5.1 Vue logique (4+1)</h3>
+<p><img src="../../out/docs/4+1/logique/logique.png" alt="Vue logique"></p>
+<p><strong>Domaines métier</strong> :</p>
+<ul>
+<li><strong>Identité</strong> : Client, ContactOtp, StatutClient</li>
+<li><strong>Sécurité</strong> : PolitiqueMFA, DefiMFA, Session</li>
+<li><strong>Portefeuille</strong> : Compte, Portefeuille, TransactionPaiement</li>
+<li><strong>Observabilité</strong> : AuditLog, EcritureLedger</li>
+</ul>
+<h3 id="52-vue-des-processus">5.2 Vue des processus</h3>
+<p><img src="../../out/docs/4+1/processus/processus.png" alt="Vue des processus"></p>
+<p><strong>Flux asynchrones</strong> :</p>
+<ol>
+<li><strong>MFA Challenge</strong> : Création défi → Email OTP → Validation</li>
+<li><strong>Payment Settlement</strong> : Pending → Processing → Settled</li>
+<li><strong>Audit Logging</strong> : Événement → Journal → Persistence</li>
+</ol>
+<h3 id="53-mod%C3%A8le-de-donn%C3%A9es-conceptuel">5.3 Modèle de données conceptuel</h3>
+<p><img src="../../out/docs/views/mdd/BrokerX_MDD_UC01_02_03.png" alt="Modèle de données"></p>
+<hr>
+<h2 id="6-vue-dimpl%C3%A9mentation">6. Vue d'implémentation</h2>
+<h3 id="61-structure-des-modules">6.1 Structure des modules</h3>
+<pre class="hljs"><code><div>src/
+├── Domain/                     # Cœur métier pur
+│   ├── Model/                 # Entités et agrégats
+│   ├── Ports.Inbound/         # Contrats use cases
+│   └── Ports.Outbound/        # Contrats infrastructure
+├── Application/               # Orchestration métier
+│   └── Services/              # Use cases concrets
+├── Infrastructure.Persistence/ # EF Core + Repositories
+├── Infrastructure.Adapters/   # Intégrations externes
+└── Infrastructure.Web/        # API REST + Frontend
+</div></code></pre>
+<h3 id="62-vue-de-d%C3%A9veloppement">6.2 Vue de développement</h3>
+<p><img src="../../out/docs/4+1/developpement/developpement.png" alt="Vue de développement"></p>
+<p><strong>Principes de développement</strong> :</p>
+<ul>
+<li><strong>Domain-first</strong> : Modèles métier avant infrastructure</li>
+<li><strong>Outside-in testing</strong> : Tests acceptation → tests unitaires</li>
+<li><strong>Contract-first</strong> : Interfaces avant implémentations</li>
+</ul>
+<h3 id="63-technologies-par-couche">6.3 Technologies par couche</h3>
+<table>
+<thead>
+<tr>
+<th>Couche</th>
+<th>Technologies</th>
+<th>Responsabilités</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Domain</strong></td>
+<td>C# pur, aucune dépendance</td>
+<td>Règles métier, entités</td>
+</tr>
+<tr>
+<td><strong>Application</strong></td>
+<td>C# + Domain</td>
+<td>Use cases, orchestration</td>
+</tr>
+<tr>
+<td><strong>Infrastructure</strong></td>
+<td>EF Core, BCrypt, JWT</td>
+<td>Persistance, intégrations</td>
+</tr>
+<tr>
+<td><strong>Web</strong></td>
+<td>ASP.NET Core, Bootstrap</td>
+<td>API REST, interface utilisateur</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="7-vue-de-d%C3%A9ploiement">7. Vue de déploiement</h2>
+<h3 id="71-architecture-de-d%C3%A9ploiement">7.1 Architecture de déploiement</h3>
+<p><img src="../../out/docs/4+1/deploiement/deploiement.png" alt="Architecture de déploiement"></p>
+<h3 id="72-environnements">7.2 Environnements</h3>
+<h4 id="d%C3%A9veloppement-local">Développement local</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># docker-compose.yml</span>
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">brokerx_app:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"5001:8080"</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">ASPNETCORE_ENVIRONMENT=Development</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./logs:/app/logs</span>
+</div></code></pre>
+<h4 id="production-future">Production (future)</h4>
+<ul>
+<li><strong>Kubernetes</strong> : Déploiement scalable</li>
+<li><strong>MySQL/PostgreSQL</strong> : Base de données persistante</li>
+<li><strong>Redis</strong> : Cache et sessions</li>
+<li><strong>Monitoring</strong> : Prometheus + Grafana</li>
+</ul>
+<h3 id="73-s%C3%A9curit%C3%A9-d%C3%A9ploiement">7.3 Sécurité déploiement</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Développement</th>
+<th>Production</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HTTPS</strong></td>
+<td>Non requis</td>
+<td>TLS 1.3 obligatoire</td>
+</tr>
+<tr>
+<td><strong>Secrets</strong></td>
+<td>Variables env</td>
+<td>Azure Key Vault</td>
+</tr>
+<tr>
+<td><strong>JWT</strong></td>
+<td>Clé statique</td>
+<td>Rotation automatique</td>
+</tr>
+<tr>
+<td><strong>Base de données</strong></td>
+<td>InMemory</td>
+<td>Chiffrement au repos</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8-concepts-transversaux">8. Concepts transversaux</h2>
+<h3 id="81-s%C3%A9curit%C3%A9">8.1 Sécurité</h3>
+<h4 id="authentification-et-autorisation">Authentification et autorisation</h4>
+<ul>
+<li><strong>JWT Tokens</strong> : SessionId + expiration encodés en Base64</li>
+<li><strong>MFA obligatoire</strong> : Email OTP avec BCrypt hashing</li>
+<li><strong>Session management</strong> : Persistance EF Core, validation centralisée</li>
+</ul>
+<h4 id="protection-des-donn%C3%A9es">Protection des données</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">// Exemple : OTP sécurisé avec salt</span>
+<span class="hljs-keyword">var</span> hashedOtp = BCrypt.Net.BCrypt.HashPassword(plainOtp, BCrypt.Net.BCrypt.GenerateSalt());
+</div></code></pre>
+<h3 id="82-gestion-derreurs">8.2 Gestion d'erreurs</h3>
+<h4 id="strat%C3%A9gie-unifi%C3%A9e">Stratégie unifiée</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">// Domain : Exceptions métier</span>
+<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException(<span class="hljs-string">"MFA policy not found"</span>);
+
+<span class="hljs-comment">// Controller : Mapping HTTP</span>
+<span class="hljs-keyword">catch</span> (InvalidOperationException ex) {
+    <span class="hljs-keyword">return</span> BadRequest(<span class="hljs-keyword">new</span> { error = ex.Message });
+}
+</div></code></pre>
+<h3 id="83-logging-et-observabilit%C3%A9">8.3 Logging et observabilité</h3>
+<h4 id="audit-trail">Audit trail</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">await</span> _audit.WriteAsync(
+    AuditLog.Ecrire(<span class="hljs-string">"AUTH_MFA_PASSED"</span>, <span class="hljs-string">"system"</span>, 
+        payload: <span class="hljs-keyword">new</span> { clientId, challengeId, sessionId }), ct);
+</div></code></pre>
+<h4 id="structured-logging">Structured logging</h4>
+<ul>
+<li><strong>ASP.NET Core</strong> : Requêtes HTTP, erreurs</li>
+<li><strong>Domain Events</strong> : Actions métier importantes</li>
+<li><strong>Performance</strong> : Temps de réponse, métriques</li>
+</ul>
+<h3 id="84-tests-et-qualit%C3%A9">8.4 Tests et qualité</h3>
+<h4 id="strat%C3%A9gie-de-test">Stratégie de test</h4>
+<pre class="hljs"><code><div>tests/
+├── Domain.Tests/              # Tests unitaires purs
+├── Application.Tests/         # Tests d'intégration use cases
+├── Infrastructure.Tests/      # Tests repositories/adapters
+└── E2E.Tests/                 # Tests bout en bout API
+</div></code></pre>
+<h4 id="couverture-cible">Couverture cible</h4>
+<ul>
+<li><strong>Domain</strong> : 100% - logique métier critique</li>
+<li><strong>Application</strong> : 95% - use cases principaux</li>
+<li><strong>Infrastructure</strong> : 80% - adapters et repositories</li>
+</ul>
+<h3 id="85-configuration-et-environnements">8.5 Configuration et environnements</h3>
+<h4 id="variables-denvironnement">Variables d'environnement</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">// appsettings.json</span>
+{
+  <span class="hljs-string">"ConnectionStrings"</span>: {
+    <span class="hljs-string">"DefaultConnection"</span>: <span class="hljs-string">"Server=localhost;Database=BrokerX"</span>
+  },
+  <span class="hljs-string">"Jwt"</span>: {
+    <span class="hljs-string">"SecretKey"</span>: <span class="hljs-string">"your-secret-key-min-256-bits"</span>,
+    <span class="hljs-string">"ExpirationHours"</span>: <span class="hljs-number">2</span>
+  },
+  <span class="hljs-string">"Email"</span>: {
+    <span class="hljs-string">"SmtpHost"</span>: <span class="hljs-string">"smtp.mailtrap.io"</span>,
+    <span class="hljs-string">"SmtpPort"</span>: <span class="hljs-number">587</span>
+  }
+}
+</div></code></pre>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>L'architecture BrokerX respecte les principes <strong>Clean Architecture</strong> avec une séparation claire des responsabilités. L'utilisation d'<strong>EF Core InMemoryDatabase</strong> permet un développement rapide tout en conservant une structure prête pour la production. Les <strong>ADR documentent les décisions</strong> importantes et les <strong>tests automatisés</strong> garantissent la qualité du code.</p>
+<h3 id="points-forts">Points forts</h3>
+<ul>
+<li>✅ <strong>Testabilité maximale</strong> avec architecture hexagonale</li>
+<li>✅ <strong>Sécurité robuste</strong> avec MFA et JWT</li>
+<li>✅ <strong>Développement rapide</strong> avec InMemoryDatabase</li>
+<li>✅ <strong>Documentation vivante</strong> avec ADR et diagrammes</li>
+</ul>
+<h3 id="%C3%A9volutions-futures">Évolutions futures</h3>
+<ul>
+<li>🔄 Migration vers base de données persistante (MySQL/PostgreSQL)</li>
+<li>🔄 Implémentation microservices avec événements</li>
+<li>🔄 Monitoring et observabilité avancés</li>
+<li>🔄 API versioning et gestion breaking changes</li>
+</ul>
+<hr>
+<p><em>Document généré automatiquement le 28 septembre 2025</em></p>
+
+</body>
+</html>
