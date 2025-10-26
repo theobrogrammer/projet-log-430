@@ -1,5 +1,5 @@
 @startuml
-title 4+1 - Vue Logique (domaine détaillé + ports d'application)
+title 4+1 - Vue Logique (domaine détaillé + ports d'application) — État actuel ✅ + Phase 2 ⏳
 
 hide stereotype
 skinparam class {
@@ -13,120 +13,241 @@ skinparam class {
 ' =======================
 ' Application (ports = contrats d'UC)
 ' =======================
-package "Application (ports)" {
-  interface ISignupUseCase <<APP>>
-  interface IAuthUseCase <<APP>>
-  interface IDepositUseCase <<APP>>
+package "Application (ports entrants)" {
+  interface "ISignupUseCase\n(UC-01 ✅)" as ISignupUseCase <<APP>>
+  interface "IAuthUseCase\n(UC-02 ✅)" as IAuthUseCase <<APP>>
+  interface "IDepositUseCase\n(UC-03 🔄)" as IDepositUseCase <<APP>>
+  
+  note right of IDepositUseCase
+    🔄 Manque idempotency-key
+    À implémenter: 
+    - Header Idempotency-Key
+    - Table IdempotencyKeys
+    - Constraint unique sur (accountId, key)
+  end note
 }
 
 ' =======================
-' Identite & Comptes
+' Identite & Comptes (Bounded Context)
 ' =======================
-package "Identite & Comptes" {
+package "Identite & Comptes (BC)" {
   class Client <<ID>> {
-    clientId: UUID
-    email: String
-    telephone: String
-    nomComplet: String
-    dateNaissance: Date
-    statut: String
-    createdAt: DateTime
+    +clientId: UUID
+    +email: String
+    +telephone: String
+    +nomComplet: String
+    +dateNaissance: Date
+    +statut: StatutClient
+    +createdAt: DateTime
+    +updatedAt: DateTime
+    --
+    +Creer(): Client
+    +DemarrerKycSiNecessaire()
+    +DemarrerOtpActivation(): VerifContactOTP
+    +ActiverSiAdmissible()
+    +OuvrirCompte(): Compte
   }
 
   class Compte <<ID>> {
-    accountId: UUID
-    accountNo: String
-    statut: String
-    createdAt: DateTime
+    +accountId: UUID
+    +clientId: UUID
+    +accountNo: String
+    +statut: StatutCompte
+    +createdAt: DateTime
+    --
+    +Ouvrir(): Compte
+    +Activer()
+    +Suspendre(raison: String)
   }
 
   class "DossierKYC" as DossierKYC <<ID>> {
-    kycId: UUID
-    niveau: String
-    statut: String
-    updatedAt: DateTime
+    +kycId: UUID
+    +clientId: UUID
+    +niveau: NiveauKYC
+    +statut: StatutKYC
+    +updatedAt: DateTime
+    --
+    +Soumettre()
+    +Approuver()
+    +Rejeter(raison: String)
   }
 
- class "VerifContactOTP" as VerifContactOTP <<ID>> {
-    otpId: UUID
-    canal: String
-    statut: String
-    expiresAt: DateTime
+  class "VerifContactOTP" as VerifContactOTP <<ID>> {
+    +otpId: UUID
+    +clientId: UUID
+    +canal: CanalOTP
+    +codeHash: String
+    +statut: StatutOTP
+    +expiresAt: DateTime
+    --
+    +Generer(ttl: TimeSpan): String
+    +Verifier(code: String): bool
+    +Expirer()
   }
+  
+  Client "1" --> "*" Compte : possède
+  Client "1" --> "0..1" DossierKYC : a
+  Client "1" --> "*" VerifContactOTP : génère
 }
 
 ' =======================
-' Securite (Auth/MFA)
+' Securite (Auth/MFA) (Bounded Context)
 ' =======================
-package "Securite (Auth/MFA)" {
+package "Securite (Auth/MFA) (BC)" {
   class Session <<SEC>> {
-    sessionId: UUID
-    tokenType: String
-    issuedAt: DateTime
-    expiresAt: DateTime
-    ip: String
-    device: String
+    +sessionId: UUID
+    +clientId: UUID
+    +tokenType: String
+    +tokenHash: String
+    +issuedAt: DateTime
+    +expiresAt: DateTime
+    +ip: String
+    +device: String
+    --
+    +Emettre(): String
+    +Valider(token: String): bool
+    +Revoquer()
   }
 
   class "PolitiqueMFA" as MFAPolicy <<SEC>> {
-    mfaId: UUID
-    type: String
-    estActive: Boolean
-    createdAt: DateTime
+    +mfaId: UUID
+    +clientId: UUID
+    +type: TypeMFA
+    +estActive: Boolean
+    +createdAt: DateTime
+    --
+    +Activer()
+    +Desactiver()
   }
 
   class "DefiMFA" as MFAChallenge <<SEC>> {
-    challengeId: UUID
-    type: String
-    statut: String
-    createdAt: DateTime
-    expiresAt: DateTime
+    +challengeId: UUID
+    +sessionId: UUID
+    +type: TypeMFA
+    +codeHash: String
+    +statut: StatutChallenge
+    +createdAt: DateTime
+    +expiresAt: DateTime
+    --
+    +Generer(ttl: TimeSpan): String
+    +Verifier(code: String): bool
   }
+  
+  Client "1" --> "*" Session : authentifié par
+  Client "1" --> "0..1" MFAPolicy : configure
+  Session "1" --> "0..1" MFAChallenge : nécessite
 }
 
 ' =======================
-' Portefeuille & Reglement
+' Portefeuille & Reglement (Bounded Context)
 ' =======================
-package "Portefeuille & Reglement" {
+package "Portefeuille & Reglement (BC)" {
   class Portefeuille <<PFR>> {
-    portfolioId: UUID
-    soldeMonnaie: Decimal
-    devise: String
-    updatedAt: DateTime
+    +portfolioId: UUID
+    +accountId: UUID
+    +soldeMonnaie: Decimal
+    +devise: String
+    +updatedAt: DateTime
+    --
+    +Crediter(montant: Decimal)
+    +Debiter(montant: Decimal)
+    +VerifierSoldeSuffisant(montant: Decimal): bool
   }
 
   class "TransactionPaiement" as PayTx <<PFR>> {
-    paymentTxId: UUID
-    amount: Decimal
-    currency: String
-    statut: String
-    idempotencyKey: String
-    createdAt: DateTime
-    settledAt: DateTime
+    +paymentTxId: UUID
+    +accountId: UUID
+    +amount: Decimal
+    +currency: String
+    +statut: StatutPaiement
+    +idempotencyKey: String ⚠️
+    +createdAt: DateTime
+    +settledAt: DateTime?
+    --
+    +Initier(key: String): PayTx
+    +Confirmer()
+    +Echouer(raison: String)
   }
+  
+  note right of PayTx
+    ⚠️ idempotencyKey doit avoir:
+    - Index unique (accountId, idempotencyKey)
+    - Validation non-null/non-vide
+    - Retry safe: même key → même résultat
+  end note
 
   class "EcritureLedger" as Ledger <<PFR>> {
-    ledgerEntryId: UUID
-    amount: Decimal
-    currency: String
-    kind: String
-    refType: String
-    refId: UUID
-    createdAt: DateTime
+    +ledgerEntryId: UUID
+    +accountId: UUID
+    +amount: Decimal
+    +currency: String
+    +kind: TypeEcriture
+    +refType: String
+    +refId: UUID
+    +createdAt: DateTime
+    --
+    +Enregistrer(): Ledger
+    {static} +EstAppendOnly(): bool
   }
+  
+  note right of Ledger
+    Ledger = Journal immuable (append-only)
+    Pas de UPDATE/DELETE
+    Audit trail complet
+  end note
+  
+  Compte "1" --> "1" Portefeuille : a
+  Compte "1" --> "*" PayTx : effectue
+  PayTx "1" --> "1..*" Ledger : génère
 }
 
 ' =======================
-' Observabilite & Audit
+' Observabilite & Audit (Bounded Context)
 ' =======================
-package "Observabilite & Audit" {
+package "Observabilite & Audit (BC)" {
   class AuditLog <<OBS>> {
-    auditId: UUID
-    eventType: String
-    actor: String
-    accountId: UUID
-    payloadJson: Text
-    createdAt: DateTime
+    +auditId: UUID
+    +eventType: String
+    +actor: String
+    +accountId: UUID
+    +resourceType: String
+    +resourceId: UUID
+    +payloadJson: Text
+    +createdAt: DateTime
+    --
+    +Enregistrer(): AuditLog
+    {static} +EstAppendOnly(): bool
+  }
+  
+  note left of AuditLog
+    Événements critiques à auditer:
+    - Création compte (UC-01)
+    - Authentification (UC-02)
+    - Dépôts/retraits (UC-03)
+    - Changement statut
+    - Actions admin
+  end note
+  
+  class "MetricsExporter\n(Phase 2 ⏳)" as Metrics <<OBS>> {
+    +ExporterPrometheus()
+    +Mesurer4GoldenSignals()
+    --
+    Latence: P50/P95/P99
+    Trafic: RPS par endpoint
+    Erreurs: % 4xx/5xx
+    Saturation: CPU/RAM/threads
+  }
+  
+  class "LogsStructures\n(Phase 2 ⏳)" as StructuredLogs <<OBS>> {
+    +LogJSON(level, message, context)
+    --
+    Format: JSON avec:
+    - timestamp
+    - traceId
+    - userId/accountId
+    - endpoint
+    - latency
+    - statusCode
   }
 }
 
@@ -137,16 +258,54 @@ ISignupUseCase --> Client
 ISignupUseCase --> Compte
 ISignupUseCase --> DossierKYC
 ISignupUseCase --> VerifContactOTP
+ISignupUseCase --> AuditLog
 
 IAuthUseCase --> Client
 IAuthUseCase --> MFAPolicy
 IAuthUseCase --> MFAChallenge
 IAuthUseCase --> Session
+IAuthUseCase --> AuditLog
 
 IDepositUseCase --> PayTx
 IDepositUseCase --> Portefeuille
 IDepositUseCase --> Ledger
 IDepositUseCase --> AuditLog
+
+' Observabilité utilisée par tous les UC
+ISignupUseCase ..> Metrics : expose
+IAuthUseCase ..> Metrics : expose
+IDepositUseCase ..> Metrics : expose
+
+ISignupUseCase ..> StructuredLogs : log
+IAuthUseCase ..> StructuredLogs : log
+IDepositUseCase ..> StructuredLogs : log
+
+legend right
+  **État d'implémentation**:
+    ✅ UC-01 (Inscription): Controller → Service → Domaine (Client/Compte/KYC/OTP)
+    ✅ UC-02 (Authentification): Controller → Service → Domaine (Session/MFA)
+    🔄 UC-03 (Dépôts): Partiel, manque idempotency-key + tests E2E
+    ⏳ Observabilité (Metrics/Logs structurés) — TODO #5
+  
+  **Bounded Contexts (DDD)**:
+    - Identité & Comptes: gestion clients/comptes
+    - Sécurité: auth/sessions/MFA
+    - Portefeuille: soldes/transactions/ledger
+    - Observabilité: audit/metrics/logs
+  
+  **Prochaines actions (TODO #3)**:
+    1. Ajouter propriété idempotencyKey à PayTx
+    2. Créer migration + index unique (accountId, idempotencyKey)
+    3. Implémenter logique idempotence dans WalletService
+    4. Tests E2E: retry avec même key → même résultat
+  
+  **Architecture Hexagonale**:
+    - Ports entrants (ISignupUseCase, etc.) = contrats Application
+    - Domaine = règles métier pures (Client, Compte, PayTx, etc.)
+    - Dépendances dirigées: UI → App → Domain ← Infra
+end legend
+
+@enduml
 
 ' =======================
 ' Associations de domaine

@@ -5601,35 +5601,36 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Theot\\.nuget\\packages\\": {}
+    "/home/theodor/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\tests\\E2E.Tests\\E2E.Tests.csproj",
+      "projectUniqueName": "/home/theodor/Documents/github/projet-log-430/tests/E2E.Tests/E2E.Tests.csproj",
       "projectName": "E2E.Tests",
-      "projectPath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\tests\\E2E.Tests\\E2E.Tests.csproj",
-      "packagesPath": "C:\\Users\\Theot\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\tests\\E2E.Tests\\obj\\",
+      "projectPath": "/home/theodor/Documents/github/projet-log-430/tests/E2E.Tests/E2E.Tests.csproj",
+      "packagesPath": "/home/theodor/.nuget/packages/",
+      "outputPath": "/home/theodor/Documents/github/projet-log-430/tests/E2E.Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Theot\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/theodor/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Persistence\\Infrastructure.Persistence.csproj": {
-              "projectPath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Persistence\\Infrastructure.Persistence.csproj"
+            "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Persistence/Infrastructure.Persistence.csproj": {
+              "projectPath": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Persistence/Infrastructure.Persistence.csproj"
             },
-            "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Web\\Infrastructure.Web.csproj": {
-              "projectPath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Web\\Infrastructure.Web.csproj"
+            "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/Infrastructure.Web.csproj": {
+              "projectPath": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/Infrastructure.Web.csproj"
             }
           }
         }
@@ -5644,7 +5645,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -5691,7 +5692,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

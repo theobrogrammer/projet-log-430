@@ -1,0 +1,238 @@
+@startuml
+title Architecture Hexagonale (Ports & Adapters) — Vue Component & Connector
+
+/'
+**NOTE IMPORTANTE**: Ce diagramme n'est PAS une vue 4+1 standard.
+C'est une vue **Component & Connector (C&C)** montrant le style architectural.
+
+Pour les vues 4+1 conformes à Kruchten, voir:
+- logique.puml (Vue Logique)
+- processus.puml (Vue Processus - runtime)
+- deploiement.puml (Vue Déploiement)
+- developpement.puml (Vue Développement)
+'/
+
+skinparam componentStyle rectangle
+
+actor Client
+actor "k6 Load Test" as k6
+
+' =======================
+'   ADAPTERS ENTRANTS (UI)
+' =======================
+package "Adapters entrants (Web) — État actuel ✅" {
+  component "SignupController\n(UC-01 ✅)" as SignupController
+  component "AuthController\n(UC-02 ✅)" as AuthController
+  component "WalletController\n(UC-03 🔄)" as WalletController
+  component "PaymentWebhookController" as PaymentWebhookController
+}
+
+' =======================
+'   PORTS ENTRANTS (APP)
+' =======================
+package "Ports entrants (Application)" {
+  interface ISignupUseCase
+  interface IAuthUseCase
+  interface IDepositUseCase
+  interface ISettlementCallbackUseCase
+}
+
+' =======================
+'   APPLICATION (SERVICES UC)
+' =======================
+package "Application (Use Cases)" {
+  component "SignupService\n(UC-01 impl ✅)" as SignupService
+  component "AuthService\n(UC-02 impl ✅)" as AuthService
+  component "WalletService\n(UC-03 partiel 🔄)" as WalletService
+}
+
+' Implémentations des ports entrants par les services
+SignupService -up-|> ISignupUseCase
+AuthService   -up-|> IAuthUseCase
+WalletService -up-|> IDepositUseCase
+WalletService -up-|> ISettlementCallbackUseCase
+
+' Les contrôleurs appellent les ports (inbound)
+Client --> SignupController : POST /api/v1/signup
+Client --> AuthController : POST /api/v1/login
+Client --> WalletController : POST /api/v1/deposits
+
+SignupController --> ISignupUseCase
+AuthController   --> IAuthUseCase
+WalletController --> IDepositUseCase
+
+' Webhook local (le simulateur paiement appellera ce contrôleur)
+PaymentWebhookController --> ISettlementCallbackUseCase
+
+' Tests de charge k6
+k6 --> SignupController : Load test scenarios
+k6 --> AuthController
+k6 --> WalletController
+
+' =======================
+'   DOMAINE (RÈGLES PURES)
+' =======================
+package "Domaine (entités/règles)" {
+  component "Client\nCompte\nDossierKYC\nVerifContactOTP" as IdentityEntities
+  component "Session\nPolitiqueMFA\nDefiMFA" as SecurityEntities
+  component "Portefeuille\nPayTx\nLedger" as WalletEntities
+  component "AuditLog" as AuditEntity
+}
+
+SignupService --> IdentityEntities
+AuthService   --> SecurityEntities
+WalletService --> WalletEntities
+
+' =======================
+'   PORTS SORTANTS (DÉPENDANCES)
+' =======================
+package "Ports sortants (interfaces)" {
+  interface IOtpPort
+  interface IKycPort
+  interface IPaymentPort
+  interface ISessionPort
+  interface IAuditPort
+  interface ILedgerPort
+  interface IClientRepository
+  interface IAccountRepository
+  interface IPortfolioRepository
+  interface IPayTxRepository
+}
+
+' Services -> ports sortants
+SignupService --> IOtpPort
+SignupService --> IKycPort
+SignupService --> IClientRepository
+SignupService --> IAccountRepository
+SignupService --> IAuditPort
+
+AuthService   --> ISessionPort
+AuthService   --> IClientRepository
+AuthService   --> IOtpPort
+AuthService   --> IAuditPort
+
+WalletService --> IPaymentPort
+WalletService --> IPayTxRepository
+WalletService --> IPortfolioRepository
+WalletService --> ILedgerPort
+WalletService --> IAuditPort
+
+' =======================
+'   ADAPTERS SORTANTS (INFRA)
+' =======================
+package "Adapters sortants (Infra locale)" {
+  component EmailSmsOtpAdapter
+  component KycAdapterSim
+  component PaymentAdapterSim
+  component JwtSessionAdapter
+  component StructuredAuditAdapter
+  component SqlLedgerAdapter
+  component EfClientRepository
+  component EfAccountRepository
+  component EfPortfolioRepository
+  component EfPayTxRepository
+}
+
+' Réalisations des ports sortants
+EmailSmsOtpAdapter     -down-|> IOtpPort
+KycAdapterSim          -down-|> IKycPort
+PaymentAdapterSim      -down-|> IPaymentPort
+JwtSessionAdapter      -down-|> ISessionPort
+StructuredAuditAdapter -down-|> IAuditPort
+SqlLedgerAdapter       -down-|> ILedgerPort
+EfClientRepository     -down-|> IClientRepository
+EfAccountRepository    -down-|> IAccountRepository
+EfPortfolioRepository  -down-|> IPortfolioRepository
+EfPayTxRepository      -down-|> IPayTxRepository
+
+' =======================
+'   SYSTÈMES LOCAUX SIMULÉS
+' =======================
+package "Simulateurs (réseau Docker local)" {
+  component "otp-sim" as OtpSim
+  component "kyc-sim" as KycSim
+  component "pay-sim" as PaySim
+}
+
+EmailSmsOtpAdapter --> OtpSim
+KycAdapterSim      --> KycSim
+PaymentAdapterSim  --> PaySim
+
+' Le simulateur de paiement appelle le webhook local de l'app
+PaySim --> PaymentWebhookController : POST /payment/webhook
+
+' =======================
+'   OBSERVABILITÉ (Phase 2 - À implémenter)
+' =======================
+package "Observabilité & Monitoring (TODO #5 ⏳)" {
+  component "Prometheus\n(métriques)" as Prometheus
+  component "Grafana\n(dashboards)" as Grafana
+  component "Logs structurés\n(JSON)" as Logs
+}
+
+SignupController --> Prometheus : Expose /metrics
+AuthController --> Prometheus : Expose /metrics
+WalletController --> Prometheus : Expose /metrics
+
+SignupService --> Logs : Log events (JSON)
+AuthService --> Logs : Log events (JSON)
+WalletService --> Logs : Log events (JSON)
+StructuredAuditAdapter --> Logs : Audit trail (append-only)
+
+Grafana --> Prometheus : Query 4 Golden Signals\n(Latence, Trafic, Erreurs, Saturation)
+
+' =======================
+'   CACHE (Phase 2 - À implémenter)
+' =======================
+package "Cache Layer (TODO #6 ⏳)" {
+  component "Redis Cache" as Redis
+}
+
+note right of Redis
+  Endpoints à cacher (Phase 2):
+  - GET /portfolios/{id}
+  - GET /market-data/*
+  - GET /reports/*
+  
+  TTL: 30s-5min selon endpoint
+  Invalidation: sur mutation
+end note
+
+' =======================
+'   LÉGENDE
+' =======================
+legend right
+  **Type de diagramme**: Component & Connector (C&C) — Style Architectural
+  
+  **Architecture Hexagonale (Ports & Adapters)**:
+    - **Ports entrants**: interfaces exposées par Application (ISignupUseCase, etc.)
+    - **Adapters entrants**: Controllers (Web) qui appellent les ports
+    - **Services Application**: orchestrent UC, appellent Domaine + ports sortants
+    - **Ports sortants**: interfaces de dépendances (repos, OTP, KYC, etc.)
+    - **Adapters sortants**: implémentations concrètes (EF repos, simulateurs)
+  
+  **Dépendances dirigées**: 
+    UI/Web → Application → Domaine ← Infra (implémente ports sortants)
+    
+  **État d'implémentation**:
+    ✅ UC-01 (Inscription): SignupController → SignupService → Domaine
+    ✅ UC-02 (Authentification): AuthController → AuthService → Domaine  
+    🔄 UC-03 (Dépôts): WalletController → WalletService (manque idempotency-key)
+    ⏳ Observabilité (Prometheus/Grafana/Logs structurés) — TODO #5
+    ⏳ Cache Redis — TODO #6
+    
+  **4 Golden Signals (Phase 2)**:
+    1. Latence: P50, P95, P99 (ms) par endpoint
+    2. Trafic: Requests/sec (RPS)
+    3. Erreurs: Taux 4xx, 5xx (%)
+    4. Saturation: CPU, RAM, threads, DB connections (%)
+  
+  **NFR Cibles Phase 1** (à mesurer avec k6):
+    - Latence P95 ≤ 500ms
+    - Throughput ≥ 300 req/s
+    - Disponibilité ≥ 90%
+    
+  **Ce diagramme complète les vues 4+1 mais n'en fait pas officiellement partie**
+end legend
+
+@enduml

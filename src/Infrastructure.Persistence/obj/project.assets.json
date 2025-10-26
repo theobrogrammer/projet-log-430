@@ -4823,32 +4823,33 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Theot\\.nuget\\packages\\": {}
+    "/home/theodor/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Persistence\\Infrastructure.Persistence.csproj",
+      "projectUniqueName": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Persistence/Infrastructure.Persistence.csproj",
       "projectName": "Infrastructure.Persistence",
-      "projectPath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Persistence\\Infrastructure.Persistence.csproj",
-      "packagesPath": "C:\\Users\\Theot\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Persistence\\obj\\",
+      "projectPath": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Persistence/Infrastructure.Persistence.csproj",
+      "packagesPath": "/home/theodor/.nuget/packages/",
+      "outputPath": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Persistence/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Theot\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/theodor/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Domain\\Domain.csproj"
+            "/home/theodor/Documents/github/projet-log-430/src/Domain/Domain.csproj": {
+              "projectPath": "/home/theodor/Documents/github/projet-log-430/src/Domain/Domain.csproj"
             }
           }
         }
@@ -4863,7 +4864,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -4908,7 +4909,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

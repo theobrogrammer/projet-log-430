@@ -1,173 +1,228 @@
-@startuml
-title 4+1 - Vue Processus (C&C) — Ports/Adapters entrants (local, sans cloud)
+@startuml processus
+title 4+1 - Vue Processus (Runtime: threads, concurrence, IPC) - Conforme Kruchten
+
+/'
+**Vue Processus (Process View)** selon Philippe Kruchten (1995):
+
+OBJECTIF: Montrer les aspects DYNAMIQUES du systeme a l'execution
+- Decomposition en processus OS (dotnet, nginx, redis, mysqld...)
+- Threads et pools de threads (ASP.NET ThreadPool, NGINX workers...)
+- Mecanismes de concurrence (async/await, locks, queues)
+- Communication inter-processus (IPC): TCP, HTTP, webhooks
+- Synchronisation et ordonnancement
+
+AUDIENCE: Integrateurs systeme, DevOps, architectes performance
+
+IMPORTANT: 
+- Cette vue montre le RUNTIME (processus + threads), pas l'architecture statique
+- Complementaire a: Vue Logique (classes), Vue Deploiement (noeuds physiques)
+- Etat initial = Monolith (UC-01/02 implementes)
+- Etape 2a = Load Balancing + Cache + Observabilite (Phase 2 enonce)
+- Etape 2b = Gateway + Microservices (Phase 2 enonce)
+'/
+
 skinparam componentStyle rectangle
 
-actor Client
-
 ' =======================
-'   ADAPTERS ENTRANTS (UI)
+' ETAT INITIAL: Monolith (avant Phase 2)
 ' =======================
-package "Adapters entrants (Web)" {
-  component SignupController
-  component AuthController
-  component WalletController
-  component PaymentWebhookController
+package "Etat initial: Monolith - UC-01/02 implementes" {
+  
+  component "Processus 1: dotnet\n(BrokerX API)" as dotnet_proc {
+    queue "ASP.NET ThreadPool\n(100-200 workers)" as threadpool
+    agent "Request Thread 1" as t1
+    agent "Request Thread 2" as t2
+    agent "Request Thread N" as tN
+    agent "Webhook Thread" as webhook_t
+    
+    threadpool ..> t1 : dispatch
+    threadpool ..> t2 : dispatch
+    threadpool ..> tN : dispatch
+    threadpool ..> webhook_t : dispatch
+  }
+  
+  database "Processus 2: mysqld\n(MySQL Server)" as mysql_proc {
+    storage "Connection Pool\n(max 100)" as mysql_pool
+  }
+  
+  component "Processus 3: otp-sim" as otp_sim
+  component "Processus 4: kyc-sim" as kyc_sim
+  component "Processus 5: pay-sim" as pay_sim
+  
+  ' IPC: HTTP appels synchrones/asynchrones
+  t1 -[#1976D2]-> otp_sim : IPC: HTTP POST\n/otp/send (async)
+  t2 -[#1976D2]-> kyc_sim : IPC: HTTP POST\n/kyc/verify (sync)
+  tN -[#1976D2]-> pay_sim : IPC: HTTP POST\n/payment/deposit (async)
+  
+  ' IPC: Webhook callback asynchrone
+  pay_sim .[#FF6F00].> webhook_t : IPC: HTTP POST\n/payment/webhook\n(callback async)
+  
+  ' IPC: TCP vers base de donnees
+  threadpool -[#C62828]-> mysql_pool : IPC: TCP :3306\n(concurrent)
+  
+  note right of dotnet_proc
+    Concurrence ASP.NET:
+    - ThreadPool TPL (Task-based)
+    - Async/await (non-blocking I/O)
+    - PAS de locks applicatifs
+    - Idempotency: unique constraint DB
+  end note
+  
+  note bottom of mysql_proc
+    MySQL concurrence:
+    - Connection pool (max 100)
+    - InnoDB row-level locking
+    - MVCC (Multi-Version Concurrency)
+  end note
 }
 
 ' =======================
-'   PORTS ENTRANTS (APP)
+' ETAPE 2a: Load Balancing + Cache + Observabilite (Phase 2)
 ' =======================
-package "Ports entrants (Application)" {
-  interface ISignupUseCase
-  interface IAuthUseCase
-  interface IDepositUseCase
-  interface ISettlementCallbackUseCase
+package "Etape 2a: NGINX LB + Redis Cache + Observabilite (Phase 2 enonce)" {
+  
+  component "Processus: nginx\n(Load Balancer)" as nginx_proc {
+    agent "Master Process" as nginx_master
+    queue "4 Worker Processes" as nginx_workers
+    nginx_master ..> nginx_workers : fork/manage
+  }
+  
+  component "Processus: dotnet app-1" as app1 {
+    queue "ThreadPool 1" as tp1
+  }
+  
+  component "Processus: dotnet app-2" as app2 {
+    queue "ThreadPool 2" as tp2
+  }
+  
+  component "Processus: dotnet app-3" as app3 {
+    queue "ThreadPool 3" as tp3
+  }
+  
+  database "Processus: mysqld" as mysql2 {
+    storage "Connection Pool" as mysql2_pool
+  }
+  
+  component "Processus: redis-server\n(Cache)" as redis_proc {
+    agent "Event Loop\n(single-threaded)" as redis_loop
+  }
+  
+  component "Processus: prometheus\n(Metriques)" as prom_proc
+  component "Processus: grafana-server\n(Dashboards)" as grafana_proc
+  
+  ' IPC: Load balancing round-robin
+  nginx_workers -[#1976D2]-> app1 : IPC: TCP :8080\n(round-robin)
+  nginx_workers -[#1976D2]-> app2 : IPC: TCP :8080
+  nginx_workers -[#1976D2]-> app3 : IPC: TCP :8080
+  
+  ' IPC: Cache concurrent (GET/SET)
+  tp1 -[#F57C00]-> redis_loop : IPC: TCP :6379\nGET/SET (concurrent)
+  tp2 -[#F57C00]-> redis_loop
+  tp3 -[#F57C00]-> redis_loop
+  
+  ' IPC: Base de donnees
+  tp1 -[#C62828]-> mysql2_pool : IPC: TCP :3306
+  tp2 -[#C62828]-> mysql2_pool
+  tp3 -[#C62828]-> mysql2_pool
+  
+  ' IPC: Metriques (polling 15s)
+  prom_proc .[#388E3C].> app1 : IPC: HTTP GET\n/metrics (poll 15s)
+  prom_proc .[#388E3C].> app2
+  prom_proc .[#388E3C].> app3
+  
+  ' IPC: Dashboards (PromQL queries)
+  grafana_proc -[#7B1FA2]-> prom_proc : IPC: HTTP\n(PromQL queries)
+  
+  note right of nginx_proc
+    NGINX concurrence:
+    - Event-driven (epoll/kqueue)
+    - 1 master + 4 workers
+    - Chaque worker: 1000+ connexions
+    - Algo: least_conn
+  end note
+  
+  note bottom of redis_proc
+    Redis concurrence:
+    - Single-threaded (pas de locks!)
+    - Event loop (epoll)
+    - 50 000+ ops/sec sur 1 thread
+    - Cache-aside pattern
+    - TTL: 1-5 min
+  end note
 }
 
 ' =======================
-'   APPLICATION (SERVICES UC)
+' ETAPE 2b: Gateway + Microservices (Phase 2)
 ' =======================
-package "Application (Use Cases)" {
-  component SignupService
-  component AuthService
-  component WalletService
+package "Etape 2b: KrakenD Gateway + Microservices (Phase 2 enonce)" {
+  
+  component "Processus: krakend\n(API Gateway)" as krakend_proc {
+    queue "Goroutines Pool\n(Go runtime)" as krakend_pool
+  }
+  
+  component "Processus: orders-svc\n(Service Ordres)" as orders_proc
+  component "Processus: portfolio-svc\n(Service Portefeuille)" as portfolio_proc
+  component "Processus: reporting-svc\n(Service Rapports)" as reporting_proc
+  component "Processus: auth-svc\n(Service Auth)" as auth_proc
+  
+  database "Processus: mysqld\n(orders DB)" as db_orders
+  database "Processus: mysqld\n(portfolio DB)" as db_portfolio
+  
+  ' IPC: Gateway routing (HTTP)
+  krakend_pool -[#1976D2]-> orders_proc : IPC: HTTP\n/api/v1/orders/*
+  krakend_pool -[#1976D2]-> portfolio_proc : IPC: HTTP\n/api/v1/portfolios/*
+  krakend_pool -[#1976D2]-> reporting_proc : IPC: HTTP\n/api/v1/reports/*
+  krakend_pool -[#1976D2]-> auth_proc : IPC: HTTP\n/api/v1/auth/*
+  
+  ' IPC: DB par service (isolation)
+  orders_proc -[#C62828]-> db_orders : IPC: TCP :3306
+  portfolio_proc -[#C62828]-> db_portfolio : IPC: TCP :3306
+  
+  note right of krakend_proc
+    KrakenD concurrence:
+    - Goroutines = threads legers Go
+    - 1000+ goroutines concurrentes
+    - Circuit breaker par backend
+    - Rate limiting: 100 req/s/endpoint
+    - Aggregation de reponses
+  end note
+  
+  note bottom of orders_proc
+    Microservices:
+    - Processus independants
+    - DB dediee (isolation)
+    - Scalable horizontalement
+    - Communication via Gateway
+  end note
 }
 
-' Implémentations des ports entrants par les services
-SignupService -up-|> ISignupUseCase
-AuthService   -up-|> IAuthUseCase
-WalletService -up-|> IDepositUseCase
-WalletService -up-|> ISettlementCallbackUseCase
-
-' Les contrôleurs appellent les ports (inbound)
-Client --> SignupController
-Client --> AuthController
-Client --> WalletController
-
-SignupController --> ISignupUseCase
-AuthController   --> IAuthUseCase
-WalletController --> IDepositUseCase
-
-' Webhook local (le simulateur paiement appellera ce contrôleur)
-PaymentWebhookController --> ISettlementCallbackUseCase
-
 ' =======================
-'   DOMAINE (RÈGLES PURES)
+' LEGENDE
 ' =======================
-package "Domaine (entités/règles)" {
-  component "Entities & Policies"
-}
-SignupService --> "Entities & Policies"
-AuthService   --> "Entities & Policies"
-WalletService --> "Entities & Policies"
-
-' =======================
-'   PORTS SORTANTS (DÉPENDANCES)
-' =======================
-package "Ports sortants (interfaces)" {
-  interface IOtpPort
-  interface IKycPort
-  interface IPaymentPort
-  interface ISessionPort
-  interface IAuditPort
-  interface ILedgerPort
-  interface IClientRepository
-  interface IAccountRepository
-  interface IPortfolioRepository
-  interface IPayTxRepository
-}
-
-' Services -> ports sortants
-SignupService --> IOtpPort
-SignupService --> IKycPort
-SignupService --> IClientRepository
-SignupService --> IAccountRepository
-SignupService --> IAuditPort
-
-AuthService   --> ISessionPort
-AuthService   --> IClientRepository
-AuthService   --> IOtpPort
-AuthService   --> IAuditPort
-
-WalletService --> IPaymentPort
-WalletService --> IPayTxRepository
-WalletService --> IPortfolioRepository
-WalletService --> ILedgerPort
-WalletService --> IAuditPort
-
-' =======================
-'   ADAPTERS SORTANTS (INFRA)
-' =======================
-package "Adapters sortants (Infra locale)" {
-  component EmailSmsOtpAdapter
-  component KycAdapterSim
-  component PaymentAdapterSim
-  component JwtSessionAdapter
-  component StructuredAuditAdapter
-  component SqlLedgerAdapter
-  component EfClientRepository
-  component EfAccountRepository
-  component EfPortfolioRepository
-  component EfPayTxRepository
-}
-
-' Réalisations des ports sortants
-EmailSmsOtpAdapter     -down-|> IOtpPort
-KycAdapterSim          -down-|> IKycPort
-PaymentAdapterSim      -down-|> IPaymentPort
-JwtSessionAdapter      -down-|> ISessionPort
-StructuredAuditAdapter -down-|> IAuditPort
-SqlLedgerAdapter       -down-|> ILedgerPort
-EfClientRepository     -down-|> IClientRepository
-EfAccountRepository    -down-|> IAccountRepository
-EfPortfolioRepository  -down-|> IPortfolioRepository
-EfPayTxRepository      -down-|> IPayTxRepository
-
-' =======================
-'   SYSTÈMES LOCAUX SIMULÉS
-' =======================
-package "Simulateurs (réseau Docker local)" {
-  component "otp-sim" as OtpSim
-  component "kyc-sim" as KycSim
-  component "pay-sim" as PaySim
-}
-
-EmailSmsOtpAdapter --> OtpSim
-KycAdapterSim      --> KycSim
-PaymentAdapterSim  --> PaySim
-
-' Le simulateur de paiement appelle le webhook local de l'app
-PaySim --> PaymentWebhookController : POST /payment/webhook
-
-' =======================
-'   LÉGENDE
-' =======================
-legend right
-  **Type de diagramme** : Composants & Connecteurs (C&C)
-
-  **Couches et sens des deps** (vers l'interieur) :
-    UI/Infra entrants  ->  Application  ->  Domaine
-    Application  ->  Ports sortants (interfaces)  ->  Adapters sortants
-
-  **Ports entrants** :
-    Interfaces exposees par l'Application (ex. ISignupUseCase).
-    Les controllers (adapters entrants) APPELLENT ces interfaces.
-
-  **Services d'application** :
-    Implémentent les ports entrants (triangle blanc -|> = realisation).
-    Orchestrent les UC et appellent le Domaine + ports sortants.
-
-  **Ports sortants** :
-    Interfaces definies par l'Application pour ses dependances
-    (OTP, KYC, Paiement, Repositories, Session, Audit, Ledger).
-
-  **Adapters sortants** :
-    Implémentent les ports sortants (triangle blanc -|>).
-    Parlent aux simulateurs locaux (otp-sim, kyc-sim, pay-sim).
-
-  **Types de fleches** :
-    A --> B  : appel / dependance a l'execution
-    A -|> I  : A implemente l'interface I (realisation, triangle blanc)
+legend bottom
+  **Legende IPC (Inter-Process Communication)**:
+  - Bleu (#1976D2): HTTP/TCP requests (sync/async)
+  - Orange (#F57C00): Redis cache (GET/SET concurrent)
+  - Rouge (#C62828): MySQL DB (connection pool)
+  - Vert (#388E3C): Prometheus metrics (polling)
+  - Violet (#7B1FA2): Grafana queries (PromQL)
+  
+  **Mecanismes de concurrence**:
+  - ThreadPool: workers TPL .NET (Task Parallel Library)
+  - Event Loop: single-threaded (Redis, NGINX event-driven)
+  - Goroutines: lightweight threads Go (KrakenD)
+  - Async/await: non-blocking I/O (.NET)
+  
+  **Progression Phase 2**:
+  - Etat initial: Monolith (UC-01/02 implementes)
+  - Etape 2a: Load Balancing + Cache + Observabilite
+  - Etape 2b: Gateway + Microservices
+  
+  **Coherence avec autres vues 4+1**:
+  - Vue Logique (logique.puml): classes et interfaces metier
+  - Vue Deploiement (deploiement.puml): noeuds physiques et conteneurs
+  - Vue Developpement (developpement.puml): projets .NET et dependances
+  - Vue Scenarios (scenarios/*.puml): flux UC-01, UC-02, UC-03
 end legend
 
 @enduml

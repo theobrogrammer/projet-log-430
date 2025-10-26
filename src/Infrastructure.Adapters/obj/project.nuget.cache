@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "WxAfx603Tps=",
+  "dgSpecHash": "0JIW2EfjYAI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Theot\\Documents\\GitHub\\projet-log-430\\src\\Infrastructure.Adapters\\Infrastructure.Adapters.csproj",
+  "projectFilePath": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Adapters/Infrastructure.Adapters.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Theot\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+    "/home/theodor/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512"
   ],
   "logs": []
 }

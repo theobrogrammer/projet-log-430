@@ -1,26 +1,186 @@
 @startuml
-title Vue Déploiement — BrokerX Monolith (Phase 1)
+title Vue Déploiement — BrokerX (État initial: Monolith → Étape 2a: LB/Cache → Étape 2b: Gateway/Microservices)
 
-node "VM de démo" {
-  node "Docker" {
-    node "container: BrokerX Monolith (.NET 8)" as app {
-      component "REST API" as api
-      component "Webhook Paiement" as webhook
+/' 
+NOTE IMPORTANTE: 
+- **État initial** = Monolith REST avec UC-01/02 implémentés (avant Phase 2)
+- **Étape 2a + 2b** = Phase 2 du projet (Observabilité + LB + Cache + Gateway + Microservices)
+- **Phase 2** = Correction actuelle (énoncé fourni par le professeur)
+- **Phase 3** = Prochaine correction (après livraison Phase 2)
+- Les 2 étapes de Phase 2 sont séparées visuellement pour faciliter l'implémentation progressive
+
+Énoncé Phase 2 : "Industrialisation de l'observabilité et de la performance (tests de charge, 
+load balancing, caching) + évolution vers architecture microservices orchestrée par API Gateway"
+'/
+
+' =======================
+' ÉTAT INITIAL: Monolith simple (Avant Phase 2)
+' =======================
+package "État initial: Monolith (Avant Phase 2 - UC-01/02 ✅)" {
+  node "VM de démo / Docker Compose" as phase1 {
+    node "container: BrokerX API\n(.NET 9)" as app1 {
+      component "REST API v1" as api1
+      component "Signup (UC-01)" as signup1
+      component "Auth (UC-02)" as auth1
+      component "Deposits (UC-03)" as deposit1
     }
-    database "MySQL" as db
-    ' (option) simulateurs locaux pour éviter Internet :
-    node "container: otp-sim" as otp
-    node "container: kyc-sim" as kyc
-    node "container: pay-sim" as pay
+    database "MySQL\n(port 3306)" as db1
+    
+    node "Simulateurs locaux" {
+      component "otp-sim" as otp1
+      component "kyc-sim" as kyc1
+      component "pay-sim" as pay1
+    }
   }
 }
 
-' Liaisons internes VM
-api --> db : EF Core (5432)
-webhook --> api : dispatch interne
+' =======================
+' ÉTAPE 2a: LB + Cache + Observabilité (Phase 2 du projet - partie 1)
+' =======================
+package "Étape 2a: Load Balancing & Observabilité (Phase 2 énoncé - À implémenter)" {
+  node "Docker Compose étendu" as phase2 {
+    node "NGINX\n(Load Balancer)" as nginx {
+      component "Reverse Proxy" as proxy
+      component "Round-robin LB" as lb
+    }
+    
+    node "BrokerX API × N instances" {
+      node "app-1" as app2_1
+      node "app-2" as app2_2
+      node "app-3" as app2_3
+    }
+    
+    node "Redis\n(Cache)" as redis {
+      component "Cache pour:\n- /portfolio\n- /market-data\n- /reports" as cache
+    }
+    
+    node "Observabilité" {
+      component "Prometheus\n(Metrics)" as prom
+      component "Grafana\n(Dashboards)" as grafana
+      component "k6\n(Load Tests)" as k6_tool
+    }
+    
+    database "MySQL" as db2
+  }
+}
 
-' Appels sortants (local sim ou services réels)
-api --> otp : HTTP (OTP simulé)
-api --> kyc : HTTP (KYC simulé)
-api --> pay : HTTP (Paiement simulé)
+' =======================
+' ÉTAPE 2b: API Gateway + Microservices (Phase 2 du projet - partie 2)
+' =======================
+package "Étape 2b: API Gateway & Microservices (Phase 2 énoncé - À implémenter)" {
+  node "Architecture distribuée" as phase3 {
+    node "KrakenD\n(API Gateway)" as krakend {
+      component "Routage" as route
+      component "Auth/CORS" as gw_auth
+      component "Rate Limiting" as throttle
+    }
+    
+    node "Microservices" {
+      component "Orders Service" as orders_svc
+      component "Portfolio Service" as portfolio_svc
+      component "Reporting Service" as report_svc
+      component "Auth Service" as auth_svc
+    }
+    
+    node "NGINX\n(per-service LB)" as nginx3
+    
+    database "MySQL Orders" as db_orders
+    database "MySQL Portfolio" as db_portfolio
+    database "MySQL Auth" as db_auth
+    
+    node "Redis Cluster" as redis3
+    node "Prometheus" as prom3
+    node "Grafana" as grafana3
+  }
+}
+
+' =======================
+' Connexions Phase 1
+' =======================
+api1 --> db1 : EF Core
+api1 --> otp1 : HTTP
+api1 --> kyc1 : HTTP
+api1 --> pay1 : HTTP
+
+' =======================
+' Connexions Phase 2
+' =======================
+nginx --> app2_1 : HTTP/1.1
+nginx --> app2_2 : HTTP/1.1
+nginx --> app2_3 : HTTP/1.1
+
+app2_1 --> db2 : EF Core
+app2_2 --> db2 : EF Core
+app2_3 --> db2 : EF Core
+
+app2_1 --> redis : GET/SET
+app2_2 --> redis : GET/SET
+app2_3 --> redis : GET/SET
+
+app2_1 --> prom : /metrics endpoint
+app2_2 --> prom : /metrics endpoint
+app2_3 --> prom : /metrics endpoint
+
+grafana --> prom : Query metrics
+k6_tool --> nginx : HTTP load tests
+
+' =======================
+' Connexions Étape 2b
+' =======================
+krakend --> orders_svc : /api/v1/orders/*
+krakend --> portfolio_svc : /api/v1/portfolios/*
+krakend --> report_svc : /api/v1/reports/*
+krakend --> auth_svc : /api/v1/auth/*
+
+nginx3 --> orders_svc : LB
+nginx3 --> portfolio_svc : LB
+nginx3 --> report_svc : LB
+
+orders_svc --> db_orders
+portfolio_svc --> db_portfolio
+auth_svc --> db_auth
+
+orders_svc --> redis3 : Cache
+portfolio_svc --> redis3 : Cache
+
+orders_svc --> prom3 : Metrics
+portfolio_svc --> prom3 : Metrics
+report_svc --> prom3 : Metrics
+
+grafana3 --> prom3 : Query
+
+legend right
+  **État d'implémentation**
+  
+  **État initial (Monolith - Avant Phase 2)**: 
+    ✅ UC-01 (Inscription) et UC-02 (Auth) implémentés
+    🔄 UC-03 (Deposits) en cours (manque idempotency-key - traité EN DERNIER)
+  
+  **Étape 2a (Observabilité + LB/Cache)**: ⏳ À implémenter (TODO #5-6)
+    - NGINX load balancer (round-robin)
+    - Redis cache (portfolios, market-data, reports)
+    - Prometheus + Grafana (4 Golden Signals)
+    - Tests k6 (baseline + scaling 1→4 instances)
+  
+  **Étape 2b (Gateway + Microservices)**: ⏳ À implémenter (TODO #7-8)
+    - KrakenD API Gateway (routage + auth + rate limiting)
+    - Découpage microservices (Orders, Portfolio, Reporting, Auth)
+    - Comparatifs A/B (direct vs gateway)
+  
+  **NOTE CRITIQUE**: 
+  **Étapes 2a + 2b = Phase 2 du projet (correction actuelle)**
+  Phase 3 = prochaine correction (après livraison Phase 2)
+  
+  **Objectifs NFR (cahier de charge Phase 2)**
+  État initial (baseline): Latence P95 ≤500ms, Throughput ≥300 req/s, Dispo 90%
+  Étape 2a (LB/Cache): Latence P95 ≤250ms, Throughput ≥800 req/s, Dispo 95.5%
+  Étape 2b (Gateway/µSvc): Latence P95 ≤100ms, Throughput ≥1200 req/s, Dispo 99.9%
+  
+  **Ordre d'implémentation recommandé**:
+  1. Étape 2a : Observabilité + LB + Cache (items 7-35)
+  2. Étape 2b : Gateway + Microservices (items 36-49)
+  3. UC-03 Idempotency : Dépôts idempotents (items 1-8) **EN DERNIER**
+  4. CI/CD + Documentation + Livraison (items 50-65)
+end legend
+
 @enduml
