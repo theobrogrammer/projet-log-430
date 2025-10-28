@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "3C8m7p7mBJ0=",
+  "dgSpecHash": "JlnXfkbN+HA=",
   "success": true,
   "projectFilePath": "/home/theodor/Documents/github/projet-log-430/src/Application/Application.csproj",
   "expectedPackageFiles": [
-    "/home/theodor/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512"
+    "/home/theodor/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
+    "/home/theodor/.nuget/packages/serilog/4.3.0/serilog.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }

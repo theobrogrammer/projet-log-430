@@ -6,6 +6,7 @@ using ProjetLog430.Domain.Model.PortefeuilleReglement;
 using ProjetLog430.Domain.Model.Securite;
 using ProjetLog430.Domain.Ports.Outbound;
 using ProjetLog430.Domain.Model.Observabilite;
+using Serilog;
 
 namespace ProjetLog430.Application.Services;
 
@@ -45,6 +46,8 @@ public sealed class SignupService : ISignupUseCase
         DateOnly? birthDate,
         CancellationToken ct = default)
     {
+        Log.Information("UC01_SIGNUP_START - Début inscription pour {Email}", email);
+
         // 1) Créer le client (Pending), dossier KYC & OTP de contact
         var passwordHash = Client.HashPassword(password);
         var client = Client.Creer(email, phone, fullName, passwordHash, birthDate);
@@ -84,6 +87,9 @@ public sealed class SignupService : ISignupUseCase
             AuditLog.Ecrire("CLIENT_SIGNUP", $"user:{email}",
                 payload: new { clientId = client.ClientId, accountId = compte.AccountId }), ct);
 
+        Log.Information("UC01_SIGNUP_SUCCESS - Inscription réussie: {ClientId} {AccountId} {Email}", 
+            client.ClientId, compte.AccountId, email);
+
         return new SignupResult(client.ClientId, compte.AccountId, client.Statut.ToString());
     }
 
@@ -104,6 +110,8 @@ public sealed class SignupService : ISignupUseCase
 
     public async Task<OtpVerificationResult> VerifyContactOtpAsync(Guid clientId, string code, CancellationToken ct = default)
     {
+        Log.Information("UC01_OTP_VERIFY_START - Vérification OTP pour {ClientId}", clientId);
+
         try
         {
             var client = await _clients.GetByIdAsync(clientId, ct) ?? 
@@ -112,7 +120,11 @@ public sealed class SignupService : ISignupUseCase
             // Vérifier le code OTP avec le domaine
             var isValid = client.VerifyContactOtp(code);
             if (!isValid)
+            {
+                Log.Warning("UC01_OTP_VERIFY_FAILED - Code invalide pour {ClientId} {Email}", 
+                    clientId, client.Email);
                 return OtpVerificationResult.Failed("Code OTP invalide ou expiré.");
+            }
 
             // Sauvegarder les changements (statut OTP + potentiellement statut Client)
             await _clients.UpdateAsync(client, ct);
@@ -122,10 +134,15 @@ public sealed class SignupService : ISignupUseCase
                 AuditLog.Ecrire("CONTACT_OTP_VERIFIED", $"user:{client.Email}",
                     payload: new { clientId, newStatus = client.Statut.ToString() }), ct);
 
+            Log.Information("UC01_OTP_VERIFY_SUCCESS - OTP validé: {ClientId} {Email} {NewStatus}", 
+                clientId, client.Email, client.Statut);
+
             return OtpVerificationResult.Succeed(client.Statut.ToString());
         }
         catch (Exception ex)
         {
+            Log.Error(ex, "UC01_OTP_VERIFY_ERROR - Erreur lors de la vérification OTP {ClientId}", clientId);
+
             await _audit.WriteAsync(
                 AuditLog.Ecrire("CONTACT_OTP_VERIFICATION_FAILED", $"client:{clientId}",
                     payload: new { clientId, error = ex.Message }), ct);

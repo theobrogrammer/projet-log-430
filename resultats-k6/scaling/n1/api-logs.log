@@ -1,0 +1,6 @@
+time="2025-10-28T03:01:42-04:00" level=warning msg="/home/theodor/Documents/github/projet-log-430/docker-compose.override.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+07:01:41 | 🚀 BrokerX API démarrage...
+07:01:42 | ✅ Base de données vérifiée/créée avec succès
+07:01:42 | 📋 Tables configurées dans EF: {Tables}
+07:01:42 | Overriding HTTP_PORTS '{http}' and HTTPS_PORTS '{https}'. Binding to values defined by URLS instead '{urls}'.
+07:03:06 | 🛑 BrokerX API arrêt

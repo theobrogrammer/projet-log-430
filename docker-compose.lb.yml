@@ -1,0 +1,102 @@
+services:
+  # ===================================================================
+  # NGINX Load Balancer - Phase 2 Étape 2a
+  # ===================================================================
+  nginx:
+    container_name: brokerx-nginx
+    image: nginx:alpine
+    ports:
+      - "8090:80"             # Port 8090 (80=Apache, 8080=KrakenD Phase 2b)
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
+    networks:
+      - brokerx-network
+    depends_on:
+      - brokerx-api-1
+      - brokerx-api-2
+      - brokerx-api-3
+      - brokerx-api-4
+
+  # ===================================================================
+  # API BrokerX - 4 instances pour load balancing
+  # ===================================================================
+  brokerx-api-1:
+    container_name: brokerx-api-1
+    build: .
+    ports:
+      - "5001:8080"           # Exposition externe pour debug
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__BrokerX: Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false
+      INSTANCE_NAME: api-1
+      HOSTNAME: brokerx-api-1
+    volumes:
+      - ./Infrastructure.Web/logs:/app/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - brokerx-network
+
+  brokerx-api-2:
+    container_name: brokerx-api-2
+    build: .
+    ports:
+      - "5002:8080"
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__BrokerX: Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false
+      INSTANCE_NAME: api-2
+      HOSTNAME: brokerx-api-2
+    volumes:
+      - ./Infrastructure.Web/logs:/app/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - brokerx-network
+
+  brokerx-api-3:
+    container_name: brokerx-api-3
+    build: .
+    ports:
+      - "5003:8080"
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__BrokerX: Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false
+      INSTANCE_NAME: api-3
+      HOSTNAME: brokerx-api-3
+    volumes:
+      - ./Infrastructure.Web/logs:/app/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - brokerx-network
+
+  brokerx-api-4:
+    container_name: brokerx-api-4
+    build: .
+    ports:
+      - "5004:8080"
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__BrokerX: Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false
+      INSTANCE_NAME: api-4
+      HOSTNAME: brokerx-api-4
+    volumes:
+      - ./Infrastructure.Web/logs:/app/logs
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - brokerx-network
+
+networks:
+  brokerx-network:
+    driver: bridge

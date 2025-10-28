@@ -15,19 +15,22 @@ public sealed class WalletService : IDepositUseCase, ISettlementCallbackUseCase
     private readonly ILedgerPort _ledger;
     private readonly IPaymentPort _payments;
     private readonly IAuditPort _audit;
+    private readonly ICachePort _cache;
 
     public WalletService(
         IPayTxRepository paytx,
         IPortfolioRepository wallets,
         ILedgerPort ledger,
         IPaymentPort payments,
-        IAuditPort audit)
+        IAuditPort audit,
+        ICachePort cache)
     {
         _paytx = paytx;
         _wallets = wallets;
         _ledger = ledger;
         _payments = payments;
         _audit = audit;
+        _cache = cache;
     }
 
     public async Task<DepositResult> RequestAsync(Guid accountId, decimal amount, string currency, string idempotencyKey, CancellationToken ct = default)
@@ -35,7 +38,11 @@ public sealed class WalletService : IDepositUseCase, ISettlementCallbackUseCase
         // 1) Idempotence : existe déjà ?
         var existing = await _paytx.GetByIdempotencyKeyAsync(idempotencyKey, ct);
         if (existing is not null)
-            return MapToResult(existing, await _wallets.GetByAccountIdAsync(accountId, ct));
+        {
+            // Récupérer wallet depuis cache ou DB
+            var cachedWallet = await GetWalletWithCacheAsync(accountId, ct);
+            return MapToResult(existing, cachedWallet);
+        }
 
         // 2) Créer la PayTx (Pending) et persister
         var tx = TransactionPaiement.Creer(accountId, amount, currency, idempotencyKey);
@@ -48,7 +55,7 @@ public sealed class WalletService : IDepositUseCase, ISettlementCallbackUseCase
            AuditLog.Ecrire("DEPOSIT_REQUESTED", "system",
                 payload: new { paymentTxId = tx.PaymentTxId, accountId, amount, currency }), ct);
 
-        var wallet = await _wallets.GetByAccountIdAsync(accountId, ct);
+        var wallet = await GetWalletWithCacheAsync(accountId, ct);
         return MapToResult(tx, wallet);
     }
 
@@ -64,6 +71,10 @@ public sealed class WalletService : IDepositUseCase, ISettlementCallbackUseCase
             // Crédit + Ledger (idempotent : si rejoué, MarquerReglee() est safe, à toi de protéger le double ledger au niveau infra/DB si nécessaire)
             wallet.Crediter(tx.Amount, tx.Currency);
             await _wallets.UpdateAsync(wallet, ct);
+
+            // Invalider le cache wallet après modification du solde
+            var cacheKey = $"wallet:balance:{tx.AccountId}";
+            await _cache.RemoveAsync(cacheKey, ct);
 
             var entry = EcritureLedger.PourDepot(tx.AccountId, tx.Amount, tx.Currency, tx.PaymentTxId);
             await _ledger.AddAsync(entry, ct);
@@ -81,6 +92,33 @@ public sealed class WalletService : IDepositUseCase, ISettlementCallbackUseCase
         }
 
         await _paytx.UpdateAsync(tx, ct);
+    }
+
+    /// <summary>
+    /// Récupère le wallet avec cache (TTL: 1 minute).
+    /// Pattern: Try cache → If miss → DB → Set cache
+    /// </summary>
+    private async Task<Portefeuille?> GetWalletWithCacheAsync(Guid accountId, CancellationToken ct)
+    {
+        var cacheKey = $"wallet:balance:{accountId}";
+        
+        // Essayer le cache d'abord
+        var cached = await _cache.GetAsync<Portefeuille>(cacheKey, ct);
+        if (cached != null)
+        {
+            return cached;
+        }
+
+        // Cache miss - récupérer depuis DB
+        var wallet = await _wallets.GetByAccountIdAsync(accountId, ct);
+        
+        // Mettre en cache si trouvé (TTL: 1 minute)
+        if (wallet != null)
+        {
+            await _cache.SetAsync(cacheKey, wallet, TimeSpan.FromMinutes(1), ct);
+        }
+
+        return wallet;
     }
 
     private static DepositResult MapToResult(TransactionPaiement tx, Portefeuille? wallet)

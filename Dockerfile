@@ -36,10 +36,11 @@ WORKDIR /app
 # Copy published application
 COPY --from=build /app .
 
-# Expose port 5000
+# Expose port 5000 for the application (standard ASP.NET)
+# Note: Port 8080 sera réservé pour le API Gateway KrakenD (Phase 2b)
 EXPOSE 5000
 
-# Set environment variables
+# Configure the app to listen on port 5000
 ENV ASPNETCORE_URLS=http://+:5000
 ENV ASPNETCORE_ENVIRONMENT=Production
 

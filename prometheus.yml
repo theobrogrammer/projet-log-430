@@ -1,0 +1,69 @@
+# Prometheus configuration for BrokerX monitoring
+# Phase 2 - Étape 2a: Observabilité
+
+global:
+  # Intervalle de scraping par défaut (collecte des métriques)
+  scrape_interval: 15s
+  
+  # Timeout pour chaque scrape
+  scrape_timeout: 10s
+  
+  # Intervalle d'évaluation des règles d'alerting
+  evaluation_interval: 15s
+  
+  # Labels externes ajoutés à toutes les métriques et alertes
+  external_labels:
+    environment: 'development'
+    project: 'brokerx'
+    phase: 'phase2'
+
+# Configuration du scraping des cibles
+scrape_configs:
+  # Job: BrokerX API (application principale)
+  - job_name: 'brokerx-api'
+    
+    # Intervalle de scraping spécifique à ce job
+    scrape_interval: 15s
+    
+    # Path vers l'endpoint des métriques
+    metrics_path: '/metrics'
+    
+    # Schéma de connexion
+    scheme: 'http'
+    
+    # Cibles à scraper (toutes les instances load-balancées)
+    static_configs:
+      # Instance directe (hors load balancer)
+      - targets: ['api:5000']
+        labels:
+          service: 'brokerx-api'
+          instance: 'api-direct'
+          lb_group: 'none'
+      
+      # Instances load-balancées (via NGINX port 8090)
+      - targets: 
+        - 'brokerx-api-1:8080'
+        - 'brokerx-api-2:8080'
+        - 'brokerx-api-3:8080'
+        - 'brokerx-api-4:8080'
+        labels:
+          service: 'brokerx-api'
+          lb_group: 'nginx'
+          
+  # Job: Prometheus lui-même (auto-monitoring)
+  - job_name: 'prometheus'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+
+# Configuration des alertes (optionnel pour Phase 2)
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets: ['alertmanager:9093']
+
+# Règles d'enregistrement et d'alerting (optionnel)
+# rule_files:
+#   - '/etc/prometheus/rules/*.yml'

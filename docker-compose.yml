@@ -1,17 +1,30 @@
 services:
-  brokerx_app:
+  # ===================================================================
+  # API BrokerX (application principale)
+  # ===================================================================
+  api:
+    container_name: brokerx-api
     build: .
     ports:
-      - "5000:5000"           # Host:5000 → container:5000
+      - "5000:5000"           # Port standard ASP.NET (8080 réservé pour KrakenD Phase 2b)
     environment:
       ASPNETCORE_URLS: http://0.0.0.0:5000
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__BrokerX: Server=mysql;Port=3306;Database=brokerx;User Id=brokerx;Password=brokerx;TreatTinyAsBoolean=false
+      Redis__ConnectionString: redis:6379,abortConnect=false
     depends_on:
       mysql:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - brokerx-network
 
+  # ===================================================================
+  # MySQL (base de données)
+  # ===================================================================
   mysql:
+    container_name: brokerx-mysql
     image: mysql:8.0
     restart: unless-stopped
     environment:
@@ -20,7 +33,7 @@ services:
       MYSQL_USER: brokerx
       MYSQL_PASSWORD: brokerx
     ports:
-      - "3307:3306"           # (optionnel) pour te connecter depuis l'hôte :3307
+      - "3307:3306"           # Accès externe depuis l'hôte
     volumes:
       - mysql_data:/var/lib/mysql
       - ./db-init:/docker-entrypoint-initdb.d
@@ -29,6 +42,86 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    networks:
+      - brokerx-network
 
+  # ===================================================================
+  # Redis (cache et sessions) - Phase 2 Étape 2a
+  # ===================================================================
+  redis:
+    container_name: brokerx-redis
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    # Pas de port exposé - Redis accessible uniquement depuis le réseau Docker interne
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - brokerx-network
+
+  # ===================================================================
+  # Prometheus (métriques et monitoring) - Phase 2 Étape 2a
+  # ===================================================================
+  prometheus:
+    container_name: brokerx-prometheus
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"           # Interface web Prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - brokerx-network
+    depends_on:
+      - api
+
+  # ===================================================================
+  # Grafana (dashboards et visualisation) - Phase 2 Étape 2a
+  # ===================================================================
+  grafana:
+    container_name: brokerx-grafana
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"           # Interface web Grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=http://localhost:3000
+      - GF_INSTALL_PLUGINS=
+    restart: unless-stopped
+    networks:
+      - brokerx-network
+    depends_on:
+      - prometheus
+
+# ===================================================================
+# Volumes persistants
+# ===================================================================
 volumes:
   mysql_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+# ===================================================================
+# Réseau interne (communication inter-conteneurs)
+# ===================================================================
+networks:
+  brokerx-network:
+    driver: bridge

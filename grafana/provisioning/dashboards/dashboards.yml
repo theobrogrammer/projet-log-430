@@ -1,0 +1,15 @@
+# Grafana Dashboard Provisioning Configuration
+# Auto-charge les dashboards depuis le répertoire
+
+apiVersion: 1
+
+providers:
+  - name: 'BrokerX Dashboards'
+    orgId: 1
+    folder: ''
+    type: file
+    disableDeletion: false
+    editable: true
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards

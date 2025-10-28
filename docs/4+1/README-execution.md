@@ -1285,14 +1285,17 @@ docker-compose up -d --scale app=2
 8. Sauvegarder résultats dans `resultats-k6/baseline/` avec screenshots Grafana
 
 **Performance - NGINX Load Balancer**
-1. Créer `nginx.conf` avec upstream `backend` (3 serveurs: api_1, api_2, api_3 sur port 8080)
+1. Créer `nginx.conf` avec upstream `backend` (4 serveurs: api_1, api_2, api_3, api_4 sur port 8080)
 2. Configurer algorithme: `least_conn` avec `max_fails=3` et `fail_timeout=30s`
 3. Ajouter `proxy_pass http://backend`, `proxy_set_header X-Real-IP`, `X-Forwarded-For`, `Host`
 4. Activer keepalive: `keepalive 32` dans upstream
 5. Ajouter service NGINX dans `docker-compose.yml` (port: 80, volume: nginx.conf)
-6. Modifier `docker-compose.yml`: déployer 3 réplicas API (`deploy.replicas: 3` ou 3 services distincts)
+6. Modifier `docker-compose.yml`: déployer 4 réplicas API (`deploy.replicas: 4` ou 4 services distincts)
 7. Tester LB: `for i in {1..10}; do curl -s http://localhost/health | jq .hostname; done` (doit alterner)
 8. Tester failover: stopper 1 instance API, vérifier requêtes toujours routées
+9. **Tests k6 comparatifs**: répéter tests pour N = 1, 2, 3, 4 instances avec `scripts/k6/mixed.js`
+10. Créer graphiques comparatifs (X=instances, Y=latence/RPS/erreurs/saturation)
+11. Tester tolérance aux pannes: `docker stop brokerx-api-2` pendant test k6, vérifier dégradation gracieuse
 
 **Performance - Redis Cache**
 1. Ajouter service Redis dans `docker-compose.yml` (image: `redis:7-alpine`, port: 6379)
