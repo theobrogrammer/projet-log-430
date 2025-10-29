@@ -1,0 +1,52 @@
+@startuml
+title Scénario UC-04 Abonnement données marché (WebSocket streaming)
+
+actor Client
+participant "REST API" as API
+participant "MarketDataService" as Mkt
+participant "MarketFeedPort" as Feed
+participant "AuditPort" as AUD
+database "DB" as DB
+participant "WebSocket Hub" as WS
+
+== Création abonnement ==
+Client -> API: POST /market-data/subscribe {symbols[]}
+API -> Mkt: subscribe(cmd)
+Mkt -> DB: check Client Active + Subscription quota
+Mkt -> DB: create Subscription(Active, symbols[])
+Mkt -> Feed: startStream(symbols[])
+Mkt -> AUD: log(subscription.created)
+API --> Client: 200 OK {subscriptionId, wsUrl}
+
+== Streaming temps réel (WebSocket) ==
+Client -> WS: CONNECT /ws?subscriptionId=xxx
+WS -> Mkt: validateSubscription(id)
+Mkt -> DB: get Subscription(Active)
+WS --> Client: CONNECTED
+
+loop Quotes temps réel
+  Feed -> Mkt: onQuote(symbol, bid, ask, last, volume, timestamp)
+  Mkt -> DB: upsert Quote (TTL 5s)
+  Mkt -> WS: broadcast(subscriptionId, quote)
+  WS --> Client: QUOTE {symbol, bid, ask, last, volume, timestamp}
+end
+
+== Gestion erreurs & déconnexion ==
+alt Quota dépassé (>100 msg/s)
+  WS -> Client: THROTTLED {retryAfter}
+  note right: Rate limiting 100 msg/s
+end
+
+alt Client déconnecte
+  Client -> WS: DISCONNECT
+  WS -> Mkt: onDisconnect(subscriptionId)
+  Mkt -> DB: Subscription.Inactive
+  Mkt -> AUD: log(subscription.closed)
+end
+
+alt Latence > 200ms P95
+  Mkt -> AUD: log(alert.latency.breach)
+  note right: NFR: Latence P95 ≤ 200ms
+end
+
+@enduml

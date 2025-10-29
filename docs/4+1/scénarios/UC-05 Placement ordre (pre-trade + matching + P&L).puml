@@ -1,0 +1,99 @@
+@startuml
+title Scénario UC-05 Placement ordre (avec pre-trade checks + matching simulé)
+
+actor Client
+participant "REST API" as API
+participant "OrderService" as Ord
+participant "MarketDataService" as Mkt
+participant "LedgerPort" as Led
+participant "AuditPort" as AUD
+database "DB" as DB
+
+== Soumission ordre ==
+Client -> API: POST /orders {accountId, symbol, side, type, quantity, price, clientOrderId}
+API -> Ord: placeOrder(cmd)
+
+== Pre-Trade Risk Checks (8 validations) ==
+Ord -> DB: check Client Active, Account Active
+Ord -> DB: check Idempotence(clientOrderId)
+note right: Si déjà traité: retourner ordre existant
+Ord -> Mkt: getCurrentPrice(symbol)
+Mkt --> Ord: {bid, ask, last}
+Ord -> DB: check Portefeuille.solde ≥ required margin
+Ord -> Ord: validate price limits (min tick)
+Ord -> Ord: validate quantity limits (lot size)
+Ord -> Ord: validate TimeInForce compatible
+Ord -> Ord: check trading hours (market open)
+
+alt Rejets pre-trade
+  Ord -> DB: create Ordre(Rejected, reason)
+  Ord -> AUD: log(order.rejected, reason)
+  API --> Client: 400 Bad Request {reason}
+else Pre-trade OK
+  Ord -> DB: create Ordre(Pending), reserve margin
+  Ord -> AUD: log(order.created)
+  API --> Client: 201 Created {orderId, status: Pending}
+end
+
+== Matching simulé interne (price-time priority) ==
+note right of Ord: Pas de Matching Engine externe\nMatching simulé dans OrderService
+
+Ord -> Ord: addToOrderBook(ordre)
+Ord -> Ord: tryMatch(ordre)
+
+alt Ordre MARKET
+  Ord -> Ord: match immédiat au prix marché
+  Ord -> DB: create Execution(execPrice=currentPrice, execQty=quantity)
+  Ord -> DB: update Ordre(Filled, filledQty, avgPrice)
+else Ordre LIMIT
+  alt Prix atteint (match partiel/complet)
+    Ord -> Ord: match contre ordres opposés
+    Ord -> DB: create Execution(execPrice, execQty)
+    Ord -> DB: update Ordre(PartiallyFilled | Filled)
+  else Prix non atteint
+    Ord -> DB: update Ordre(Open, dans order book)
+  end
+end
+
+== Calcul P&L et mise à jour position ==
+alt Ordre exécuté (Filled)
+  Ord -> DB: upsert Position(symbol, qty, avgPrice)
+  Ord -> Ord: calculatePnL(execution, position)
+  Ord -> DB: update Position(realizedPnL, unrealizedPnL)
+  Ord -> Led: append(TRADE_FILL, commission)
+  Ord -> AUD: log(order.filled, executions)
+  
+  == Notification client (si exécuté) ==
+  Ord --> API: OrderFilled event
+  API --> Client: 200 OK {orderId, status: Filled, executions[], avgPrice}
+end
+
+== Consultation ordre ==
+Client -> API: GET /orders/{orderId}
+API -> Ord: getOrder(orderId)
+Ord -> DB: fetch Ordre + Executions + Position
+API --> Client: 200 OK {order, executions[], position}
+
+== Annulation ordre ==
+Client -> API: DELETE /orders/{orderId}
+API -> Ord: cancelOrder(orderId)
+Ord -> DB: check Ordre.status = Open | PartiallyFilled
+alt Annulable
+  Ord -> Ord: removeFromOrderBook(orderId)
+  Ord -> DB: update Ordre(Cancelled)
+  Ord -> DB: release reserved margin
+  Ord -> AUD: log(order.cancelled)
+  API --> Client: 200 OK {orderId, status: Cancelled}
+else Non annulable (Filled/Rejected)
+  API --> Client: 409 Conflict {reason}
+end
+
+== NFR Vérifications ==
+note right of Ord
+  Latence ACK < 500ms (Phase 1)
+  Latence ACK < 100ms (Phase 2b cible)
+  Idempotence garantie (clientOrderId)
+  P&L calculé en temps réel
+end note
+
+@enduml
