@@ -1,5 +1,5 @@
 @startuml
-title 4+1 - Vue Logique (domaine détaillé + ports d'application) — État actuel ✅ + Phase 2 ⏳
+title 4+1 - Vue Logique (domaine détaillé + ports d'application)
 
 hide stereotype
 skinparam class {
@@ -7,247 +7,192 @@ skinparam class {
   BackgroundColor<<ID>>  #D3E5FF
   BackgroundColor<<SEC>> #FBE6A2
   BackgroundColor<<PFR>> #F5BAB5
+  BackgroundColor<<TRD>> #C8E6C9
+  BackgroundColor<<MKT>> #FFCCBC
   BackgroundColor<<OBS>> #EDE7F6
 }
 
 ' =======================
 ' Application (ports = contrats d'UC)
 ' =======================
-package "Application (ports entrants)" {
-  interface "ISignupUseCase\n(UC-01 ✅)" as ISignupUseCase <<APP>>
-  interface "IAuthUseCase\n(UC-02 ✅)" as IAuthUseCase <<APP>>
-  interface "IDepositUseCase\n(UC-03 🔄)" as IDepositUseCase <<APP>>
-  
-  note right of IDepositUseCase
-    🔄 Manque idempotency-key
-    À implémenter: 
-    - Header Idempotency-Key
-    - Table IdempotencyKeys
-    - Constraint unique sur (accountId, key)
-  end note
+package "Application (ports)" {
+  interface ISignupUseCase <<APP>>
+  interface IAuthUseCase <<APP>>
+  interface IDepositUseCase <<APP>>
+  interface IMarketDataUseCase <<APP>>
+  interface IOrderUseCase <<APP>>
 }
 
 ' =======================
-' Identite & Comptes (Bounded Context)
+' Identite & Comptes
 ' =======================
-package "Identite & Comptes (BC)" {
+package "Identite & Comptes" {
   class Client <<ID>> {
-    +clientId: UUID
-    +email: String
-    +telephone: String
-    +nomComplet: String
-    +dateNaissance: Date
-    +statut: StatutClient
-    +createdAt: DateTime
-    +updatedAt: DateTime
-    --
-    +Creer(): Client
-    +DemarrerKycSiNecessaire()
-    +DemarrerOtpActivation(): VerifContactOTP
-    +ActiverSiAdmissible()
-    +OuvrirCompte(): Compte
+    clientId: UUID
+    email: String
+    telephone: String
+    nomComplet: String
+    dateNaissance: Date
+    statut: String
+    createdAt: DateTime
   }
 
   class Compte <<ID>> {
-    +accountId: UUID
-    +clientId: UUID
-    +accountNo: String
-    +statut: StatutCompte
-    +createdAt: DateTime
-    --
-    +Ouvrir(): Compte
-    +Activer()
-    +Suspendre(raison: String)
+    accountId: UUID
+    accountNo: String
+    statut: String
+    createdAt: DateTime
   }
 
   class "DossierKYC" as DossierKYC <<ID>> {
-    +kycId: UUID
-    +clientId: UUID
-    +niveau: NiveauKYC
-    +statut: StatutKYC
-    +updatedAt: DateTime
-    --
-    +Soumettre()
-    +Approuver()
-    +Rejeter(raison: String)
+    kycId: UUID
+    niveau: String
+    statut: String
+    updatedAt: DateTime
   }
 
   class "VerifContactOTP" as VerifContactOTP <<ID>> {
-    +otpId: UUID
-    +clientId: UUID
-    +canal: CanalOTP
-    +codeHash: String
-    +statut: StatutOTP
-    +expiresAt: DateTime
-    --
-    +Generer(ttl: TimeSpan): String
-    +Verifier(code: String): bool
-    +Expirer()
+    otpId: UUID
+    canal: String
+    statut: String
+    expiresAt: DateTime
   }
-  
-  Client "1" --> "*" Compte : possède
-  Client "1" --> "0..1" DossierKYC : a
-  Client "1" --> "*" VerifContactOTP : génère
 }
 
 ' =======================
-' Securite (Auth/MFA) (Bounded Context)
+' Securite (Auth/MFA)
 ' =======================
-package "Securite (Auth/MFA) (BC)" {
+package "Securite (Auth/MFA)" {
   class Session <<SEC>> {
-    +sessionId: UUID
-    +clientId: UUID
-    +tokenType: String
-    +tokenHash: String
-    +issuedAt: DateTime
-    +expiresAt: DateTime
-    +ip: String
-    +device: String
-    --
-    +Emettre(): String
-    +Valider(token: String): bool
-    +Revoquer()
+    sessionId: UUID
+    tokenType: String
+    issuedAt: DateTime
+    expiresAt: DateTime
+    ip: String
+    device: String
   }
 
   class "PolitiqueMFA" as MFAPolicy <<SEC>> {
-    +mfaId: UUID
-    +clientId: UUID
-    +type: TypeMFA
-    +estActive: Boolean
-    +createdAt: DateTime
-    --
-    +Activer()
-    +Desactiver()
+    mfaId: UUID
+    type: String
+    estActive: Boolean
+    createdAt: DateTime
   }
 
   class "DefiMFA" as MFAChallenge <<SEC>> {
-    +challengeId: UUID
-    +sessionId: UUID
-    +type: TypeMFA
-    +codeHash: String
-    +statut: StatutChallenge
-    +createdAt: DateTime
-    +expiresAt: DateTime
-    --
-    +Generer(ttl: TimeSpan): String
-    +Verifier(code: String): bool
+    challengeId: UUID
+    type: String
+    statut: String
+    createdAt: DateTime
+    expiresAt: DateTime
   }
-  
-  Client "1" --> "*" Session : authentifié par
-  Client "1" --> "0..1" MFAPolicy : configure
-  Session "1" --> "0..1" MFAChallenge : nécessite
 }
 
 ' =======================
-' Portefeuille & Reglement (Bounded Context)
+' Portefeuille & Reglement
 ' =======================
-package "Portefeuille & Reglement (BC)" {
+package "Portefeuille & Reglement" {
   class Portefeuille <<PFR>> {
-    +portfolioId: UUID
-    +accountId: UUID
-    +soldeMonnaie: Decimal
-    +devise: String
-    +updatedAt: DateTime
-    --
-    +Crediter(montant: Decimal)
-    +Debiter(montant: Decimal)
-    +VerifierSoldeSuffisant(montant: Decimal): bool
+    portfolioId: UUID
+    soldeMonnaie: Decimal
+    devise: String
+    updatedAt: DateTime
   }
 
   class "TransactionPaiement" as PayTx <<PFR>> {
-    +paymentTxId: UUID
-    +accountId: UUID
-    +amount: Decimal
-    +currency: String
-    +statut: StatutPaiement
-    +idempotencyKey: String ⚠️
-    +createdAt: DateTime
-    +settledAt: DateTime?
-    --
-    +Initier(key: String): PayTx
-    +Confirmer()
-    +Echouer(raison: String)
+    paymentTxId: UUID
+    amount: Decimal
+    currency: String
+    statut: String
+    idempotencyKey: String
+    createdAt: DateTime
+    settledAt: DateTime
   }
-  
-  note right of PayTx
-    ⚠️ idempotencyKey doit avoir:
-    - Index unique (accountId, idempotencyKey)
-    - Validation non-null/non-vide
-    - Retry safe: même key → même résultat
-  end note
 
   class "EcritureLedger" as Ledger <<PFR>> {
-    +ledgerEntryId: UUID
-    +accountId: UUID
-    +amount: Decimal
-    +currency: String
-    +kind: TypeEcriture
-    +refType: String
-    +refId: UUID
-    +createdAt: DateTime
-    --
-    +Enregistrer(): Ledger
-    {static} +EstAppendOnly(): bool
+    ledgerEntryId: UUID
+    amount: Decimal
+    currency: String
+    kind: String
+    refType: String
+    refId: UUID
+    createdAt: DateTime
   }
-  
-  note right of Ledger
-    Ledger = Journal immuable (append-only)
-    Pas de UPDATE/DELETE
-    Audit trail complet
-  end note
-  
-  Compte "1" --> "1" Portefeuille : a
-  Compte "1" --> "*" PayTx : effectue
-  PayTx "1" --> "1..*" Ledger : génère
 }
 
 ' =======================
-' Observabilite & Audit (Bounded Context)
+' Trading & Ordres
 ' =======================
-package "Observabilite & Audit (BC)" {
+package "Trading & Ordres" {
+  class Ordre <<TRD>> {
+    orderId: UUID
+    clientOrderId: String
+    symbol: String
+    side: String
+    type: String
+    quantity: Decimal
+    price: Decimal
+    timeInForce: String
+    statut: String
+    filledQuantity: Decimal
+    avgPrice: Decimal
+    createdAt: DateTime
+  }
+
+  class Execution <<TRD>> {
+    executionId: UUID
+    execPrice: Decimal
+    execQuantity: Decimal
+    commission: Decimal
+    timestamp: DateTime
+  }
+
+  class Position <<TRD>> {
+    positionId: UUID
+    symbol: String
+    quantity: Decimal
+    avgPrice: Decimal
+    currentPrice: Decimal
+    unrealizedPnL: Decimal
+    realizedPnL: Decimal
+    updatedAt: DateTime
+  }
+}
+
+' =======================
+' Donnees de Marche
+' =======================
+package "Donnees de Marche" {
+  class Quote <<MKT>> {
+    quoteId: UUID
+    symbol: String
+    bid: Decimal
+    ask: Decimal
+    last: Decimal
+    volume: Decimal
+    timestamp: DateTime
+  }
+
+  class Subscription <<MKT>> {
+    subscriptionId: UUID
+    symbols: String[]
+    canal: String
+    statut: String
+    createdAt: DateTime
+  }
+}
+
+' =======================
+' Observabilite & Audit
+' =======================
+package "Observabilite & Audit" {
   class AuditLog <<OBS>> {
-    +auditId: UUID
-    +eventType: String
-    +actor: String
-    +accountId: UUID
-    +resourceType: String
-    +resourceId: UUID
-    +payloadJson: Text
-    +createdAt: DateTime
-    --
-    +Enregistrer(): AuditLog
-    {static} +EstAppendOnly(): bool
-  }
-  
-  note left of AuditLog
-    Événements critiques à auditer:
-    - Création compte (UC-01)
-    - Authentification (UC-02)
-    - Dépôts/retraits (UC-03)
-    - Changement statut
-    - Actions admin
-  end note
-  
-  class "MetricsExporter\n(Phase 2 ⏳)" as Metrics <<OBS>> {
-    +ExporterPrometheus()
-    +Mesurer4GoldenSignals()
-    --
-    Latence: P50/P95/P99
-    Trafic: RPS par endpoint
-    Erreurs: % 4xx/5xx
-    Saturation: CPU/RAM/threads
-  }
-  
-  class "LogsStructures\n(Phase 2 ⏳)" as StructuredLogs <<OBS>> {
-    +LogJSON(level, message, context)
-    --
-    Format: JSON avec:
-    - timestamp
-    - traceId
-    - userId/accountId
-    - endpoint
-    - latency
-    - statusCode
+    auditId: UUID
+    eventType: String
+    actor: String
+    accountId: UUID
+    payloadJson: Text
+    createdAt: DateTime
   }
 }
 
@@ -258,54 +203,28 @@ ISignupUseCase --> Client
 ISignupUseCase --> Compte
 ISignupUseCase --> DossierKYC
 ISignupUseCase --> VerifContactOTP
-ISignupUseCase --> AuditLog
 
 IAuthUseCase --> Client
 IAuthUseCase --> MFAPolicy
 IAuthUseCase --> MFAChallenge
 IAuthUseCase --> Session
-IAuthUseCase --> AuditLog
 
 IDepositUseCase --> PayTx
 IDepositUseCase --> Portefeuille
 IDepositUseCase --> Ledger
+
+IMarketDataUseCase --> Quote
+IMarketDataUseCase --> Subscription
+
+IOrderUseCase --> Ordre
+IOrderUseCase --> Execution
+IOrderUseCase --> Position
+IOrderUseCase --> Ledger
+
+ISignupUseCase --> AuditLog
+IAuthUseCase --> AuditLog
 IDepositUseCase --> AuditLog
-
-' Observabilité utilisée par tous les UC
-ISignupUseCase ..> Metrics : expose
-IAuthUseCase ..> Metrics : expose
-IDepositUseCase ..> Metrics : expose
-
-ISignupUseCase ..> StructuredLogs : log
-IAuthUseCase ..> StructuredLogs : log
-IDepositUseCase ..> StructuredLogs : log
-
-legend right
-  **État d'implémentation**:
-    ✅ UC-01 (Inscription): Controller → Service → Domaine (Client/Compte/KYC/OTP)
-    ✅ UC-02 (Authentification): Controller → Service → Domaine (Session/MFA)
-    🔄 UC-03 (Dépôts): Partiel, manque idempotency-key + tests E2E
-    ⏳ Observabilité (Metrics/Logs structurés) — TODO #5
-  
-  **Bounded Contexts (DDD)**:
-    - Identité & Comptes: gestion clients/comptes
-    - Sécurité: auth/sessions/MFA
-    - Portefeuille: soldes/transactions/ledger
-    - Observabilité: audit/metrics/logs
-  
-  **Prochaines actions (TODO #3)**:
-    1. Ajouter propriété idempotencyKey à PayTx
-    2. Créer migration + index unique (accountId, idempotencyKey)
-    3. Implémenter logique idempotence dans WalletService
-    4. Tests E2E: retry avec même key → même résultat
-  
-  **Architecture Hexagonale**:
-    - Ports entrants (ISignupUseCase, etc.) = contrats Application
-    - Domaine = règles métier pures (Client, Compte, PayTx, etc.)
-    - Dépendances dirigées: UI → App → Domain ← Infra
-end legend
-
-@enduml
+IOrderUseCase --> AuditLog
 
 ' =======================
 ' Associations de domaine
@@ -322,13 +241,21 @@ Compte "1" -- "0..*" PayTx : Initie >
 Compte "1" -- "0..*" Ledger : Affecte >
 
 PayTx "1" -- "1..*" Ledger : Provoque >
+
+Compte "1" -- "0..*" Ordre : Place >
+Ordre "1" -- "0..*" Execution : Genere >
+Compte "1" -- "0..*" Position : Detient >
+Execution "1" -- "1..*" Ledger : Provoque >
+
+Client "1" -- "0..*" Subscription : Souscrit >
+
 AuditLog "*" -- "0..1" Compte : Concerne >
 
 legend right
   **Vue Logique (4+1) – Intention**
   Montre la structure conceptuelle : 
     • Domaine (entites/agregats)
-    • Contrats d’application (ports de cas d’utilisation)
+    • Contrats d'application (ports de cas d'utilisation)
     • Relations logiques (quels ports manipulent quelles classes)
 
   **Ce que la vue NE montre pas**
@@ -337,17 +264,16 @@ legend right
     • Flèches de realisation (A -|> I)
 
   **Convention des flèches**
-    Port --> ClasseDeDomaine : le cas d’utilisation manipule cet element
+    Port --> ClasseDeDomaine : le cas d'utilisation manipule cet element
     A -- B (multiplicites)  : association de domaine
 
   **Pourquoi pas de "A -|> I" ici ?**
-    La realisation (implémente) est une decision d’assemblage 
+    La realisation (implémente) est une decision d'assemblage 
     montrees dans la vue Composants & Connecteurs (C&C).
     On evite la redondance et on garde la vue logique agnostique.
 
   **Où voir les implémentations ?**
     Dans la vue C&C : ex. SignupService -|> ISignupUseCase
 end legend
-
 
 @enduml

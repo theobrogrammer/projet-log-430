@@ -2,9 +2,10 @@
 using ProjetLog430.Domain.Contracts;
 using ProjetLog430.Domain.Ports.Inbound;
 using ProjetLog430.Domain.Model.PortefeuilleReglement;
+using ProjetLog430.Domain.Model.Identite;
 using ProjetLog430.Domain.Ports.Outbound;
 using ProjetLog430.Domain.Model.Observabilite;
-
+using Microsoft.Extensions.Logging;
 
 namespace ProjetLog430.Application.Services;
 
@@ -12,29 +13,46 @@ public sealed class WalletService : IDepositUseCase, ISettlementCallbackUseCase
 {
     private readonly IPayTxRepository _paytx;
     private readonly IPortfolioRepository _wallets;
+    private readonly IAccountRepository _comptes;
     private readonly ILedgerPort _ledger;
     private readonly IPaymentPort _payments;
     private readonly IAuditPort _audit;
     private readonly ICachePort _cache;
+    private readonly ILogger<WalletService> _logger;
 
     public WalletService(
         IPayTxRepository paytx,
         IPortfolioRepository wallets,
+        IAccountRepository comptes,
         ILedgerPort ledger,
         IPaymentPort payments,
         IAuditPort audit,
-        ICachePort cache)
+        ICachePort cache,
+        ILogger<WalletService> logger)
     {
         _paytx = paytx;
         _wallets = wallets;
+        _comptes = comptes;
         _ledger = ledger;
         _payments = payments;
         _audit = audit;
         _cache = cache;
+        _logger = logger;
     }
 
     public async Task<DepositResult> RequestAsync(Guid accountId, decimal amount, string currency, string idempotencyKey, CancellationToken ct = default)
     {
+        // 0) Validations métier préliminaires
+        var limites = LimitesDepot.ParDefaut();
+        limites.ValiderMontant(amount, currency);
+
+        // Vérifier que le compte existe et est actif
+        var compte = await _comptes.GetByIdAsync(accountId, ct);
+        if (compte == null)
+            throw new InvalidOperationException($"Compte {accountId} introuvable.");
+        if (compte.Statut != StatutCompte.Active)
+            throw new InvalidOperationException($"Compte {accountId} non actif (statut: {compte.Statut}).");
+
         // 1) Idempotence : existe déjà ?
         var existing = await _paytx.GetByIdempotencyKeyAsync(idempotencyKey, ct);
         if (existing is not null)

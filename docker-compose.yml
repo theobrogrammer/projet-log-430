@@ -17,6 +17,12 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 2 bash -c '</dev/tcp/localhost/5000' || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
     networks:
       - brokerx-network
 
@@ -107,6 +113,35 @@ services:
       - brokerx-network
     depends_on:
       - prometheus
+
+  # ===================================================================
+  # KRAKEND API GATEWAY (Phase 2b)
+  # ===================================================================
+  krakend:
+    container_name: brokerx-krakend
+    image: devopsfaith/krakend:2.7
+    restart: unless-stopped
+    ports:
+      - "8080:8080"  # Gateway public
+      - "9091:9091"  # Métriques Prometheus
+    volumes:
+      - ./krakend.json:/etc/krakend/krakend.json:ro
+    environment:
+      - FC_ENABLE=1
+      - FC_SETTINGS=/etc/krakend
+      - FC_PARTIALS=/etc/krakend/partials
+    command: ["run", "-c", "/etc/krakend/krakend.json"]
+    networks:
+      - brokerx-network
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/__health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
 
 # ===================================================================
 # Volumes persistants

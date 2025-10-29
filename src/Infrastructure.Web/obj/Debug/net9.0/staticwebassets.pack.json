@@ -1,8 +1,16 @@
 {
   "Files": [
     {
+      "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard-old.html",
+      "PackagePath": "staticwebassets/dashboard-old.html"
+    },
+    {
       "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html",
       "PackagePath": "staticwebassets/dashboard.html"
+    },
+    {
+      "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html",
+      "PackagePath": "staticwebassets/deposit.html"
     },
     {
       "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html",
@@ -11,6 +19,10 @@
     {
       "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/mfa-settings.html",
       "PackagePath": "staticwebassets/mfa-settings.html"
+    },
+    {
+      "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin-old.html",
+      "PackagePath": "staticwebassets/signin-old.html"
     },
     {
       "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html",
@@ -27,6 +39,14 @@
     {
       "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-mfa.html",
       "PackagePath": "staticwebassets/test-mfa.html"
+    },
+    {
+      "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html",
+      "PackagePath": "staticwebassets/trading.html"
+    },
+    {
+      "Id": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/withdraw.html",
+      "PackagePath": "staticwebassets/withdraw.html"
     },
     {
       "Id": "obj/Debug/net9.0/staticwebassets/msbuild.Infrastructure.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",

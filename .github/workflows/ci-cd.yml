@@ -2,9 +2,9 @@ name: CI/CD ProjetLog430
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, phase2 ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, phase2 ]
 
 jobs:
   test:
@@ -65,7 +65,7 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/phase2')
     
     steps:
       - uses: actions/checkout@v4
@@ -90,8 +90,7 @@ jobs:
 
   deploy:
     needs: [test, build]
-    # Déploie seulement sur push vers main, et seulement si tests OK
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/phase2')
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4

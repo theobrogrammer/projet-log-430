@@ -1,13 +1,14 @@
-@startuml BrokerX_MDD_UC01_02_03
-skinparam style strictuml
-title Modèle du domaine — BrokerX (UC-01/02/03 uniquement)
+@startuml BrokerX_MDD_UC01_05
+title Modèle du domaine — BrokerX (UC-01 à UC-05)
 
 hide stereotype
 skinparam class {
-  BackgroundColor<< ID >>  #D3E5FF  ' Identité & Comptes
-  BackgroundColor<< SEC >> #FBE6A2  ' Sécurité (Auth/MFA/OTP)
-  BackgroundColor<< PFR >> #F5BAB5  ' Portefeuille & Règlement
-  BackgroundColor<< OBS >> #EDE7F6  ' Observabilité & Audit
+  BackgroundColor<< ID >>  #D3E5FF
+  BackgroundColor<< SEC >> #FBE6A2
+  BackgroundColor<< PFR >> #F5BAB5
+  BackgroundColor<< TRD >> #C8E6C9
+  BackgroundColor<< MKT >> #FFCCBC
+  BackgroundColor<< OBS >> #EDE7F6
 }
 
 legend left
@@ -15,6 +16,8 @@ legend left
   |#D3E5FF| Identité & Comptes (ID) |
   |#FBE6A2| Sécurité (SEC) |
   |#F5BAB5| Portefeuille & Règlement (PFR) |
+  |#C8E6C9| Trading & Ordres (TRD) |
+  |#FFCCBC| Données de Marché (MKT) |
   |#EDE7F6| Observabilité (OBS) |
 end legend
 
@@ -111,9 +114,71 @@ package "Portefeuille & Règlement" {
     ledgerEntryId: UUID
     amount: Decimal
     currency: String
-    kind: {DEPOSIT, ADJUSTMENT}
-    refType: {PAYMENT_TX, OTHER}
+    kind: {DEPOSIT, TRADE_FILL, FEE, ADJUSTMENT}
+    refType: {PAYMENT_TX, EXECUTION, OTHER}
     refId: UUID
+    createdAt: DateTime
+  }
+}
+
+' =======================
+'   TRADING & ORDRES
+' =======================
+package "Trading & Ordres" {
+  class Ordre << TRD >> {
+    orderId: UUID
+    clientOrderId: String
+    symbol: String
+    side: {BUY, SELL}
+    type: {MARKET, LIMIT}
+    quantity: Decimal
+    price: Decimal?
+    timeInForce: {DAY, IOC, FOK, GTC}
+    statut: {NEW, VALIDATING, ACCEPTED, WORKING, PARTIALLY_FILLED, FILLED, CANCELLED, REJECTED, EXPIRED}
+    filledQuantity: Decimal
+    avgPrice: Decimal?
+    createdAt: DateTime
+  }
+
+  class Execution << TRD >> {
+    executionId: UUID
+    execPrice: Decimal
+    execQuantity: Decimal
+    commission: Decimal
+    timestamp: DateTime
+  }
+
+  class Position << TRD >> {
+    positionId: UUID
+    symbol: String
+    quantity: Decimal
+    avgPrice: Decimal
+    currentPrice: Decimal
+    unrealizedPnL: Decimal
+    realizedPnL: Decimal
+    updatedAt: DateTime
+  }
+}
+
+' =======================
+'  DONNÉES DE MARCHÉ
+' =======================
+package "Données de Marché" {
+  class Quote << MKT >> {
+    quoteId: UUID
+    symbol: String
+    bid: Decimal
+    ask: Decimal
+    last: Decimal
+    volume: Decimal
+    timestamp: DateTime
+  }
+
+  class Subscription << MKT >> {
+    subscriptionId: UUID
+    symbols: String[]
+    canal: {WebSocket, SSE}
+    statut: {Active, Suspended, Cancelled}
     createdAt: DateTime
   }
 }
@@ -153,6 +218,15 @@ Compte  "1"   --  "0..*" Ledger       : Affecte >
 
 ' Rattachement des écritures
 PayTx   "1"   --  "1..*" Ledger       : Provoque >
+
+' Trading & Ordres
+Compte  "1"   --  "0..*" Ordre        : Place >
+Ordre   "1"   --  "0..*" Execution    : Génère >
+Compte  "1"   --  "0..*" Position     : Détient >
+Execution "1" --  "1..*" Ledger       : Provoque >
+
+' Données de Marché
+Client  "1"   --  "0..*" Subscription : Souscrit >
 
 ' Audit
 AuditLog "*"  --  "0..1" Compte       : Concerne >

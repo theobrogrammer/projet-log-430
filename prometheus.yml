@@ -58,6 +58,17 @@ scrape_configs:
         labels:
           service: 'prometheus'
 
+  # Job: KrakenD API Gateway (Phase 2b)
+  - job_name: 'krakend-gateway'
+    scrape_interval: 15s
+    metrics_path: '/metrics'
+    scheme: 'http'
+    static_configs:
+      - targets: ['krakend:9091']
+        labels:
+          service: 'krakend-gateway'
+          layer: 'api-gateway'
+
 # Configuration des alertes (optionnel pour Phase 2)
 # alerting:
 #   alertmanagers:

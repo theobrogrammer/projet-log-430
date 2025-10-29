@@ -1,0 +1,302 @@
+@startuml
+title Vue Component & Connector (C&C) — Architecture Hexagonale BrokerX
+
+/'
+**Type de diagramme**: Component & Connector (C&C) — Vue architecturale
+Montre le style architectural Hexagonal (Ports & Adapters) avec UC-01 à UC-05
+
+Pour les vues 4+1 conformes à Kruchten, voir:
+- logique.puml (Vue Logique - domaine)
+- deploiement.puml (Vue Déploiement - infrastructure)
+- developpement.puml (Vue Développement - packages)
+'/
+
+skinparam componentStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 80
+skinparam ranksep 100
+
+' Acteurs
+actor Client as client
+actor "k6 Load Test" as k6
+
+note right of client
+  **Endpoints disponibles:**
+  POST /api/v1/signup
+  POST /api/v1/login
+  POST /api/v1/deposits
+  POST /api/v1/market-data/subscribe
+  GET /ws (WebSocket)
+  POST /api/v1/orders
+  GET /api/v1/orders/{id}
+  DELETE /api/v1/orders/{id}
+end note
+
+note right of k6
+  **Tests de charge sur:**
+  - UC-01 (Signup)
+  - UC-02 (Auth)
+  - UC-03 (Deposits)
+end note
+
+' =======================
+'   LAYER 1: ADAPTERS ENTRANTS (Web/API)
+' =======================
+package "Adapters entrants (Controllers)" <<Rectangle>> {
+  ' UC-01, UC-02, UC-03 (existants)
+  component "[UC-01]\nSignupController" as SignupCtrl #D3E5FF
+  component "[UC-02]\nAuthController" as AuthCtrl #F3E5F5
+  component "[UC-03]\nWalletController" as WalletCtrl #FFF3E0
+  
+  ' UC-04, UC-05 (nouveaux)
+  component "[UC-04]\nMarketDataController\n+ WebSocket Hub" as MarketCtrl #FCE4EC
+  component "[UC-05]\nOrdersController" as OrdersCtrl #F1F8E9
+  
+  component "PaymentWebhookController" as WebhookCtrl #E0E0E0
+}
+
+' =======================
+'   LAYER 2: PORTS ENTRANTS (Interfaces Application)
+' =======================
+package "Ports entrants (Interfaces Use Cases)" <<Rectangle>> {
+  interface ISignupUseCase <<UC-01>>
+  interface IAuthUseCase <<UC-02>>
+  interface IDepositUseCase <<UC-03>>
+  interface ISettlementCallbackUseCase <<UC-03>>
+  interface IMarketDataUseCase <<UC-04>>
+  interface IOrderUseCase <<UC-05>>
+}
+
+' =======================
+'   LAYER 3: APPLICATION SERVICES
+' =======================
+package "Application Layer (Services)" <<Rectangle>> {
+  component "SignupService" as SignupSvc #D3E5FF
+  component "AuthService" as AuthSvc #F3E5F5
+  component "WalletService" as WalletSvc #FFF3E0
+  component "MarketDataService" as MarketSvc #FCE4EC
+  component "OrderService" as OrderSvc #F1F8E9
+}
+
+' =======================
+'   LAYER 4: DOMAINE (Entités/Règles métier)
+' =======================
+package "Domaine (Entités & Règles métier)" <<Rectangle>> {
+  component "Client\nCompte\nDossierKYC\nVerifContactOTP" as IdentityDomain #D3E5FF
+  component "Session\nPolitiqueMFA\nDefiMFA" as SecurityDomain #F3E5F5
+  component "Portefeuille\nPayTx\nLedger" as WalletDomain #FFF3E0
+  component "Quote\nSubscription" as MarketDataDomain #FCE4EC
+  component "Ordre\nExecution\nPosition" as TradingDomain #F1F8E9
+  component "AuditLog" as AuditDomain #EDE7F6
+}
+
+' =======================
+'   LAYER 5: PORTS SORTANTS (Interfaces Infrastructure)
+' =======================
+package "Ports sortants (Interfaces Infrastructure)" <<Rectangle>> {
+  ' Repositories
+  interface IClientRepository
+  interface IAccountRepository
+  interface IPortfolioRepository
+  interface IPayTxRepository
+  interface IOrderRepository
+  interface IPositionRepository
+  interface IQuoteRepository
+  interface ISubscriptionRepository
+  
+  ' External services
+  interface IOtpPort
+  interface IKycPort
+  interface IPaymentPort
+  interface IMarketFeedPort
+  
+  ' Infrastructure
+  interface ISessionPort
+  interface IAuditPort
+  interface ILedgerPort
+}
+
+' =======================
+'   LAYER 6: ADAPTERS SORTANTS (Implémentations)
+' =======================
+package "Adapters sortants (Infrastructure)" <<Rectangle>> {
+  ' EF Core Repositories
+  component "EfClientRepository" as EfClient
+  component "EfAccountRepository" as EfAccount
+  component "EfPortfolioRepository" as EfPortfolio
+  component "EfPayTxRepository" as EfPayTx
+  component "EfOrderRepository" as EfOrder
+  component "EfPositionRepository" as EfPosition
+  component "EfQuoteRepository" as EfQuote
+  component "EfSubscriptionRepository" as EfSubscription
+  
+  ' External adapters
+  component "EmailSmsOtpAdapter" as OtpAdapter
+  component "KycAdapterSim" as KycAdapter
+  component "PaymentAdapterSim" as PayAdapter
+  component "MarketFeedSimAdapter" as MarketAdapter
+  
+  ' Infrastructure adapters
+  component "JwtSessionAdapter" as JwtAdapter
+  component "StructuredAuditAdapter" as AuditAdapter
+  component "SqlLedgerAdapter" as LedgerAdapter
+}
+
+' =======================
+'   LAYER 7: SYSTÈMES EXTERNES SIMULÉS
+' =======================
+package "Simulateurs (Docker local)" <<Rectangle>> {
+  component "otp-sim" as OtpSim
+  component "kyc-sim" as KycSim
+  component "pay-sim" as PaySim
+  component "market-feed-sim" as MarketSim
+}
+
+' =======================
+'   CONNEXIONS: Client & k6 → Controllers (groupées)
+' =======================
+client -down-> SignupCtrl
+client -down-> MarketCtrl
+k6 -down-> AuthCtrl
+
+note on link
+  Client utilise tous les controllers
+  k6 teste UC-01, UC-02, UC-03
+end note
+
+' =======================
+'   CONNEXIONS: Controllers → Ports entrants
+' =======================
+SignupCtrl -down-> ISignupUseCase
+AuthCtrl -down-> IAuthUseCase
+WalletCtrl -down-> IDepositUseCase
+WebhookCtrl -down-> ISettlementCallbackUseCase
+MarketCtrl -down-> IMarketDataUseCase
+OrdersCtrl -down-> IOrderUseCase
+
+' =======================
+'   CONNEXIONS: Services implémentent Ports entrants
+' =======================
+SignupSvc .up.|> ISignupUseCase
+AuthSvc .up.|> IAuthUseCase
+WalletSvc .up.|> IDepositUseCase
+WalletSvc .up.|> ISettlementCallbackUseCase
+MarketSvc .up.|> IMarketDataUseCase
+OrderSvc .up.|> IOrderUseCase
+
+' =======================
+'   CONNEXIONS: Services → Domaine
+' =======================
+SignupSvc -down-> IdentityDomain
+AuthSvc -down-> SecurityDomain
+WalletSvc -down-> WalletDomain
+MarketSvc -down-> MarketDataDomain
+OrderSvc -down-> TradingDomain
+OrderSvc -down-> WalletDomain : (Ledger pour trades)
+
+SignupSvc -down-> AuditDomain
+AuthSvc -down-> AuditDomain
+WalletSvc -down-> AuditDomain
+OrderSvc -down-> AuditDomain
+
+' =======================
+'   CONNEXIONS: Services → Ports sortants (Repos)
+' =======================
+SignupSvc -down-> IClientRepository
+SignupSvc -down-> IAccountRepository
+AuthSvc -down-> IClientRepository
+WalletSvc -down-> IPortfolioRepository
+WalletSvc -down-> IPayTxRepository
+MarketSvc -down-> IQuoteRepository
+MarketSvc -down-> ISubscriptionRepository
+OrderSvc -down-> IOrderRepository
+OrderSvc -down-> IPositionRepository
+OrderSvc -down-> IQuoteRepository : (prix actuels)
+
+' =======================
+'   CONNEXIONS: Services → Ports sortants (External)
+' =======================
+SignupSvc -down-> IOtpPort
+SignupSvc -down-> IKycPort
+AuthSvc -down-> IOtpPort
+WalletSvc -down-> IPaymentPort
+MarketSvc -down-> IMarketFeedPort
+
+' =======================
+'   CONNEXIONS: Services → Ports sortants (Infra)
+' =======================
+SignupSvc -down-> IAuditPort
+AuthSvc -down-> IAuditPort
+AuthSvc -down-> ISessionPort
+WalletSvc -down-> IAuditPort
+WalletSvc -down-> ILedgerPort
+OrderSvc -down-> IAuditPort
+OrderSvc -down-> ILedgerPort
+
+' =======================
+'   CONNEXIONS: Adapters implémentent Ports sortants
+' =======================
+EfClient .up.|> IClientRepository
+EfAccount .up.|> IAccountRepository
+EfPortfolio .up.|> IPortfolioRepository
+EfPayTx .up.|> IPayTxRepository
+EfOrder .up.|> IOrderRepository
+EfPosition .up.|> IPositionRepository
+EfQuote .up.|> IQuoteRepository
+EfSubscription .up.|> ISubscriptionRepository
+
+OtpAdapter .up.|> IOtpPort
+KycAdapter .up.|> IKycPort
+PayAdapter .up.|> IPaymentPort
+MarketAdapter .up.|> IMarketFeedPort
+
+JwtAdapter .up.|> ISessionPort
+AuditAdapter .up.|> IAuditPort
+LedgerAdapter .up.|> ILedgerPort
+
+' =======================
+'   CONNEXIONS: Adapters → Simulateurs
+' =======================
+OtpAdapter -down-> OtpSim : HTTP
+KycAdapter -down-> KycSim : HTTP
+PayAdapter -down-> PaySim : HTTP
+MarketAdapter -down-> MarketSim : WebSocket
+
+' Webhook callback
+PaySim -up-> WebhookCtrl : POST /payment/webhook
+
+' =======================
+'   LÉGENDE
+' =======================
+legend right
+  **Type**: Component & Connector (C&C) — Style Architectural Hexagonal
+  
+  **Flux de dépendances** (de haut en bas):
+    Client → Controllers (Adapters entrants)
+           → Ports entrants (Interfaces UC)
+           → Services Application (orchestration)
+           → Domaine (règles métier pures)
+           → Ports sortants (Interfaces infra)
+           → Adapters sortants (implémentations)
+           → Systèmes externes (simulés)
+  
+  **Principe clé**: Le Domaine ne dépend de RIEN
+    - Pas de référence à EF Core, ASP.NET, HTTP, etc.
+    - Toutes les dépendances pointent VERS le domaine
+    - Inversion de dépendances via ports sortants
+  
+  **Use Cases implémentés**:
+     UC-01 (Signup): SignupController → SignupService → Identity Domain
+     UC-02 (Auth): AuthController → AuthService → Security Domain
+     UC-03 (Deposits): WalletController → WalletService → Wallet Domain
+     UC-04 (Market Data): MarketDataController → MarketDataService → MarketData Domain
+     UC-05 (Orders): OrdersController → OrderService → Trading Domain
+ 
+  
+  **Communication inter-services** (si microservices):
+    OrderService → MarketDataService (HTTP) pour obtenir prix actuels
+  
+
+end legend
+
+@enduml

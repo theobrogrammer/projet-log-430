@@ -1,0 +1,178 @@
+{
+  "$schema": "https://www.krakend.io/schema/v2.7/krakend.json",
+  "version": 3,
+  "name": "BrokerX API Gateway",
+  "port": 8080,
+  "timeout": "5s",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  
+  "extra_config": {
+    "telemetry/opencensus": {
+      "sample_rate": 100,
+      "reporting_period": 1,
+      "exporters": {
+        "prometheus": {
+          "port": 9091,
+          "namespace": "krakend",
+          "tag_host": false,
+          "tag_path": true,
+          "tag_method": true,
+          "tag_statuscode": true
+        }
+      }
+    }
+  },
+
+  "endpoints": [
+    {
+      "endpoint": "/api/v1/signup",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/signup",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 100,
+          "client_max_rate": 10,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 5,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/signup/verify-otp",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/signup/verify-otp",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 100,
+          "client_max_rate": 10,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 5,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/auth/login",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/auth/login",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 100,
+          "client_max_rate": 10,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 5,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/auth/mfa/verify",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/auth/mfa/verify",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 100,
+          "client_max_rate": 10,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 5,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/wallet/deposit",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/wallet/deposit",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 50,
+          "client_max_rate": 5,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 5,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
+      "endpoint": "/health",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/health",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ]
+    }
+  ]
+}

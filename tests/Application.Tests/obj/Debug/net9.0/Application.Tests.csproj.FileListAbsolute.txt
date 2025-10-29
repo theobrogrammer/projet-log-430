@@ -220,3 +220,5 @@ C:/Users/Theot/Documents/GitHub/projet-log-430/tests/Application.Tests/obj/Debug
 /home/theodor/Documents/github/projet-log-430/tests/Application.Tests/obj/Debug/net9.0/Application.Tests.pdb
 /home/theodor/Documents/github/projet-log-430/tests/Application.Tests/obj/Debug/net9.0/Application.Tests.genruntimeconfig.cache
 /home/theodor/Documents/github/projet-log-430/tests/Application.Tests/obj/Debug/net9.0/ref/Application.Tests.dll
+/home/theodor/Documents/github/projet-log-430/tests/Application.Tests/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/home/theodor/Documents/github/projet-log-430/tests/Application.Tests/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll

@@ -55,6 +55,9 @@ public sealed class Compte
         Touch();
     }
 
+    // Helper pour les tests uniquement
+    public void SetId(Guid accountId) => AccountId = accountId;
+
     private void Touch() => UpdatedAt = DateTimeOffset.UtcNow;
 
     private static string GenererAccountNo()

@@ -203,10 +203,7 @@ C:/Users/Theot/Documents/GitHub/projet-log-430/src/Infrastructure.Web/obj/Debug/
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/Infrastructure.Web.MvcApplicationPartsAssemblyInfo.cache
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/Infrastructure.Web.sourcelink.json
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/scopedcss/bundle/Infrastructure.Web.styles.css
-/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-unlzjxth4i.gz
-/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-e2rcwovhkg.gz
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/4mesbq26w6-5jbtx1t9f0.gz
-/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-01pu7kciqf.gz
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-lmyg51iww4.gz
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/727rd72i7w-ecrofxrtl0.gz
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/nreiq9ll8n-ew2m42vk9r.gz
@@ -225,3 +222,11 @@ C:/Users/Theot/Documents/GitHub/projet-log-430/src/Infrastructure.Web/obj/Debug/
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/Infrastructure.Web.pdb
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/Infrastructure.Web.genruntimeconfig.cache
 /home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/ref/Infrastructure.Web.dll
+/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/0fx41w75rj-unlzjxth4i.gz
+/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-za9lu2mjut.gz
+/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-txpcsv01es.gz
+/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/97xruf1o53-01pu7kciqf.gz
+/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-3gw0fb0ald.gz
+/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-xluem7jh1n.gz
+/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/92poikq3cx-bqzcq28bls.gz
+/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-v9nlwx2czz.gz

@@ -119,7 +119,15 @@ builder.Services.AddScoped<IOtpPort>(serviceProvider =>
 builder.Services.AddSingleton<ISessionPort, JwtSessionAdapter>();
 builder.Services.AddSingleton<IKycPort, KycAdapterSim>();
 builder.Services.AddHttpClient<PaymentAdapterSim>();
-builder.Services.AddSingleton<IPaymentPort>(sp => sp.GetRequiredService<PaymentAdapterSim>());
+builder.Services.AddSingleton<IPaymentPort>(sp => 
+{
+    var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+    var httpClient = httpClientFactory.CreateClient();
+    
+    // Utiliser l'URL de localhost pour les tests et production
+    var webhookUrl = "http://localhost:8080/api/v1/payment";
+    return new PaymentAdapterSim(httpClient, webhookUrl);
+});
 
 // Static files (pages)
 builder.Services.AddEndpointsApiExplorer();

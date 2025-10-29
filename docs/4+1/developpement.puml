@@ -1,68 +1,331 @@
 @startuml
-title 4+1 - Vue Développement (projets .NET + stéréotypes de dépendance)
+title 4+1 - Vue Développement (Structure des projets .NET + dépendances)
+
 skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 80
 
-package "BrokerX.Domain" as Domain {
-  package "Model" as DomModel {}
-  package "Ports.Inbound" as DomIn {}
-  package "Ports.Outbound" as DomOut {}
+' =======================
+' LAYER 1: DOMAIN (Centre - Pas de dépendances)
+' =======================
+package "BrokerX.Domain" as Domain #E8F5E9 {
+  package "Model" as DomModel {
+    package "Identite" as ModelId {
+      class "Client.cs" as ClientCs
+      class "Compte.cs" as CompteCs
+      class "DossierKYC.cs" as KycCs
+      class "VerifContactOTP.cs" as OtpCs
+    }
+    package "Securite" as ModelSec {
+      class "Session.cs" as SessionCs
+      class "PolitiqueMFA.cs" as MfaPolicyCs
+      class "DefiMFA.cs" as MfaChallengeCs
+    }
+    package "PortefeuilleReglement" as ModelPfr {
+      class "Portefeuille.cs" as PortfolioCs
+      class "TransactionPaiement.cs" as PayTxCs
+      class "EcritureLedger.cs" as LedgerCs
+    }
+    package "Trading" as ModelTrd #F1F8E9 {
+      class "Ordre.cs ✨" as OrderCs
+      class "Execution.cs ✨" as ExecCs
+      class "Position.cs ✨" as PositionCs
+    }
+    package "MarketData" as ModelMkt #FCE4EC {
+      class "Quote.cs ✨" as QuoteCs
+      class "Subscription.cs ✨" as SubCs
+    }
+    package "Observabilite" as ModelObs {
+      class "AuditLog.cs" as AuditCs
+    }
+  }
+  
+  package "Ports.Inbound" as DomIn {
+    interface "ISignupUseCase.cs" as ISignup
+    interface "IAuthUseCase.cs" as IAuth
+    interface "IDepositUseCase.cs" as IDeposit
+    interface "IMarketDataUseCase.cs ✨" as IMarket
+    interface "IOrderUseCase.cs ✨" as IOrder
+  }
+  
+  package "Ports.Outbound" as DomOut {
+    ' Repositories
+    interface "IClientRepository.cs" as IClientRepo
+    interface "IAccountRepository.cs" as IAccountRepo
+    interface "IPortfolioRepository.cs" as IPortfolioRepo
+    interface "IPayTxRepository.cs" as IPayTxRepo
+    interface "IOrderRepository.cs ✨" as IOrderRepo
+    interface "IPositionRepository.cs ✨" as IPositionRepo
+    interface "IQuoteRepository.cs ✨" as IQuoteRepo
+    interface "ISubscriptionRepository.cs ✨" as ISubRepo
+    
+    ' External services
+    interface "IOtpPort.cs" as IOtpPort
+    interface "IKycPort.cs" as IKycPort
+    interface "IPaymentPort.cs" as IPaymentPort
+    interface "IMarketFeedPort.cs ✨" as IMarketFeedPort
+    
+    ' Infrastructure services
+    interface "ISessionPort.cs" as ISessionPort
+    interface "IAuditPort.cs" as IAuditPort
+    interface "ILedgerPort.cs" as ILedgerPort
+  }
+  
+  package "Contracts" as DomContracts {
+    class "SignupResult.cs" as SignupResult
+    class "LoginResult.cs" as LoginResult
+    class "DepositResult.cs" as DepositResult
+    class "MarketDataResult.cs ✨" as MarketResult
+    class "OrderResult.cs ✨" as OrderResult
+  }
 }
 
-package "BrokerX.Application" as App {
-  package "Services" as AppSvc {}
-  package "DTOs" as AppDto {}
+' =======================
+' LAYER 2: APPLICATION (Orchestration)
+' =======================
+package "BrokerX.Application" as App #FFF9C4 {
+  package "Services" as AppSvc {
+    class "SignupService.cs" as SignupSvc
+    class "AuthService.cs" as AuthSvc
+    class "WalletService.cs" as WalletSvc
+    class "MarketDataService.cs ✨" as MarketSvc
+    class "OrderService.cs ✨" as OrderSvc
+  }
+  
+  package "DTOs" as AppDto {
+    note "Request/Response DTOs\nValidation attributes" as DtoNote
+  }
 }
 
-package "BrokerX.Infrastructure.Web" as Web {
-  package "Controllers" as WebCtl {}
-  package "DTOs" as WebDto {}
+' =======================
+' LAYER 3: INFRASTRUCTURE WEB (API)
+' =======================
+package "BrokerX.Infrastructure.Web" as Web #BBDEFB {
+  package "Controllers" as WebCtl {
+    class "SignupController.cs\n(UC-01)" as SignupCtrl
+    class "AuthController.cs\n(UC-02)" as AuthCtrl
+    class "WalletController.cs\n(UC-03)" as WalletCtrl
+    class "MarketDataController.cs ✨\n(UC-04)" as MarketCtrl
+    class "OrdersController.cs ✨\n(UC-05)" as OrdersCtrl
+    class "PaymentWebhookController.cs" as WebhookCtrl
+  }
+  
+  package "Hubs" as WebHubs #FCE4EC {
+    class "MarketDataHub.cs ✨\n(WebSocket)" as MarketHub
+  }
+  
+  package "DTOs" as WebDto {
+    note "API Request/Response\nOpenAPI/Swagger" as WebDtoNote
+  }
+  
+  package "Middleware" as WebMw {
+    class "ErrorHandlingMiddleware.cs" as ErrorMw
+    class "AuthenticationMiddleware.cs" as AuthMw
+  }
+  
+  class "Program.cs" as Program
+  class "appsettings.json" as AppSettings
 }
 
-package "BrokerX.Infrastructure.Persistence" as Persist {
-  package "Repositories" as Repo {}
-  package "Migrations" as Mig {}
+' =======================
+' LAYER 4: INFRASTRUCTURE PERSISTENCE (Repositories + EF Core)
+' =======================
+package "BrokerX.Infrastructure.Persistence" as Persist #FFE0B2 {
+  package "Repositories" as Repo {
+    class "EfClientRepository.cs" as ClientRepo
+    class "EfAccountRepository.cs" as AccountRepo
+    class "EfPortfolioRepository.cs" as PortfolioRepo
+    class "EfPayTxRepository.cs" as PayTxRepo
+    class "EfOrderRepository.cs ✨" as OrderRepo
+    class "EfPositionRepository.cs ✨" as PositionRepo
+    class "EfQuoteRepository.cs ✨" as QuoteRepo
+    class "EfSubscriptionRepository.cs ✨" as SubRepo
+  }
+  
+  package "Migrations" as Mig {
+    note "EF Core Migrations\nInitialCreate, AddTrading, etc." as MigNote
+  }
+  
+  package "Configurations" as Config {
+    note "Entity configurations\nFluent API mappings" as ConfigNote
+  }
+  
+  class "BrokerXDbContext.cs" as DbContext
 }
 
-package "BrokerX.Infrastructure.Adapters" as Adapters {
-  package "Otp" {}
-  package "Kyc" {}
-  package "Payment" {}
-  package "Session" {}
-  package "Audit" {}
-  package "Ledger" {}
+' =======================
+' LAYER 5: INFRASTRUCTURE ADAPTERS (Services externes)
+' =======================
+package "BrokerX.Infrastructure.Adapters" as Adapters #F8BBD0 {
+  package "Otp" {
+    class "EmailSmsOtpAdapter.cs" as OtpAdapter
+  }
+  package "Kyc" {
+    class "KycAdapterSim.cs" as KycAdapter
+  }
+  package "Payment" {
+    class "PaymentAdapterSim.cs" as PayAdapter
+  }
+  package "MarketFeed" #FCE4EC {
+    class "MarketFeedSimAdapter.cs ✨" as MarketFeedAdapter
+  }
+  package "Session" {
+    class "JwtSessionAdapter.cs" as SessionAdapter
+  }
+  package "Audit" {
+    class "StructuredAuditAdapter.cs" as AuditAdapter
+  }
+  package "Ledger" {
+    class "SqlLedgerAdapter.cs" as LedgerAdapter
+  }
+}
+
+' =======================
+' LAYER 6: TESTS
+' =======================
+package "Tests" as Tests #E1BEE7 {
+  package "Domain.Tests" as DomainTests {
+    class "UnitTest1.cs" as DomainUnit1
+    note "Tests unitaires entités domaine\n(À créer pour UC-04/05)" as DomainNote
+    class "OrderTests.cs ✨" as OrderTests
+    class "PositionTests.cs ✨" as PositionTests
+  }
+  
+  package "Application.Tests" as AppTests {
+    class "UnitTest1.cs" as AppUnit1
+    note "Tests unitaires services\n(À créer pour UC-04/05)" as AppNote
+    class "MarketDataServiceTests.cs ✨" as MarketSvcTests
+    class "OrderServiceTests.cs ✨" as OrderSvcTests
+  }
+  
+  package "E2E.Tests" as E2ETests {
+    class "SimpleE2ETests.cs" as SimpleE2E
+    note right of SimpleE2E
+      Tests E2E existants:
+      - POST_Signup_WithValidData
+      - POST_Login_WithValidCredentials
+      - POST_Deposit_WithValidData
+      (UC-01, UC-02, UC-03)
+    end note
+    
+    class "MarketDataSubscriptionTests.cs ✨" as E2EMarketTests
+    class "OrderPlacementTests.cs ✨" as E2EOrderTests
+  }
+  
+  package "Infrastructure.Tests" as InfraTests {
+    class "UnitTest1.cs" as InfraUnit1
+    class "RedisCacheAdapterTests.cs" as CacheTests
+    class "RedisCachePerformanceTests.cs" as PerfTests
+    note right of CacheTests
+      Tests cache Redis existants
+    end note
+  }
 }
 
 ' ===========================
-' Dépendances inter-projets
+' DÉPENDANCES INTER-PROJETS (flèches épaisses)
 ' ===========================
-Web ..> App       : <<access>>
-App  ..> Domain   : <<access>>
-Persist ..> Domain: <<access>>
-Adapters ..> Domain: <<access>>
+Web =down=> App       : <<access>>
+App =down=> Domain    : <<access>>
+Persist =down=> Domain: <<access>>
+Adapters =down=> Domain: <<access>>
 
-' Optionnel si tes ports sortants sont dans Application :
-' Persist ..> App    : <<access>>
-' Adapters ..> App   : <<access>>
+Tests =down=> Domain : <<access>>
+Tests =down=> App : <<access>>
+Tests =down=> Web : <<access>>
 
 ' ===========================
-' Dépendances intra-projets
-' (simulent l'effet de "using")
+' DÉPENDANCES INTRA-PROJETS (flèches fines)
 ' ===========================
-WebCtl ..> DomIn   : <<import>>  ' les contrôleurs consomment les ports entrants
-WebCtl ..> AppDto  : <<import>>  ' mapping DTO web -> DTO application
-AppSvc  ..> DomModel: <<import>>  ' services manipulent directement le modèle
-Repo    ..> DomOut  : <<import>>  ' repos implémentent les ports sortants
+' Controllers -> Ports Inbound
+SignupCtrl ..> ISignup : <<import>>
+AuthCtrl ..> IAuth : <<import>>
+WalletCtrl ..> IDeposit : <<import>>
+MarketCtrl ..> IMarket : <<import>>
+OrdersCtrl ..> IOrder : <<import>>
+MarketHub ..> IMarket : <<import>>
+
+' Services -> Domain Model
+AppSvc ..> DomModel : <<import>>
+AppSvc ..> DomContracts : <<import>>
+
+' Services implement Ports Inbound
+SignupSvc ..|> ISignup
+AuthSvc ..|> IAuth
+WalletSvc ..|> IDeposit
+MarketSvc ..|> IMarket
+OrderSvc ..|> IOrder
+
+' Repositories -> Ports Outbound
+Repo ..> DomOut : <<implement>>
+
+' Adapters -> Ports Outbound
+OtpAdapter ..> DomOut : <<implement>>
+KycAdapter ..> DomOut : <<implement>>
+PayAdapter ..> DomOut : <<implement>>
+MarketFeedAdapter ..> DomOut : <<implement>>
+SessionAdapter ..> DomOut : <<implement>>
+AuditAdapter ..> DomOut : <<implement>>
+LedgerAdapter ..> DomOut : <<implement>>
 
 legend right
-  **Stéréotypes de dépendance (Visual Paradigm)**
-  - <<import>> : importe les noms publics (résolution non qualifiée)
-  - <<access>> : accès aux éléments publics sans import de noms
-
-  **Recommandations**
-  - Entre projets .NET : preferer <<access>>
-  - A l'intérieur d'un projet (sous-packages) : <<import>> pour figurer les "using"
-
-  **Sens cible**
-  Infrastructure(Web/Adapters/Persistence) -> Application -> Domain
+  **Type**: Vue Développement (4+1) - Organisation des projets .NET
+  
+  **Stéréotypes de dépendance**:
+    - ==> (épais) : Dépendance entre projets (.csproj references)
+    - ..> (fin) : Dépendance intra-projet (using statements)
+    - <<access>> : Accès aux éléments publics
+    - <<import>> : Import des types (using namespace)
+    - <<implement>> : Implémentation d'interface
+  
+  **Principe de dépendance**:
+    Infrastructure → Application → Domain
+    (Le Domain ne dépend de RIEN)
+  
+  **Structure des projets**:
+    • **Domain**: Entités, règles métier, ports (interfaces)
+    • **Application**: Services orchestrateurs, use cases
+    • **Infrastructure.Web**: Controllers, Hubs WebSocket, API
+    • **Infrastructure.Persistence**: EF Core, repositories, migrations
+    • **Infrastructure.Adapters**: Implémentations services externes
+    • **Tests**: Tests unitaires, intégration, E2E
+  
+  **Nouveautés UC-04/05 (✨ = À créer)**:
+    • **Domain.Model.Trading**: Ordre.cs, Execution.cs, Position.cs
+    • **Domain.Model.MarketData**: Quote.cs, Subscription.cs
+    • **Application**: MarketDataService.cs, OrderService.cs
+    • **Web**: MarketDataController.cs, OrdersController.cs, MarketDataHub.cs
+    • **Persistence**: 4 nouveaux repositories (Order, Position, Quote, Subscription)
+    • **Adapters.MarketFeed**: MarketFeedSimAdapter.cs (WebSocket quotes)
+    • **Tests**: 4 nouvelles suites de tests à créer
+  
+  **Tests existants**:
+    • **Domain.Tests**: UnitTest1.cs (template de base)
+    • **Application.Tests**: UnitTest1.cs (template de base)
+    • **E2E.Tests**: SimpleE2ETests.cs (UC-01 Signup, UC-02 Login, UC-03 Deposit)
+    • **Infrastructure.Tests**: UnitTest1.cs, RedisCacheAdapterTests.cs, RedisCachePerformanceTests.cs
+  
+  **Tests à créer (✨)**:
+    • **Domain.Tests**: OrderTests.cs, PositionTests.cs
+    • **Application.Tests**: MarketDataServiceTests.cs, OrderServiceTests.cs
+    • **E2E.Tests**: MarketDataSubscriptionTests.cs, OrderPlacementTests.cs
+  
+  **Organisation microservices (Étape 2b)**:
+    Si refactorisation en microservices:
+    - Services.Identity (UC-01, UC-02)
+    - Services.Wallet (UC-03)
+    - Services.MarketData (UC-04) ✨
+    - Services.Orders (UC-05) ✨
+    - Services.Reporting
+    
+    Chaque service répète la structure:
+    Domain → Application → Infrastructure.Web/Persistence/Adapters
+  
+  **État d'implémentation**:
+    ✅ UC-01, UC-02 : Implémentés + Tests E2E (SimpleE2ETests.cs)
+    🔄 UC-03 : Partiel (manque idempotency) + Tests E2E existants
+    ✨ UC-04, UC-05 : À implémenter (structure définie, tests à créer)
 end legend
+
 @enduml

@@ -104,6 +104,24 @@ docker exec brokerx-redis redis-cli keys "*"
 
 ---
 
+## 🌐 Gateway (Phase 2b)
+
+```bash
+# Tester via gateway
+curl -X POST http://localhost:8080/api/v1/signup \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","fullName":"Test","password":"SecureP@ss123","confirmPassword":"SecureP@ss123"}'
+
+# Tests complets
+./tests/scripts/test-krakend-gateway.sh
+```
+
+**Services :**
+- **Gateway** : http://localhost:8080
+- **Métriques** : http://localhost:9091/metrics
+
+---
+
 ## 🚨 Problèmes Courants
 
 **API ne démarre pas** :
@@ -134,6 +152,54 @@ curl http://localhost:9090/api/v1/targets | grep "brokerx-api"
 
 ## 📚 Documentation Détaillée
 
+- **Architecture Ports** : `documentation-projet/architecture/ARCHITECTURE-PORTS.md`
 - **Tests Load Balancing** : `tests/resultats-k6/scaling-comparison/`
 - **Tests Redis Cache** : `tests/resultats-redis/VALIDATION-REDIS-CACHE.md`
+- **KrakenD Gateway** : `docs/PHASE2B-GATEWAY-SUMMARY.md`
 - **Scripts** : `tests/scripts/`
+
+---
+
+## 🚨 Problèmes Courants
+
+```bash
+# Via KrakenD Gateway (port 8080)
+BASE_URL=http://localhost:8080 k6 run --duration 1m --vus 10 scripts/k6/signup.js
+```
+
+### Comparaison automatique
+
+```bash
+# Compare les 3 modes (Direct, NGINX, Gateway)
+./tests/scripts/test-krakend-gateway.sh
+```
+
+**Résultats attendus :**
+- **Overhead gateway** : +2-5ms latence P95
+- **Rate limiting** : 429 si > 100 req/s
+- **Circuit breaker** : 503 après 5 erreurs consécutives
+
+---
+
+## 📊 Résumé Architecture Phase 2
+
+| Composant | Port | Rôle | Status |
+|-----------|------|------|--------|
+| **KrakenD Gateway** | 8080 | Point d'entrée public | ✅ Phase 2b |
+| **NGINX Load Balancer** | 8090 | Distribution de charge | ✅ Phase 2a |
+| **API Instance 1-4** | 5001-5004 (debug) | Backend API | ✅ Phase 2a |
+| **Redis Cache** | 6379 (interne) | Cache distribué | ✅ Phase 2a |
+| **MySQL** | 3307 | Base de données | ✅ |
+| **Prometheus** | 9090 | Métriques | ✅ |
+| **Grafana** | 3000 | Dashboards | ✅ |
+
+**Flux de requête :**
+```
+Client 
+  → KrakenD:8080 (rate limit, circuit breaker)
+    → NGINX:8090 (load balancing)
+      → [API-1:8080, API-2:8080, API-3:8080, API-4:8080]
+        → Redis:6379 (cache)
+        → MySQL:3307 (persistence)
+```
+

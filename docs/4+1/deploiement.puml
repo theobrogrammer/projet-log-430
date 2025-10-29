@@ -48,6 +48,7 @@ package "Étape 2a: Load Balancing & Observabilité (Phase 2 énoncé - À impl�
       node "app-1" as app2_1
       node "app-2" as app2_2
       node "app-3" as app2_3
+      node "app-4" as app2_4
     }
     
     node "Redis\n(Cache)" as redis {
@@ -76,17 +77,32 @@ package "Étape 2b: API Gateway & Microservices (Phase 2 énoncé - À implémen
     }
     
     node "Microservices" {
-      component "Orders Service" as orders_svc
-      component "Portfolio Service" as portfolio_svc
+      component "Identity Service\n(UC-01, UC-02)" as identity_svc
+      component "Wallet Service\n(UC-03)" as wallet_svc
+      component "Market Data Service\n(UC-04)" as marketdata_svc
+      component "Orders Service\n(UC-05)" as orders_svc
       component "Reporting Service" as report_svc
-      component "Auth Service" as auth_svc
     }
     
     node "NGINX\n(per-service LB)" as nginx3
     
-    database "MySQL Orders" as db_orders
-    database "MySQL Portfolio" as db_portfolio
-    database "MySQL Auth" as db_auth
+    database "MySQL\n(SHARED)\nport 3307" as db_shared {
+      note right
+        Base unique partagée:
+        - identity_db
+        - wallet_db
+        - orders_db
+        - marketdata_db
+        - reporting_db
+      end note
+    }
+    
+    node "Simulateurs" {
+      component "market-feed-sim" as mkt_sim
+      component "otp-sim" as otp3
+      component "kyc-sim" as kyc3
+      component "pay-sim" as pay3
+    }
     
     node "Redis Cluster" as redis3
     node "Prometheus" as prom3
@@ -108,18 +124,22 @@ api1 --> pay1 : HTTP
 nginx --> app2_1 : HTTP/1.1
 nginx --> app2_2 : HTTP/1.1
 nginx --> app2_3 : HTTP/1.1
+nginx --> app2_4 : HTTP/1.1
 
 app2_1 --> db2 : EF Core
 app2_2 --> db2 : EF Core
 app2_3 --> db2 : EF Core
+app2_4 --> db2 : EF Core
 
 app2_1 --> redis : GET/SET
 app2_2 --> redis : GET/SET
 app2_3 --> redis : GET/SET
+app2_4 --> redis : GET/SET
 
 app2_1 --> prom : /metrics endpoint
 app2_2 --> prom : /metrics endpoint
 app2_3 --> prom : /metrics endpoint
+app2_4 --> prom : /metrics endpoint
 
 grafana --> prom : Query metrics
 k6_tool --> nginx : HTTP load tests
@@ -127,60 +147,88 @@ k6_tool --> nginx : HTTP load tests
 ' =======================
 ' Connexions Étape 2b
 ' =======================
+krakend --> identity_svc : /api/v1/auth/*\n/api/v1/signup/*
+krakend --> wallet_svc : /api/v1/deposits/*
+krakend --> marketdata_svc : /api/v1/market-data/*
 krakend --> orders_svc : /api/v1/orders/*
-krakend --> portfolio_svc : /api/v1/portfolios/*
 krakend --> report_svc : /api/v1/reports/*
-krakend --> auth_svc : /api/v1/auth/*
 
+nginx3 --> identity_svc : LB
+nginx3 --> wallet_svc : LB
+nginx3 --> marketdata_svc : LB
 nginx3 --> orders_svc : LB
-nginx3 --> portfolio_svc : LB
 nginx3 --> report_svc : LB
 
-orders_svc --> db_orders
-portfolio_svc --> db_portfolio
-auth_svc --> db_auth
+identity_svc --> db_shared : EF Core (identity_db)
+wallet_svc --> db_shared : EF Core (wallet_db)
+orders_svc --> db_shared : EF Core (orders_db)
+marketdata_svc --> db_shared : EF Core (marketdata_db)
+report_svc --> db_shared : EF Core (reporting_db)
 
-orders_svc --> redis3 : Cache
-portfolio_svc --> redis3 : Cache
+identity_svc --> redis3 : Session cache
+marketdata_svc --> redis3 : Cache quotes (TTL 5s)
+orders_svc --> redis3 : Cache orders
 
+orders_svc --> marketdata_svc : Get current prices (pre-trade)
+marketdata_svc --> mkt_sim : Stream quotes (WebSocket)
+wallet_svc --> pay3 : Process payment
+identity_svc --> otp3 : Verify OTP
+identity_svc --> kyc3 : Verify KYC
+
+identity_svc --> prom3 : Metrics
+wallet_svc --> prom3 : Metrics
 orders_svc --> prom3 : Metrics
-portfolio_svc --> prom3 : Metrics
+marketdata_svc --> prom3 : Metrics
 report_svc --> prom3 : Metrics
 
 grafana3 --> prom3 : Query
 
 legend right
-  **État d'implémentation**
-  
-  **État initial (Monolith - Avant Phase 2)**: 
-    ✅ UC-01 (Inscription) et UC-02 (Auth) implémentés
-    🔄 UC-03 (Deposits) en cours (manque idempotency-key - traité EN DERNIER)
-  
-  **Étape 2a (Observabilité + LB/Cache)**: ⏳ À implémenter (TODO #5-6)
-    - NGINX load balancer (round-robin)
-    - Redis cache (portfolios, market-data, reports)
-    - Prometheus + Grafana (4 Golden Signals)
-    - Tests k6 (baseline + scaling 1→4 instances)
-  
-  **Étape 2b (Gateway + Microservices)**: ⏳ À implémenter (TODO #7-8)
-    - KrakenD API Gateway (routage + auth + rate limiting)
-    - Découpage microservices (Orders, Portfolio, Reporting, Auth)
-    - Comparatifs A/B (direct vs gateway)
-  
-  **NOTE CRITIQUE**: 
-  **Étapes 2a + 2b = Phase 2 du projet (correction actuelle)**
-  Phase 3 = prochaine correction (après livraison Phase 2)
-  
-  **Objectifs NFR (cahier de charge Phase 2)**
-  État initial (baseline): Latence P95 ≤500ms, Throughput ≥300 req/s, Dispo 90%
-  Étape 2a (LB/Cache): Latence P95 ≤250ms, Throughput ≥800 req/s, Dispo 95.5%
-  Étape 2b (Gateway/µSvc): Latence P95 ≤100ms, Throughput ≥1200 req/s, Dispo 99.9%
-  
-  **Ordre d'implémentation recommandé**:
-  1. Étape 2a : Observabilité + LB + Cache (items 7-35)
-  2. Étape 2b : Gateway + Microservices (items 36-49)
-  3. UC-03 Idempotency : Dépôts idempotents (items 1-8) **EN DERNIER**
-  4. CI/CD + Documentation + Livraison (items 50-65)
+  **Type de diagramme** : Vue Déploiement (4+1)
+
+  **Architecture en 3 étapes** :
+    État initial → Étape 2a (LB/Cache) → Étape 2b (Gateway/Microservices)
+
+  **État initial (Monolith)** :
+    Monolith REST simple avec UC-01 (Signup), UC-02 (Auth), UC-03 (Deposits)
+    MySQL standalone, simulateurs locaux (otp-sim, kyc-sim, pay-sim)
+
+  **Étape 2a (Observabilité + LB/Cache)** :
+    • NGINX load balancer (round-robin, N instances)
+    • Redis cache (portfolios, market-data, reports)
+    • Prometheus + Grafana (4 Golden Signals)
+    • Tests k6 (baseline + scaling)
+
+  **Étape 2b (Gateway + Microservices )** :
+    • KrakenD API Gateway (routage, auth, rate limiting, circuit breaker)
+    • 5 microservices :
+      - Identity :8081 (UC-01, UC-02)
+      - Wallet :8082 (UC-03)
+      - Market Data :8084 (UC-04 - WebSocket streaming, quotes simulés)
+      - Orders :8085 (UC-05 - Place orders, pre-trade checks, matching simulé, P&L)
+      - Reporting :8083 (Analytics)
+    • MySQL SHARED :3307 (base unique avec schémas séparés)
+    • Redis cache spécialisé (sessions, quotes TTL 5s, orders)
+    • Communication synchrone REST/HTTP entre services
+
+ 
+  **Pattern architectural Étape 2b** :
+    • Shared Database (avec isolation logique par schéma)
+    • Communication synchrone REST/HTTP entre services
+    • Cache-aside (Redis pour performance)
+    • API Gateway (orchestration, authentification, throttling)
+    • Matching et P&L simulés dans Orders Service (pas de Matching Engine externe)
+    • Simplicité adaptée au contexte académique
+
+  **Services simulés (internes)** :
+    • market-feed-sim : Génère cotations temps réel (UC-04)
+    • pay-sim : Règlement dépôts (UC-03)
+    • kyc-sim / otp-sim : Vérification identité (UC-01, UC-02)
+
+  **Objectifs NFR (cahier de charges Phase 2)** :
+    État initial : Latence P95 ≤500ms, Throughput ≥300 req/s
+    Étape 2a : Latence P95 ≤250ms, Throughput ≥800 req/s
+    Étape 2b : Latence P95 ≤100ms (UC-05), ≤200ms (UC-04)
 end legend
 
 @enduml

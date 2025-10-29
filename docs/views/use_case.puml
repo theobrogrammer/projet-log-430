@@ -1,5 +1,6 @@
 @startuml
 actor Client
+
 usecase "UC-01 Inscription" as UC01
 usecase "KYC/AML" as KYC
 usecase "OTP d'activation" as OTP
@@ -8,18 +9,32 @@ usecase "Défi MFA" as MFAChallenge
 usecase "UC-03 Approvisionnement" as UC03
 usecase "Validation anti-fraude" as AntiFraud
 usecase "Callback Settlement (async)" as Settlement
+usecase "UC-04 Abonnement\nDonnées Marché" as UC04
+usecase "UC-05 Placement\nOrdre" as UC05
+usecase "Contrôles\nPré-Trade" as PreTrade
+usecase "Vérification\nQuotas/Rate-Limit" as RateLimit
+usecase "Appariement\nOrdres (simulé)" as Matching
+usecase "Flux Marché\n(simulé)" as MarketFeed
 
 Client --> UC01
 Client --> UC02
 Client --> UC03
+Client --> UC04
+Client --> UC05
 
 ' include : base -> réutilisé (obligatoire)
 UC01 .> KYC : <<include>>
 UC01 .> OTP : <<include>>
 UC03 .> AntiFraud : <<include>>
+UC04 .> RateLimit : <<include>>
+UC04 .> MarketFeed : <<include>>
+UC05 .> PreTrade : <<include>>
+UC05 .> Matching : <<include>>
 
 ' extend : extension -> base (optionnel)
 MFAChallenge .> UC02 : <<extend>>\n[si MFA activée]
 MFAChallenge .> OTP : <<include>>   ' OTP réutilisé dans le défi
 Settlement .> UC03 : <<extend>>\n[si paiement asynchrone]
+
 @enduml
+

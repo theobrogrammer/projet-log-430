@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjetLog430.Domain.Ports.Inbound; // IDepositUseCase
+using ProjetLog430.Domain.Ports.Outbound; // IPortfolioRepository
 using ProjetLog430.Infrastructure.Web.DTOs;
 // using ProjetLog430.Infrastructure.Web.Mapping;
 
@@ -10,8 +11,30 @@ namespace ProjetLog430.Infrastructure.Web.Controllers;
 public sealed class WalletController : ControllerBase
 {
     private readonly IDepositUseCase _deposit;
+    private readonly IPortfolioRepository _portfolios;
 
-    public WalletController(IDepositUseCase deposit) => _deposit = deposit;
+    public WalletController(IDepositUseCase deposit, IPortfolioRepository portfolios)
+    {
+        _deposit = deposit;
+        _portfolios = portfolios;
+    }
+
+    /// <summary>UC-03 : Consultation du solde</summary>
+    [HttpGet("balance")]
+    public async Task<ActionResult<WalletBalanceDto>> GetBalance(Guid accountId, CancellationToken ct)
+    {
+        var wallet = await _portfolios.GetByAccountIdAsync(accountId, ct);
+        if (wallet == null) 
+            return NotFound($"Aucun portefeuille trouvé pour le compte {accountId}");
+
+        return Ok(new WalletBalanceDto 
+        {
+            AccountId = accountId,
+            Currency = wallet.Devise,
+            Balance = wallet.SoldeMonnaie,
+            LastUpdated = wallet.UpdatedAt
+        });
+    }
 
     /// <summary>UC-03 : Dépôt (idempotent via Idempotency-Key)</summary>
     [HttpPost("deposit")]
