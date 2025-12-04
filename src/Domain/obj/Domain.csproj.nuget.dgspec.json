@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/theodor/Documents/github/projet-log-430/src/Domain/Domain.csproj": {}
+    "/home/pop28/Documents/github/projet-log-430/src/Domain/Domain.csproj": {}
   },
   "projects": {
-    "/home/theodor/Documents/github/projet-log-430/src/Domain/Domain.csproj": {
+    "/home/pop28/Documents/github/projet-log-430/src/Domain/Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/theodor/Documents/github/projet-log-430/src/Domain/Domain.csproj",
+        "projectUniqueName": "/home/pop28/Documents/github/projet-log-430/src/Domain/Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "/home/theodor/Documents/github/projet-log-430/src/Domain/Domain.csproj",
-        "packagesPath": "/home/theodor/.nuget/packages/",
-        "outputPath": "/home/theodor/Documents/github/projet-log-430/src/Domain/obj/",
+        "projectPath": "/home/pop28/Documents/github/projet-log-430/src/Domain/Domain.csproj",
+        "packagesPath": "/home/pop28/.nuget/packages/",
+        "outputPath": "/home/pop28/Documents/github/projet-log-430/src/Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/theodor/.nuget/NuGet/NuGet.Config"
+          "/home/pop28/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -66,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.112/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

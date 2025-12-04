@@ -5730,19 +5730,19 @@
     ]
   },
   "packageFolders": {
-    "/home/theodor/.nuget/packages/": {}
+    "/home/pop28/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/theodor/Documents/github/projet-log-430/tests/Infrastructure.Tests/Infrastructure.Tests.csproj",
+      "projectUniqueName": "/home/pop28/Documents/github/projet-log-430/tests/Infrastructure.Tests/Infrastructure.Tests.csproj",
       "projectName": "Infrastructure.Tests",
-      "projectPath": "/home/theodor/Documents/github/projet-log-430/tests/Infrastructure.Tests/Infrastructure.Tests.csproj",
-      "packagesPath": "/home/theodor/.nuget/packages/",
-      "outputPath": "/home/theodor/Documents/github/projet-log-430/tests/Infrastructure.Tests/obj/",
+      "projectPath": "/home/pop28/Documents/github/projet-log-430/tests/Infrastructure.Tests/Infrastructure.Tests.csproj",
+      "packagesPath": "/home/pop28/.nuget/packages/",
+      "outputPath": "/home/pop28/Documents/github/projet-log-430/tests/Infrastructure.Tests/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/theodor/.nuget/NuGet/NuGet.Config"
+        "/home/pop28/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -5755,8 +5755,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/Infrastructure.Web.csproj": {
-              "projectPath": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/Infrastructure.Web.csproj"
+            "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/Infrastructure.Web.csproj": {
+              "projectPath": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/Infrastructure.Web.csproj"
             }
           }
         }
@@ -5822,7 +5822,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.112/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
