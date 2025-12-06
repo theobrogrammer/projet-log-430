@@ -12,29 +12,11 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>v9nlwx2czz</Fingerprint>
-      <Integrity>E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM=</Integrity>
+      <Fingerprint>npbeo3gi3g</Fingerprint>
+      <Integrity>NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\dashboard.html'))</OriginalItemSpec>
-    </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\dashboard-old.html'))">
-      <SourceType>Package</SourceType>
-      <SourceId>Infrastructure.Web</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/Infrastructure.Web</BasePath>
-      <RelativePath>dashboard-old.html</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>unlzjxth4i</Fingerprint>
-      <Integrity>an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY=</Integrity>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\dashboard-old.html'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\deposit.html'))">
       <SourceType>Package</SourceType>
@@ -48,8 +30,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>za9lu2mjut</Fingerprint>
-      <Integrity>pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0=</Integrity>
+      <Fingerprint>81hyhaqm2y</Fingerprint>
+      <Integrity>vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\deposit.html'))</OriginalItemSpec>
@@ -66,29 +48,29 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>txpcsv01es</Fingerprint>
-      <Integrity>rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g=</Integrity>
+      <Fingerprint>sy2bxcda5q</Fingerprint>
+      <Integrity>PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\mfa-settings.html'))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\market-data.html'))">
       <SourceType>Package</SourceType>
       <SourceId>Infrastructure.Web</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/Infrastructure.Web</BasePath>
-      <RelativePath>mfa-settings.html</RelativePath>
+      <RelativePath>market-data.html</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>5jbtx1t9f0</Fingerprint>
-      <Integrity>X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww=</Integrity>
+      <Fingerprint>bmk0duqhyq</Fingerprint>
+      <Integrity>Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\mfa-settings.html'))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\market-data.html'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\signin.html'))">
       <SourceType>Package</SourceType>
@@ -102,47 +84,11 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>3gw0fb0ald</Fingerprint>
-      <Integrity>vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc=</Integrity>
+      <Fingerprint>yh8c9teeru</Fingerprint>
+      <Integrity>+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\signin.html'))</OriginalItemSpec>
-    </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\signin-old.html'))">
-      <SourceType>Package</SourceType>
-      <SourceId>Infrastructure.Web</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/Infrastructure.Web</BasePath>
-      <RelativePath>signin-old.html</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>01pu7kciqf</Fingerprint>
-      <Integrity>zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM=</Integrity>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\signin-old.html'))</OriginalItemSpec>
-    </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\signup.html'))">
-      <SourceType>Package</SourceType>
-      <SourceId>Infrastructure.Web</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/Infrastructure.Web</BasePath>
-      <RelativePath>signup.html</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>ecrofxrtl0</Fingerprint>
-      <Integrity>ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II=</Integrity>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\signup.html'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\signup-otp.html'))">
       <SourceType>Package</SourceType>
@@ -156,29 +102,29 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>lmyg51iww4</Fingerprint>
-      <Integrity>TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU=</Integrity>
+      <Fingerprint>yhvi47qkrc</Fingerprint>
+      <Integrity>CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\signup-otp.html'))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\test-mfa.html'))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\test-signalr-client.html'))">
       <SourceType>Package</SourceType>
       <SourceId>Infrastructure.Web</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/Infrastructure.Web</BasePath>
-      <RelativePath>test-mfa.html</RelativePath>
+      <RelativePath>test-signalr-client.html</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>ew2m42vk9r</Fingerprint>
-      <Integrity>LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4=</Integrity>
+      <Fingerprint>tnlaar1in8</Fingerprint>
+      <Integrity>KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\test-mfa.html'))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\test-signalr-client.html'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\trading.html'))">
       <SourceType>Package</SourceType>
@@ -192,29 +138,11 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>xluem7jh1n</Fingerprint>
-      <Integrity>i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ=</Integrity>
+      <Fingerprint>r7411hfjbn</Fingerprint>
+      <Integrity>af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\trading.html'))</OriginalItemSpec>
-    </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\withdraw.html'))">
-      <SourceType>Package</SourceType>
-      <SourceId>Infrastructure.Web</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/Infrastructure.Web</BasePath>
-      <RelativePath>withdraw.html</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>bqzcq28bls</Fingerprint>
-      <Integrity>Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4=</Integrity>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\withdraw.html'))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>

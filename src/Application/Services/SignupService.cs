@@ -97,10 +97,14 @@ public sealed class SignupService : ISignupUseCase
     {
         var client = await _clients.GetByIdAsync(clientId, ct) ?? throw new InvalidOperationException("Client inconnu.");
         var otp = client.DemarrerOtpActivation(CanalOTP.Email, TimeSpan.FromMinutes(10));
-        await _clients.UpdateAsync(client, ct);
-
+        
+        // Générer le code et définir le hash AVANT la sauvegarde
         var code = GenererCode6();
         otp.SetCodeHash(code); // Stocker le hash du code dans l'OTP
+        
+        // Sauvegarder le client avec le nouveau OTP (incluant le hash)
+        await _clients.UpdateAsync(client, ct);
+        
         await _otp.SendContactOtpAsync(client.ClientId, otp.OtpId, CanalOTP.Email, client.Email, code, ct);
 
         await _audit.WriteAsync(

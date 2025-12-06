@@ -1,7 +1,7 @@
 {
-  "Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/theodor\/Documents\/github\/projet-log-430\/src\/Application",
-  "Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/theodor\/Documents\/github\/projet-log-430\/src\/Domain",
-  "Infrastructure.Adapters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/theodor\/Documents\/github\/projet-log-430\/src\/Infrastructure.Adapters",
-  "Infrastructure.Persistence, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/theodor\/Documents\/github\/projet-log-430\/src\/Infrastructure.Persistence",
-  "Infrastructure.Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/theodor\/Documents\/github\/projet-log-430\/src\/Infrastructure.Web"
+  "Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/pop28\/Documents\/github\/projet-log-430\/src\/Application",
+  "Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/pop28\/Documents\/github\/projet-log-430\/src\/Domain",
+  "Infrastructure.Adapters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/pop28\/Documents\/github\/projet-log-430\/src\/Infrastructure.Adapters",
+  "Infrastructure.Persistence, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/pop28\/Documents\/github\/projet-log-430\/src\/Infrastructure.Persistence",
+  "Infrastructure.Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/pop28\/Documents\/github\/projet-log-430\/src\/Infrastructure.Web"
 }

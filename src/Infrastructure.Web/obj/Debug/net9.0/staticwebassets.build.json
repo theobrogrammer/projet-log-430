@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+60GfwAzp6OBujOtVwUpOgWbFH6U/Cl3WjEfVUE/40U=",
+  "Hash": "D8XQs1LWutO5fbWhuEvx3tuu7o37lyROqS+tiXndnMM=",
   "Source": "Infrastructure.Web",
   "BasePath": "_content/Infrastructure.Web",
   "Mode": "Default",
@@ -10,290 +10,185 @@
     {
       "Name": "Infrastructure.Web/wwwroot",
       "Source": "Infrastructure.Web",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
       "BasePath": "_content/Infrastructure.Web",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/0fx41w75rj-unlzjxth4i.gz",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-yh8c9teeru.gz",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "dashboard-old#[.{fingerprint=unlzjxth4i}]?.html.gz",
+      "RelativePath": "signin#[.{fingerprint=yh8c9teeru}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard-old.html",
+      "RelatedAsset": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "sltzi11qbf",
-      "Integrity": "YPm1EaWc0XL6zPDE6hA170UiKigMKpjc9Wnh/LSx6/c=",
+      "Fingerprint": "uoab26150q",
+      "Integrity": "Iosmhk7J6CSHl1LV+ojrlm2IN2G+x9Lotmcm1IBA6s0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard-old.html"
+      "OriginalItemSpec": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-3gw0fb0ald.gz",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-81hyhaqm2y.gz",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "signin#[.{fingerprint=3gw0fb0ald}]?.html.gz",
+      "RelativePath": "deposit#[.{fingerprint=81hyhaqm2y}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html",
+      "RelatedAsset": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "exli10cja2",
-      "Integrity": "fp8TuHpWX++aylweVz16wVzn7YAFlgnc1rfQgi7mPyg=",
+      "Fingerprint": "fvrcmoasxe",
+      "Integrity": "G+6qVfSWeIEHJG15r7aFXbk4/GAjQWoA9jO6wJvtrqM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html"
+      "OriginalItemSpec": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/4mesbq26w6-5jbtx1t9f0.gz",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/irrkus4taq-bmk0duqhyq.gz",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "mfa-settings#[.{fingerprint=5jbtx1t9f0}]?.html.gz",
+      "RelativePath": "market-data#[.{fingerprint=bmk0duqhyq}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/mfa-settings.html",
+      "RelatedAsset": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/market-data.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "8rtsu8iysa",
-      "Integrity": "pCMCYBsxFCtGNQiTtqxXsej5ZM9e0DgNLiGqLFwwN2A=",
+      "Fingerprint": "t07nhusp0l",
+      "Integrity": "TWwxRT7D1khxBBPEkzJaGycipC+TV9wVOL3WAc4I/0M=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/mfa-settings.html"
+      "OriginalItemSpec": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/market-data.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/727rd72i7w-ecrofxrtl0.gz",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-r7411hfjbn.gz",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "signup#[.{fingerprint=ecrofxrtl0}]?.html.gz",
+      "RelativePath": "trading#[.{fingerprint=r7411hfjbn}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup.html",
+      "RelatedAsset": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "btpnvh45sm",
-      "Integrity": "b8WnnVgZwDpmlVjOflGyNSgefv0TlzeLu/UoabGMygo=",
+      "Fingerprint": "76p1m6yhy6",
+      "Integrity": "UbxuE0Dn2YGJl4Ffsnu6WvKapi/tQY/HlQYdxh0gmbY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup.html"
+      "OriginalItemSpec": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/92poikq3cx-bqzcq28bls.gz",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/tlldlf8i6x-tnlaar1in8.gz",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "withdraw#[.{fingerprint=bqzcq28bls}]?.html.gz",
+      "RelativePath": "test-signalr-client#[.{fingerprint=tnlaar1in8}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/withdraw.html",
+      "RelatedAsset": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-signalr-client.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "vqzycqv90t",
-      "Integrity": "ibLnVcpprz6jz9ClBrUV2vNjg8HWmOWoXTVfsh/wt2s=",
+      "Fingerprint": "diup3uxaci",
+      "Integrity": "tREiN5piK6lyBxuigzelcO6ngA82J2vpBQ4BOW4z20c=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/withdraw.html"
+      "OriginalItemSpec": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-signalr-client.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/97xruf1o53-01pu7kciqf.gz",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-sy2bxcda5q.gz",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "signin-old#[.{fingerprint=01pu7kciqf}]?.html.gz",
+      "RelativePath": "index#[.{fingerprint=sy2bxcda5q}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin-old.html",
+      "RelatedAsset": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "h4a9xfy4gs",
-      "Integrity": "gRg94zb14dxWTcdEHKtO+5XWSBTI0wLUbOdBOHcRytg=",
+      "Fingerprint": "axhtmd4y7k",
+      "Integrity": "AhaF+T0kfNuoJdn0f+h23Zl1XsU8FJfTRNRfBm2zx8Y=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin-old.html"
+      "OriginalItemSpec": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-za9lu2mjut.gz",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-npbeo3gi3g.gz",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "deposit#[.{fingerprint=za9lu2mjut}]?.html.gz",
+      "RelativePath": "dashboard#[.{fingerprint=npbeo3gi3g}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html",
+      "RelatedAsset": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "hbdv6t3w9k",
-      "Integrity": "Ld+CwkJN7AJSrBbYFU/9FBf8wjjt+zdr5QYuupjEFV8=",
+      "Fingerprint": "4txgxsui0j",
+      "Integrity": "2N+rcdp5Cui+aoiku5YCMilzRMrQvq4uWpsghsjkjEE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html"
+      "OriginalItemSpec": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/nreiq9ll8n-ew2m42vk9r.gz",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-yhvi47qkrc.gz",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "test-mfa#[.{fingerprint=ew2m42vk9r}]?.html.gz",
+      "RelativePath": "signup-otp#[.{fingerprint=yhvi47qkrc}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
       "AssetMergeBehavior": "",
       "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-mfa.html",
+      "RelatedAsset": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "4tvbo2yea4",
-      "Integrity": "yHWm0vKIffhUbH5o6Q80aS8heEj5ic5JCleiIdx9R3M=",
+      "Fingerprint": "ls3uuwiw4a",
+      "Integrity": "SxNSnbSLkVGAfTePIGiHOmB+sW/hYnajFM1j0UkhS/I=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-mfa.html"
+      "OriginalItemSpec": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-xluem7jh1n.gz",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
-      "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "trading#[.{fingerprint=xluem7jh1n}]?.html.gz",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "Fingerprint": "9ghqct353t",
-      "Integrity": "J5X5E3XHr5CJtzMp3/24hHSe8feWI+oY2ld7UrLMscM=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html"
-    },
-    {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-txpcsv01es.gz",
-      "SourceId": "Infrastructure.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
-      "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "index#[.{fingerprint=txpcsv01es}]?.html.gz",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "Fingerprint": "dryprl82ds",
-      "Integrity": "xxQoeF04zBX/Ehxd/Gua1oakwyGC2Xh4MbTI0P3qsKU=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html"
-    },
-    {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-v9nlwx2czz.gz",
-      "SourceId": "Infrastructure.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
-      "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "dashboard#[.{fingerprint=v9nlwx2czz}]?.html.gz",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "Fingerprint": "43nhspixul",
-      "Integrity": "4HDUoDONle7V4dJdfmdamJdsVXl5K1y2DJSiaM/hpxw=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html"
-    },
-    {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-lmyg51iww4.gz",
-      "SourceId": "Infrastructure.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/",
-      "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "signup-otp#[.{fingerprint=lmyg51iww4}]?.html.gz",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Alternative",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html",
-      "AssetTraitName": "Content-Encoding",
-      "AssetTraitValue": "gzip",
-      "Fingerprint": "a987l9ue9m",
-      "Integrity": "coH0SFGAG0fKsS0VQaQyq+2rHl06LAEfF5ARnA9vi6U=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html"
-    },
-    {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard-old.html",
-      "SourceId": "Infrastructure.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
-      "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "dashboard-old#[.{fingerprint}]?.html",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "unlzjxth4i",
-      "Integrity": "an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/dashboard-old.html"
-    },
-    {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html",
-      "SourceId": "Infrastructure.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
       "BasePath": "_content/Infrastructure.Web",
       "RelativePath": "dashboard#[.{fingerprint}]?.html",
       "AssetKind": "All",
@@ -304,17 +199,17 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "v9nlwx2czz",
-      "Integrity": "E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM=",
+      "Fingerprint": "npbeo3gi3g",
+      "Integrity": "NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/dashboard.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
       "BasePath": "_content/Infrastructure.Web",
       "RelativePath": "deposit#[.{fingerprint}]?.html",
       "AssetKind": "All",
@@ -325,17 +220,17 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "za9lu2mjut",
-      "Integrity": "pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0=",
+      "Fingerprint": "81hyhaqm2y",
+      "Integrity": "vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/deposit.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
       "BasePath": "_content/Infrastructure.Web",
       "RelativePath": "index#[.{fingerprint}]?.html",
       "AssetKind": "All",
@@ -346,19 +241,19 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "txpcsv01es",
-      "Integrity": "rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g=",
+      "Fingerprint": "sy2bxcda5q",
+      "Integrity": "PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/index.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/mfa-settings.html",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/market-data.html",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "mfa-settings#[.{fingerprint}]?.html",
+      "RelativePath": "market-data#[.{fingerprint}]?.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -367,38 +262,17 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "5jbtx1t9f0",
-      "Integrity": "X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww=",
+      "Fingerprint": "bmk0duqhyq",
+      "Integrity": "Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/mfa-settings.html"
+      "OriginalItemSpec": "wwwroot/market-data.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin-old.html",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
-      "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "signin-old#[.{fingerprint}]?.html",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "01pu7kciqf",
-      "Integrity": "zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/signin-old.html"
-    },
-    {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html",
-      "SourceId": "Infrastructure.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
       "BasePath": "_content/Infrastructure.Web",
       "RelativePath": "signin#[.{fingerprint}]?.html",
       "AssetKind": "All",
@@ -409,17 +283,17 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "3gw0fb0ald",
-      "Integrity": "vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc=",
+      "Fingerprint": "yh8c9teeru",
+      "Integrity": "+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/signin.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
       "BasePath": "_content/Infrastructure.Web",
       "RelativePath": "signup-otp#[.{fingerprint}]?.html",
       "AssetKind": "All",
@@ -430,19 +304,19 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "lmyg51iww4",
-      "Integrity": "TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU=",
+      "Fingerprint": "yhvi47qkrc",
+      "Integrity": "CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/signup-otp.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup.html",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-signalr-client.html",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
       "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "signup#[.{fingerprint}]?.html",
+      "RelativePath": "test-signalr-client#[.{fingerprint}]?.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -451,38 +325,17 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ecrofxrtl0",
-      "Integrity": "ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II=",
+      "Fingerprint": "tnlaar1in8",
+      "Integrity": "KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/signup.html"
+      "OriginalItemSpec": "wwwroot/test-signalr-client.html"
     },
     {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-mfa.html",
+      "Identity": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html",
       "SourceId": "Infrastructure.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
-      "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "test-mfa#[.{fingerprint}]?.html",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "ew2m42vk9r",
-      "Integrity": "LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/test-mfa.html"
-    },
-    {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html",
-      "SourceId": "Infrastructure.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
+      "ContentRoot": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
       "BasePath": "_content/Infrastructure.Web",
       "RelativePath": "trading#[.{fingerprint}]?.html",
       "AssetKind": "All",
@@ -493,43 +346,22 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "xluem7jh1n",
-      "Integrity": "i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ=",
+      "Fingerprint": "r7411hfjbn",
+      "Integrity": "af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/trading.html"
-    },
-    {
-      "Identity": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/withdraw.html",
-      "SourceId": "Infrastructure.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/",
-      "BasePath": "_content/Infrastructure.Web",
-      "RelativePath": "withdraw#[.{fingerprint}]?.html",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "bqzcq28bls",
-      "Integrity": "Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/withdraw.html"
     }
   ],
   "Endpoints": [
     {
-      "Route": "dashboard-old.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/0fx41w75rj-unlzjxth4i.gz",
+      "Route": "dashboard.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-npbeo3gi3g.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000960614793"
+          "Quality": "0.000378357927"
         }
       ],
       "ResponseHeaders": [
@@ -539,15 +371,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1040"
+          "Value": "2642"
         },
         {
           "Name": "ETag",
-          "Value": "\"YPm1EaWc0XL6zPDE6hA170UiKigMKpjc9Wnh/LSx6/c=\""
+          "Value": "\"2N+rcdp5Cui+aoiku5YCMilzRMrQvq4uWpsghsjkjEE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Sat, 06 Dec 2025 02:37:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -567,317 +399,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY=\""
+          "Value": "W/\"NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY="
-        }
-      ]
-    },
-    {
-      "Route": "dashboard-old.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard-old.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4060"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY="
-        }
-      ]
-    },
-    {
-      "Route": "dashboard-old.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/0fx41w75rj-unlzjxth4i.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1040"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YPm1EaWc0XL6zPDE6hA170UiKigMKpjc9Wnh/LSx6/c=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-YPm1EaWc0XL6zPDE6hA170UiKigMKpjc9Wnh/LSx6/c="
-        }
-      ]
-    },
-    {
-      "Route": "dashboard-old.unlzjxth4i.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/0fx41w75rj-unlzjxth4i.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000960614793"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1040"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YPm1EaWc0XL6zPDE6hA170UiKigMKpjc9Wnh/LSx6/c=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "unlzjxth4i"
-        },
-        {
-          "Name": "label",
-          "Value": "dashboard-old.html"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY="
-        }
-      ]
-    },
-    {
-      "Route": "dashboard-old.unlzjxth4i.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard-old.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4060"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "unlzjxth4i"
-        },
-        {
-          "Name": "label",
-          "Value": "dashboard-old.html"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-an+iCemGCY9J9qQyyEj797xP2Mm7XayU0EzxwXetoWY="
-        }
-      ]
-    },
-    {
-      "Route": "dashboard-old.unlzjxth4i.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/0fx41w75rj-unlzjxth4i.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1040"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YPm1EaWc0XL6zPDE6hA170UiKigMKpjc9Wnh/LSx6/c=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "unlzjxth4i"
-        },
-        {
-          "Name": "label",
-          "Value": "dashboard-old.html.gz"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-YPm1EaWc0XL6zPDE6hA170UiKigMKpjc9Wnh/LSx6/c="
+          "Value": "sha256-NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ="
         }
       ]
     },
     {
       "Route": "dashboard.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-v9nlwx2czz.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000113352981"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "8821"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"4HDUoDONle7V4dJdfmdamJdsVXl5K1y2DJSiaM/hpxw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 03:00:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM="
-        }
-      ]
-    },
-    {
-      "Route": "dashboard.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -886,7 +420,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "47738"
+          "Value": "9440"
         },
         {
           "Name": "Content-Type",
@@ -894,11 +428,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM=\""
+          "Value": "\"NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 03:00:37 GMT"
+          "Value": "Sat, 06 Dec 2025 02:37:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -908,13 +442,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM="
+          "Value": "sha256-NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ="
         }
       ]
     },
     {
       "Route": "dashboard.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-v9nlwx2czz.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-npbeo3gi3g.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -923,7 +457,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8821"
+          "Value": "2642"
         },
         {
           "Name": "Content-Type",
@@ -931,11 +465,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"4HDUoDONle7V4dJdfmdamJdsVXl5K1y2DJSiaM/hpxw=\""
+          "Value": "\"2N+rcdp5Cui+aoiku5YCMilzRMrQvq4uWpsghsjkjEE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 03:00:37 GMT"
+          "Value": "Sat, 06 Dec 2025 02:37:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -953,18 +487,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-4HDUoDONle7V4dJdfmdamJdsVXl5K1y2DJSiaM/hpxw="
+          "Value": "sha256-2N+rcdp5Cui+aoiku5YCMilzRMrQvq4uWpsghsjkjEE="
         }
       ]
     },
     {
-      "Route": "dashboard.v9nlwx2czz.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-v9nlwx2czz.gz",
+      "Route": "dashboard.npbeo3gi3g.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-npbeo3gi3g.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000113352981"
+          "Quality": "0.000378357927"
         }
       ],
       "ResponseHeaders": [
@@ -974,15 +508,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8821"
+          "Value": "2642"
         },
         {
           "Name": "ETag",
-          "Value": "\"4HDUoDONle7V4dJdfmdamJdsVXl5K1y2DJSiaM/hpxw=\""
+          "Value": "\"2N+rcdp5Cui+aoiku5YCMilzRMrQvq4uWpsghsjkjEE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 03:00:37 GMT"
+          "Value": "Sat, 06 Dec 2025 02:37:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1002,13 +536,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM=\""
+          "Value": "W/\"NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "v9nlwx2czz"
+          "Value": "npbeo3gi3g"
         },
         {
           "Name": "label",
@@ -1016,13 +550,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM="
+          "Value": "sha256-NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ="
         }
       ]
     },
     {
-      "Route": "dashboard.v9nlwx2czz.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html",
+      "Route": "dashboard.npbeo3gi3g.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/dashboard.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1031,7 +565,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "47738"
+          "Value": "9440"
         },
         {
           "Name": "Content-Type",
@@ -1039,11 +573,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM=\""
+          "Value": "\"NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 03:00:37 GMT"
+          "Value": "Sat, 06 Dec 2025 02:37:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1053,7 +587,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "v9nlwx2czz"
+          "Value": "npbeo3gi3g"
         },
         {
           "Name": "label",
@@ -1061,13 +595,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-E836S6+fplQ15U9X2ZhqgPATgZicRIcNiUFS9j9ZvyM="
+          "Value": "sha256-NUmK4wMVEFe/FnyNysTcKs5BUH1i08x6mkhdulf4jdQ="
         }
       ]
     },
     {
-      "Route": "dashboard.v9nlwx2czz.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-v9nlwx2czz.gz",
+      "Route": "dashboard.npbeo3gi3g.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vqqwectlyu-npbeo3gi3g.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1076,7 +610,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8821"
+          "Value": "2642"
         },
         {
           "Name": "Content-Type",
@@ -1084,11 +618,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"4HDUoDONle7V4dJdfmdamJdsVXl5K1y2DJSiaM/hpxw=\""
+          "Value": "\"2N+rcdp5Cui+aoiku5YCMilzRMrQvq4uWpsghsjkjEE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 03:00:37 GMT"
+          "Value": "Sat, 06 Dec 2025 02:37:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1106,7 +640,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "v9nlwx2czz"
+          "Value": "npbeo3gi3g"
         },
         {
           "Name": "label",
@@ -1114,18 +648,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-4HDUoDONle7V4dJdfmdamJdsVXl5K1y2DJSiaM/hpxw="
+          "Value": "sha256-2N+rcdp5Cui+aoiku5YCMilzRMrQvq4uWpsghsjkjEE="
         }
       ]
     },
     {
-      "Route": "deposit.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-za9lu2mjut.gz",
+      "Route": "deposit.81hyhaqm2y.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-81hyhaqm2y.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000127795527"
+          "Quality": "0.000250878073"
         }
       ],
       "ResponseHeaders": [
@@ -1135,152 +669,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7824"
+          "Value": "3985"
         },
         {
           "Name": "ETag",
-          "Value": "\"Ld+CwkJN7AJSrBbYFU/9FBf8wjjt+zdr5QYuupjEFV8=\""
+          "Value": "\"G+6qVfSWeIEHJG15r7aFXbk4/GAjQWoA9jO6wJvtrqM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:54:40 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0="
-        }
-      ]
-    },
-    {
-      "Route": "deposit.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "44187"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:54:40 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0="
-        }
-      ]
-    },
-    {
-      "Route": "deposit.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-za9lu2mjut.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "7824"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Ld+CwkJN7AJSrBbYFU/9FBf8wjjt+zdr5QYuupjEFV8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:54:40 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-Ld+CwkJN7AJSrBbYFU/9FBf8wjjt+zdr5QYuupjEFV8="
-        }
-      ]
-    },
-    {
-      "Route": "deposit.za9lu2mjut.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-za9lu2mjut.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000127795527"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "7824"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Ld+CwkJN7AJSrBbYFU/9FBf8wjjt+zdr5QYuupjEFV8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:54:40 GMT"
+          "Value": "Thu, 04 Dec 2025 06:34:42 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1300,13 +697,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0=\""
+          "Value": "W/\"vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "za9lu2mjut"
+          "Value": "81hyhaqm2y"
         },
         {
           "Name": "label",
@@ -1314,13 +711,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0="
+          "Value": "sha256-vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA="
         }
       ]
     },
     {
-      "Route": "deposit.za9lu2mjut.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html",
+      "Route": "deposit.81hyhaqm2y.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1329,7 +726,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "44187"
+          "Value": "16760"
         },
         {
           "Name": "Content-Type",
@@ -1337,11 +734,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0=\""
+          "Value": "\"vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:54:40 GMT"
+          "Value": "Thu, 04 Dec 2025 06:34:42 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1351,7 +748,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "za9lu2mjut"
+          "Value": "81hyhaqm2y"
         },
         {
           "Name": "label",
@@ -1359,13 +756,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-pZfu3tKpnxSo6VBfLnNySHEMX19j5bE7y98J5Nle7u0="
+          "Value": "sha256-vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA="
         }
       ]
     },
     {
-      "Route": "deposit.za9lu2mjut.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-za9lu2mjut.gz",
+      "Route": "deposit.81hyhaqm2y.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-81hyhaqm2y.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1374,7 +771,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7824"
+          "Value": "3985"
         },
         {
           "Name": "Content-Type",
@@ -1382,11 +779,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Ld+CwkJN7AJSrBbYFU/9FBf8wjjt+zdr5QYuupjEFV8=\""
+          "Value": "\"G+6qVfSWeIEHJG15r7aFXbk4/GAjQWoA9jO6wJvtrqM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:54:40 GMT"
+          "Value": "Thu, 04 Dec 2025 06:34:42 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1404,7 +801,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "za9lu2mjut"
+          "Value": "81hyhaqm2y"
         },
         {
           "Name": "label",
@@ -1412,18 +809,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-Ld+CwkJN7AJSrBbYFU/9FBf8wjjt+zdr5QYuupjEFV8="
+          "Value": "sha256-G+6qVfSWeIEHJG15r7aFXbk4/GAjQWoA9jO6wJvtrqM="
         }
       ]
     },
     {
-      "Route": "index.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-txpcsv01es.gz",
+      "Route": "deposit.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-81hyhaqm2y.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000371057514"
+          "Quality": "0.000250878073"
         }
       ],
       "ResponseHeaders": [
@@ -1433,15 +830,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2694"
+          "Value": "3985"
         },
         {
           "Name": "ETag",
-          "Value": "\"xxQoeF04zBX/Ehxd/Gua1oakwyGC2Xh4MbTI0P3qsKU=\""
+          "Value": "\"G+6qVfSWeIEHJG15r7aFXbk4/GAjQWoA9jO6wJvtrqM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:51:14 GMT"
+          "Value": "Thu, 04 Dec 2025 06:34:42 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1461,19 +858,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g=\""
+          "Value": "W/\"vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g="
+          "Value": "sha256-vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA="
         }
       ]
     },
     {
-      "Route": "index.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html",
+      "Route": "deposit.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/deposit.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1482,7 +879,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14089"
+          "Value": "16760"
         },
         {
           "Name": "Content-Type",
@@ -1490,11 +887,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g=\""
+          "Value": "\"vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:51:14 GMT"
+          "Value": "Thu, 04 Dec 2025 06:34:42 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1504,13 +901,150 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g="
+          "Value": "sha256-vMNRshktbTE4rfF1NowHIcDX37rvtjksuuvRdx43JtA="
+        }
+      ]
+    },
+    {
+      "Route": "deposit.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/byqrrth417-81hyhaqm2y.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3985"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"G+6qVfSWeIEHJG15r7aFXbk4/GAjQWoA9jO6wJvtrqM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 04 Dec 2025 06:34:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-G+6qVfSWeIEHJG15r7aFXbk4/GAjQWoA9jO6wJvtrqM="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-sy2bxcda5q.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000605693519"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1650"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"AhaF+T0kfNuoJdn0f+h23Zl1XsU8FJfTRNRfBm2zx8Y=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 04 Dec 2025 07:12:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5609"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 04 Dec 2025 07:12:02 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80="
         }
       ]
     },
     {
       "Route": "index.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-txpcsv01es.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-sy2bxcda5q.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1519,7 +1053,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2694"
+          "Value": "1650"
         },
         {
           "Name": "Content-Type",
@@ -1527,11 +1061,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"xxQoeF04zBX/Ehxd/Gua1oakwyGC2Xh4MbTI0P3qsKU=\""
+          "Value": "\"AhaF+T0kfNuoJdn0f+h23Zl1XsU8FJfTRNRfBm2zx8Y=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:51:14 GMT"
+          "Value": "Thu, 04 Dec 2025 07:12:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1549,18 +1083,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-xxQoeF04zBX/Ehxd/Gua1oakwyGC2Xh4MbTI0P3qsKU="
+          "Value": "sha256-AhaF+T0kfNuoJdn0f+h23Zl1XsU8FJfTRNRfBm2zx8Y="
         }
       ]
     },
     {
-      "Route": "index.txpcsv01es.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-txpcsv01es.gz",
+      "Route": "index.sy2bxcda5q.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-sy2bxcda5q.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000371057514"
+          "Quality": "0.000605693519"
         }
       ],
       "ResponseHeaders": [
@@ -1570,15 +1104,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2694"
+          "Value": "1650"
         },
         {
           "Name": "ETag",
-          "Value": "\"xxQoeF04zBX/Ehxd/Gua1oakwyGC2Xh4MbTI0P3qsKU=\""
+          "Value": "\"AhaF+T0kfNuoJdn0f+h23Zl1XsU8FJfTRNRfBm2zx8Y=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:51:14 GMT"
+          "Value": "Thu, 04 Dec 2025 07:12:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1598,13 +1132,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g=\""
+          "Value": "W/\"PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "txpcsv01es"
+          "Value": "sy2bxcda5q"
         },
         {
           "Name": "label",
@@ -1612,13 +1146,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g="
+          "Value": "sha256-PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80="
         }
       ]
     },
     {
-      "Route": "index.txpcsv01es.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html",
+      "Route": "index.sy2bxcda5q.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/index.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1627,7 +1161,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14089"
+          "Value": "5609"
         },
         {
           "Name": "Content-Type",
@@ -1635,11 +1169,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g=\""
+          "Value": "\"PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:51:14 GMT"
+          "Value": "Thu, 04 Dec 2025 07:12:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1649,7 +1183,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "txpcsv01es"
+          "Value": "sy2bxcda5q"
         },
         {
           "Name": "label",
@@ -1657,13 +1191,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-rzkDNsqWHf+afOBKIwBJVwsonlP0ZGTkf8b3GZixG7g="
+          "Value": "sha256-PFsL6AtJN4LPmqQZE8LgW6IPmsqbJOK/058Vq02PC80="
         }
       ]
     },
     {
-      "Route": "index.txpcsv01es.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-txpcsv01es.gz",
+      "Route": "index.sy2bxcda5q.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/vn5gnr9673-sy2bxcda5q.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1672,7 +1206,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2694"
+          "Value": "1650"
         },
         {
           "Name": "Content-Type",
@@ -1680,11 +1214,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"xxQoeF04zBX/Ehxd/Gua1oakwyGC2Xh4MbTI0P3qsKU=\""
+          "Value": "\"AhaF+T0kfNuoJdn0f+h23Zl1XsU8FJfTRNRfBm2zx8Y=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:51:14 GMT"
+          "Value": "Thu, 04 Dec 2025 07:12:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1702,7 +1236,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "txpcsv01es"
+          "Value": "sy2bxcda5q"
         },
         {
           "Name": "label",
@@ -1710,18 +1244,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-xxQoeF04zBX/Ehxd/Gua1oakwyGC2Xh4MbTI0P3qsKU="
+          "Value": "sha256-AhaF+T0kfNuoJdn0f+h23Zl1XsU8FJfTRNRfBm2zx8Y="
         }
       ]
     },
     {
-      "Route": "mfa-settings.5jbtx1t9f0.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/4mesbq26w6-5jbtx1t9f0.gz",
+      "Route": "market-data.bmk0duqhyq.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/irrkus4taq-bmk0duqhyq.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000315656566"
+          "Quality": "0.000192864031"
         }
       ],
       "ResponseHeaders": [
@@ -1731,15 +1265,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3167"
+          "Value": "5184"
         },
         {
           "Name": "ETag",
-          "Value": "\"pCMCYBsxFCtGNQiTtqxXsej5ZM9e0DgNLiGqLFwwN2A=\""
+          "Value": "\"TWwxRT7D1khxBBPEkzJaGycipC+TV9wVOL3WAc4I/0M=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Sat, 06 Dec 2025 02:54:06 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1759,27 +1293,27 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww=\""
+          "Value": "W/\"Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5jbtx1t9f0"
+          "Value": "bmk0duqhyq"
         },
         {
           "Name": "label",
-          "Value": "mfa-settings.html"
+          "Value": "market-data.html"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww="
+          "Value": "sha256-Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8="
         }
       ]
     },
     {
-      "Route": "mfa-settings.5jbtx1t9f0.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/mfa-settings.html",
+      "Route": "market-data.bmk0duqhyq.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/market-data.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1788,7 +1322,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14272"
+          "Value": "21740"
         },
         {
           "Name": "Content-Type",
@@ -1796,11 +1330,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww=\""
+          "Value": "\"Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Sat, 06 Dec 2025 02:54:06 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1810,21 +1344,21 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5jbtx1t9f0"
+          "Value": "bmk0duqhyq"
         },
         {
           "Name": "label",
-          "Value": "mfa-settings.html"
+          "Value": "market-data.html"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww="
+          "Value": "sha256-Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8="
         }
       ]
     },
     {
-      "Route": "mfa-settings.5jbtx1t9f0.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/4mesbq26w6-5jbtx1t9f0.gz",
+      "Route": "market-data.bmk0duqhyq.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/irrkus4taq-bmk0duqhyq.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1833,7 +1367,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3167"
+          "Value": "5184"
         },
         {
           "Name": "Content-Type",
@@ -1841,11 +1375,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"pCMCYBsxFCtGNQiTtqxXsej5ZM9e0DgNLiGqLFwwN2A=\""
+          "Value": "\"TWwxRT7D1khxBBPEkzJaGycipC+TV9wVOL3WAc4I/0M=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Sat, 06 Dec 2025 02:54:06 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1863,26 +1397,26 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5jbtx1t9f0"
+          "Value": "bmk0duqhyq"
         },
         {
           "Name": "label",
-          "Value": "mfa-settings.html.gz"
+          "Value": "market-data.html.gz"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-pCMCYBsxFCtGNQiTtqxXsej5ZM9e0DgNLiGqLFwwN2A="
+          "Value": "sha256-TWwxRT7D1khxBBPEkzJaGycipC+TV9wVOL3WAc4I/0M="
         }
       ]
     },
     {
-      "Route": "mfa-settings.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/4mesbq26w6-5jbtx1t9f0.gz",
+      "Route": "market-data.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/irrkus4taq-bmk0duqhyq.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000315656566"
+          "Quality": "0.000192864031"
         }
       ],
       "ResponseHeaders": [
@@ -1892,15 +1426,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3167"
+          "Value": "5184"
         },
         {
           "Name": "ETag",
-          "Value": "\"pCMCYBsxFCtGNQiTtqxXsej5ZM9e0DgNLiGqLFwwN2A=\""
+          "Value": "\"TWwxRT7D1khxBBPEkzJaGycipC+TV9wVOL3WAc4I/0M=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Sat, 06 Dec 2025 02:54:06 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1920,19 +1454,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww=\""
+          "Value": "W/\"Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww="
+          "Value": "sha256-Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8="
         }
       ]
     },
     {
-      "Route": "mfa-settings.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/mfa-settings.html",
+      "Route": "market-data.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/market-data.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1941,7 +1475,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "14272"
+          "Value": "21740"
         },
         {
           "Name": "Content-Type",
@@ -1949,11 +1483,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww=\""
+          "Value": "\"Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Sat, 06 Dec 2025 02:54:06 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1963,13 +1497,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-X6v+dR6HkFP7H7P7MGXbLJCzfgeUb9CPLHIj3Ni2+Ww="
+          "Value": "sha256-Y62g27uDvOUp009MmHePiVshDtpAVyCuyJI9DbGC6g8="
         }
       ]
     },
     {
-      "Route": "mfa-settings.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/4mesbq26w6-5jbtx1t9f0.gz",
+      "Route": "market-data.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/irrkus4taq-bmk0duqhyq.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1978,7 +1512,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3167"
+          "Value": "5184"
         },
         {
           "Name": "Content-Type",
@@ -1986,11 +1520,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"pCMCYBsxFCtGNQiTtqxXsej5ZM9e0DgNLiGqLFwwN2A=\""
+          "Value": "\"TWwxRT7D1khxBBPEkzJaGycipC+TV9wVOL3WAc4I/0M=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Sat, 06 Dec 2025 02:54:06 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2008,18 +1542,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-pCMCYBsxFCtGNQiTtqxXsej5ZM9e0DgNLiGqLFwwN2A="
+          "Value": "sha256-TWwxRT7D1khxBBPEkzJaGycipC+TV9wVOL3WAc4I/0M="
         }
       ]
     },
     {
-      "Route": "signin-old.01pu7kciqf.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/97xruf1o53-01pu7kciqf.gz",
+      "Route": "signin.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-yh8c9teeru.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000306184936"
+          "Quality": "0.000293772033"
         }
       ],
       "ResponseHeaders": [
@@ -2029,19 +1563,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3265"
+          "Value": "3403"
         },
         {
           "Name": "ETag",
-          "Value": "\"gRg94zb14dxWTcdEHKtO+5XWSBTI0wLUbOdBOHcRytg=\""
+          "Value": "\"Iosmhk7J6CSHl1LV+ojrlm2IN2G+x9Lotmcm1IBA6s0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:11 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -2057,27 +1591,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM=\""
+          "Value": "W/\"+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "01pu7kciqf"
-        },
-        {
-          "Name": "label",
-          "Value": "signin-old.html"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM="
+          "Value": "sha256-+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg="
         }
       ]
     },
     {
-      "Route": "signin-old.01pu7kciqf.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin-old.html",
+      "Route": "signin.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2086,7 +1612,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12860"
+          "Value": "13358"
         },
         {
           "Name": "Content-Type",
@@ -2094,35 +1620,27 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM=\""
+          "Value": "\"+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:11 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "01pu7kciqf"
-        },
-        {
-          "Name": "label",
-          "Value": "signin-old.html"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM="
+          "Value": "sha256-+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg="
         }
       ]
     },
     {
-      "Route": "signin-old.01pu7kciqf.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/97xruf1o53-01pu7kciqf.gz",
+      "Route": "signin.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-yh8c9teeru.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2131,7 +1649,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3265"
+          "Value": "3403"
         },
         {
           "Name": "Content-Type",
@@ -2139,15 +1657,15 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"gRg94zb14dxWTcdEHKtO+5XWSBTI0wLUbOdBOHcRytg=\""
+          "Value": "\"Iosmhk7J6CSHl1LV+ojrlm2IN2G+x9Lotmcm1IBA6s0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:11 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -2160,27 +1678,19 @@
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "01pu7kciqf"
-        },
-        {
-          "Name": "label",
-          "Value": "signin-old.html.gz"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-gRg94zb14dxWTcdEHKtO+5XWSBTI0wLUbOdBOHcRytg="
+          "Value": "sha256-Iosmhk7J6CSHl1LV+ojrlm2IN2G+x9Lotmcm1IBA6s0="
         }
       ]
     },
     {
-      "Route": "signin-old.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/97xruf1o53-01pu7kciqf.gz",
+      "Route": "signin.yh8c9teeru.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-yh8c9teeru.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000306184936"
+          "Quality": "0.000293772033"
         }
       ],
       "ResponseHeaders": [
@@ -2190,152 +1700,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3265"
+          "Value": "3403"
         },
         {
           "Name": "ETag",
-          "Value": "\"gRg94zb14dxWTcdEHKtO+5XWSBTI0wLUbOdBOHcRytg=\""
+          "Value": "\"Iosmhk7J6CSHl1LV+ojrlm2IN2G+x9Lotmcm1IBA6s0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM="
-        }
-      ]
-    },
-    {
-      "Route": "signin-old.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin-old.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "12860"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-zK52jZFuDY6UwFL9v5BeRxJDQuNxXkkwZPI63tgO7IM="
-        }
-      ]
-    },
-    {
-      "Route": "signin-old.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/97xruf1o53-01pu7kciqf.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3265"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"gRg94zb14dxWTcdEHKtO+5XWSBTI0wLUbOdBOHcRytg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-gRg94zb14dxWTcdEHKtO+5XWSBTI0wLUbOdBOHcRytg="
-        }
-      ]
-    },
-    {
-      "Route": "signin.3gw0fb0ald.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-3gw0fb0ald.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000155787506"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6418"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"fp8TuHpWX++aylweVz16wVzn7YAFlgnc1rfQgi7mPyg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:56:04 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2355,13 +1728,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc=\""
+          "Value": "W/\"+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "3gw0fb0ald"
+          "Value": "yh8c9teeru"
         },
         {
           "Name": "label",
@@ -2369,13 +1742,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc="
+          "Value": "sha256-+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg="
         }
       ]
     },
     {
-      "Route": "signin.3gw0fb0ald.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html",
+      "Route": "signin.yh8c9teeru.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2384,7 +1757,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "34143"
+          "Value": "13358"
         },
         {
           "Name": "Content-Type",
@@ -2392,11 +1765,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc=\""
+          "Value": "\"+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:56:04 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2406,7 +1779,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "3gw0fb0ald"
+          "Value": "yh8c9teeru"
         },
         {
           "Name": "label",
@@ -2414,13 +1787,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc="
+          "Value": "sha256-+qyOZL5JVsmXb4xKVmx7DMUpDzvkvaTHgYVy5AIqsvg="
         }
       ]
     },
     {
-      "Route": "signin.3gw0fb0ald.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-3gw0fb0ald.gz",
+      "Route": "signin.yh8c9teeru.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-yh8c9teeru.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2429,7 +1802,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6418"
+          "Value": "3403"
         },
         {
           "Name": "Content-Type",
@@ -2437,11 +1810,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"fp8TuHpWX++aylweVz16wVzn7YAFlgnc1rfQgi7mPyg=\""
+          "Value": "\"Iosmhk7J6CSHl1LV+ojrlm2IN2G+x9Lotmcm1IBA6s0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:56:04 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:11 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2459,7 +1832,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "3gw0fb0ald"
+          "Value": "yh8c9teeru"
         },
         {
           "Name": "label",
@@ -2467,155 +1840,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-fp8TuHpWX++aylweVz16wVzn7YAFlgnc1rfQgi7mPyg="
-        }
-      ]
-    },
-    {
-      "Route": "signin.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-3gw0fb0ald.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000155787506"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6418"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"fp8TuHpWX++aylweVz16wVzn7YAFlgnc1rfQgi7mPyg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:56:04 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc="
-        }
-      ]
-    },
-    {
-      "Route": "signin.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signin.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "34143"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:56:04 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-vWCSONOPGAHX0WBOTLrL4MYDeUN0o3/T5yu4YEXkiKc="
-        }
-      ]
-    },
-    {
-      "Route": "signin.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/1gntpnq2bs-3gw0fb0ald.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6418"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"fp8TuHpWX++aylweVz16wVzn7YAFlgnc1rfQgi7mPyg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 01:56:04 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-fp8TuHpWX++aylweVz16wVzn7YAFlgnc1rfQgi7mPyg="
+          "Value": "sha256-Iosmhk7J6CSHl1LV+ojrlm2IN2G+x9Lotmcm1IBA6s0="
         }
       ]
     },
     {
       "Route": "signup-otp.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-lmyg51iww4.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-yhvi47qkrc.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000177746178"
+          "Quality": "0.000173641257"
         }
       ],
       "ResponseHeaders": [
@@ -2625,15 +1861,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5625"
+          "Value": "5758"
         },
         {
           "Name": "ETag",
-          "Value": "\"coH0SFGAG0fKsS0VQaQyq+2rHl06LAEfF5ARnA9vi6U=\""
+          "Value": "\"SxNSnbSLkVGAfTePIGiHOmB+sW/hYnajFM1j0UkhS/I=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2653,19 +1889,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU=\""
+          "Value": "W/\"CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU="
+          "Value": "sha256-CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M="
         }
       ]
     },
     {
       "Route": "signup-otp.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2674,7 +1910,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "25029"
+          "Value": "25561"
         },
         {
           "Name": "Content-Type",
@@ -2682,11 +1918,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU=\""
+          "Value": "\"CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2696,13 +1932,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU="
+          "Value": "sha256-CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M="
         }
       ]
     },
     {
       "Route": "signup-otp.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-lmyg51iww4.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-yhvi47qkrc.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2711,7 +1947,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5625"
+          "Value": "5758"
         },
         {
           "Name": "Content-Type",
@@ -2719,11 +1955,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"coH0SFGAG0fKsS0VQaQyq+2rHl06LAEfF5ARnA9vi6U=\""
+          "Value": "\"SxNSnbSLkVGAfTePIGiHOmB+sW/hYnajFM1j0UkhS/I=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2741,18 +1977,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-coH0SFGAG0fKsS0VQaQyq+2rHl06LAEfF5ARnA9vi6U="
+          "Value": "sha256-SxNSnbSLkVGAfTePIGiHOmB+sW/hYnajFM1j0UkhS/I="
         }
       ]
     },
     {
-      "Route": "signup-otp.lmyg51iww4.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-lmyg51iww4.gz",
+      "Route": "signup-otp.yhvi47qkrc.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-yhvi47qkrc.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000177746178"
+          "Quality": "0.000173641257"
         }
       ],
       "ResponseHeaders": [
@@ -2762,15 +1998,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5625"
+          "Value": "5758"
         },
         {
           "Name": "ETag",
-          "Value": "\"coH0SFGAG0fKsS0VQaQyq+2rHl06LAEfF5ARnA9vi6U=\""
+          "Value": "\"SxNSnbSLkVGAfTePIGiHOmB+sW/hYnajFM1j0UkhS/I=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2790,13 +2026,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU=\""
+          "Value": "W/\"CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lmyg51iww4"
+          "Value": "yhvi47qkrc"
         },
         {
           "Name": "label",
@@ -2804,13 +2040,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU="
+          "Value": "sha256-CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M="
         }
       ]
     },
     {
-      "Route": "signup-otp.lmyg51iww4.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html",
+      "Route": "signup-otp.yhvi47qkrc.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup-otp.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2819,7 +2055,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "25029"
+          "Value": "25561"
         },
         {
           "Name": "Content-Type",
@@ -2827,11 +2063,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU=\""
+          "Value": "\"CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2841,7 +2077,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lmyg51iww4"
+          "Value": "yhvi47qkrc"
         },
         {
           "Name": "label",
@@ -2849,13 +2085,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-TfyNizEx5RR89yfdZDfb6ZxEdDnb7F8cegKroe9rARU="
+          "Value": "sha256-CvDh61RBbT6V2+SieP3SGti4uMXiO22zA2icRWzlM6M="
         }
       ]
     },
     {
-      "Route": "signup-otp.lmyg51iww4.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-lmyg51iww4.gz",
+      "Route": "signup-otp.yhvi47qkrc.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/xerl46ubxa-yhvi47qkrc.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2864,7 +2100,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5625"
+          "Value": "5758"
         },
         {
           "Name": "Content-Type",
@@ -2872,11 +2108,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"coH0SFGAG0fKsS0VQaQyq+2rHl06LAEfF5ARnA9vi6U=\""
+          "Value": "\"SxNSnbSLkVGAfTePIGiHOmB+sW/hYnajFM1j0UkhS/I=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 06:40:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2894,7 +2130,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lmyg51iww4"
+          "Value": "yhvi47qkrc"
         },
         {
           "Name": "label",
@@ -2902,18 +2138,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-coH0SFGAG0fKsS0VQaQyq+2rHl06LAEfF5ARnA9vi6U="
+          "Value": "sha256-SxNSnbSLkVGAfTePIGiHOmB+sW/hYnajFM1j0UkhS/I="
         }
       ]
     },
     {
-      "Route": "signup.ecrofxrtl0.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/727rd72i7w-ecrofxrtl0.gz",
+      "Route": "test-signalr-client.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/tlldlf8i6x-tnlaar1in8.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.002016129032"
+          "Quality": "0.000276854928"
         }
       ],
       "ResponseHeaders": [
@@ -2923,19 +2159,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "495"
+          "Value": "3611"
         },
         {
           "Name": "ETag",
-          "Value": "\"b8WnnVgZwDpmlVjOflGyNSgefv0TlzeLu/UoabGMygo=\""
+          "Value": "\"tREiN5piK6lyBxuigzelcO6ngA82J2vpBQ4BOW4z20c=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 09:43:28 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -2951,27 +2187,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II=\""
+          "Value": "W/\"KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "ecrofxrtl0"
-        },
-        {
-          "Name": "label",
-          "Value": "signup.html"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II="
+          "Value": "sha256-KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU="
         }
       ]
     },
     {
-      "Route": "signup.ecrofxrtl0.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup.html",
+      "Route": "test-signalr-client.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-signalr-client.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2980,7 +2208,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "810"
+          "Value": "14835"
         },
         {
           "Name": "Content-Type",
@@ -2988,35 +2216,27 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II=\""
+          "Value": "\"KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 09:43:28 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "ecrofxrtl0"
-        },
-        {
-          "Name": "label",
-          "Value": "signup.html"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II="
+          "Value": "sha256-KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU="
         }
       ]
     },
     {
-      "Route": "signup.ecrofxrtl0.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/727rd72i7w-ecrofxrtl0.gz",
+      "Route": "test-signalr-client.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/tlldlf8i6x-tnlaar1in8.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3025,7 +2245,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "495"
+          "Value": "3611"
         },
         {
           "Name": "Content-Type",
@@ -3033,15 +2253,15 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"b8WnnVgZwDpmlVjOflGyNSgefv0TlzeLu/UoabGMygo=\""
+          "Value": "\"tREiN5piK6lyBxuigzelcO6ngA82J2vpBQ4BOW4z20c=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 09:43:28 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -3054,27 +2274,19 @@
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "ecrofxrtl0"
-        },
-        {
-          "Name": "label",
-          "Value": "signup.html.gz"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-b8WnnVgZwDpmlVjOflGyNSgefv0TlzeLu/UoabGMygo="
+          "Value": "sha256-tREiN5piK6lyBxuigzelcO6ngA82J2vpBQ4BOW4z20c="
         }
       ]
     },
     {
-      "Route": "signup.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/727rd72i7w-ecrofxrtl0.gz",
+      "Route": "test-signalr-client.tnlaar1in8.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/tlldlf8i6x-tnlaar1in8.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.002016129032"
+          "Quality": "0.000276854928"
         }
       ],
       "ResponseHeaders": [
@@ -3084,152 +2296,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "495"
+          "Value": "3611"
         },
         {
           "Name": "ETag",
-          "Value": "\"b8WnnVgZwDpmlVjOflGyNSgefv0TlzeLu/UoabGMygo=\""
+          "Value": "\"tREiN5piK6lyBxuigzelcO6ngA82J2vpBQ4BOW4z20c=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II="
-        }
-      ]
-    },
-    {
-      "Route": "signup.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/signup.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "810"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-ktwFGM5BUAa3T44TLSdHYPogr0lm3kVbWW112+gl3II="
-        }
-      ]
-    },
-    {
-      "Route": "signup.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/727rd72i7w-ecrofxrtl0.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "495"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"b8WnnVgZwDpmlVjOflGyNSgefv0TlzeLu/UoabGMygo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-b8WnnVgZwDpmlVjOflGyNSgefv0TlzeLu/UoabGMygo="
-        }
-      ]
-    },
-    {
-      "Route": "test-mfa.ew2m42vk9r.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/nreiq9ll8n-ew2m42vk9r.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000370096225"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2701"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"yHWm0vKIffhUbH5o6Q80aS8heEj5ic5JCleiIdx9R3M=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 09:43:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3249,27 +2324,27 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4=\""
+          "Value": "W/\"KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ew2m42vk9r"
+          "Value": "tnlaar1in8"
         },
         {
           "Name": "label",
-          "Value": "test-mfa.html"
+          "Value": "test-signalr-client.html"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4="
+          "Value": "sha256-KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU="
         }
       ]
     },
     {
-      "Route": "test-mfa.ew2m42vk9r.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-mfa.html",
+      "Route": "test-signalr-client.tnlaar1in8.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-signalr-client.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3278,7 +2353,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "10349"
+          "Value": "14835"
         },
         {
           "Name": "Content-Type",
@@ -3286,11 +2361,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4=\""
+          "Value": "\"KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 09:43:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3300,21 +2375,21 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ew2m42vk9r"
+          "Value": "tnlaar1in8"
         },
         {
           "Name": "label",
-          "Value": "test-mfa.html"
+          "Value": "test-signalr-client.html"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4="
+          "Value": "sha256-KbLtHPA/o0w4nWY6i2b7tl1jB8RFnM54wZmecICkQYU="
         }
       ]
     },
     {
-      "Route": "test-mfa.ew2m42vk9r.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/nreiq9ll8n-ew2m42vk9r.gz",
+      "Route": "test-signalr-client.tnlaar1in8.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/tlldlf8i6x-tnlaar1in8.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3323,7 +2398,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2701"
+          "Value": "3611"
         },
         {
           "Name": "Content-Type",
@@ -3331,11 +2406,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"yHWm0vKIffhUbH5o6Q80aS8heEj5ic5JCleiIdx9R3M=\""
+          "Value": "\"tREiN5piK6lyBxuigzelcO6ngA82J2vpBQ4BOW4z20c=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
+          "Value": "Thu, 04 Dec 2025 09:43:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3353,163 +2428,26 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ew2m42vk9r"
+          "Value": "tnlaar1in8"
         },
         {
           "Name": "label",
-          "Value": "test-mfa.html.gz"
+          "Value": "test-signalr-client.html.gz"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-yHWm0vKIffhUbH5o6Q80aS8heEj5ic5JCleiIdx9R3M="
-        }
-      ]
-    },
-    {
-      "Route": "test-mfa.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/nreiq9ll8n-ew2m42vk9r.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000370096225"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2701"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"yHWm0vKIffhUbH5o6Q80aS8heEj5ic5JCleiIdx9R3M=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4="
-        }
-      ]
-    },
-    {
-      "Route": "test-mfa.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/test-mfa.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "10349"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-LnQwvAq0z7JwPLlmwwcJ16EoxodQDRaQ9ZLf4knIAk4="
-        }
-      ]
-    },
-    {
-      "Route": "test-mfa.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/nreiq9ll8n-ew2m42vk9r.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2701"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"yHWm0vKIffhUbH5o6Q80aS8heEj5ic5JCleiIdx9R3M=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 20 Oct 2025 18:13:18 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-yHWm0vKIffhUbH5o6Q80aS8heEj5ic5JCleiIdx9R3M="
+          "Value": "sha256-tREiN5piK6lyBxuigzelcO6ngA82J2vpBQ4BOW4z20c="
         }
       ]
     },
     {
       "Route": "trading.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-xluem7jh1n.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-r7411hfjbn.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000166112957"
+          "Quality": "0.000172592337"
         }
       ],
       "ResponseHeaders": [
@@ -3519,15 +2457,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6019"
+          "Value": "5793"
         },
         {
           "Name": "ETag",
-          "Value": "\"J5X5E3XHr5CJtzMp3/24hHSe8feWI+oY2ld7UrLMscM=\""
+          "Value": "\"UbxuE0Dn2YGJl4Ffsnu6WvKapi/tQY/HlQYdxh0gmbY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
+          "Value": "Sat, 06 Dec 2025 02:56:37 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3547,19 +2485,19 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ=\""
+          "Value": "W/\"af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ="
+          "Value": "sha256-af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo="
         }
       ]
     },
     {
       "Route": "trading.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3568,7 +2506,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "40821"
+          "Value": "28532"
         },
         {
           "Name": "Content-Type",
@@ -3576,11 +2514,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ=\""
+          "Value": "\"af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
+          "Value": "Sat, 06 Dec 2025 02:56:37 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3590,13 +2528,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ="
+          "Value": "sha256-af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo="
         }
       ]
     },
     {
       "Route": "trading.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-xluem7jh1n.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-r7411hfjbn.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3605,7 +2543,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6019"
+          "Value": "5793"
         },
         {
           "Name": "Content-Type",
@@ -3613,11 +2551,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"J5X5E3XHr5CJtzMp3/24hHSe8feWI+oY2ld7UrLMscM=\""
+          "Value": "\"UbxuE0Dn2YGJl4Ffsnu6WvKapi/tQY/HlQYdxh0gmbY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
+          "Value": "Sat, 06 Dec 2025 02:56:37 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3635,18 +2573,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-J5X5E3XHr5CJtzMp3/24hHSe8feWI+oY2ld7UrLMscM="
+          "Value": "sha256-UbxuE0Dn2YGJl4Ffsnu6WvKapi/tQY/HlQYdxh0gmbY="
         }
       ]
     },
     {
-      "Route": "trading.xluem7jh1n.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-xluem7jh1n.gz",
+      "Route": "trading.r7411hfjbn.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-r7411hfjbn.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000166112957"
+          "Quality": "0.000172592337"
         }
       ],
       "ResponseHeaders": [
@@ -3656,15 +2594,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6019"
+          "Value": "5793"
         },
         {
           "Name": "ETag",
-          "Value": "\"J5X5E3XHr5CJtzMp3/24hHSe8feWI+oY2ld7UrLMscM=\""
+          "Value": "\"UbxuE0Dn2YGJl4Ffsnu6WvKapi/tQY/HlQYdxh0gmbY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
+          "Value": "Sat, 06 Dec 2025 02:56:37 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3684,13 +2622,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ=\""
+          "Value": "W/\"af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "xluem7jh1n"
+          "Value": "r7411hfjbn"
         },
         {
           "Name": "label",
@@ -3698,13 +2636,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ="
+          "Value": "sha256-af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo="
         }
       ]
     },
     {
-      "Route": "trading.xluem7jh1n.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html",
+      "Route": "trading.r7411hfjbn.html",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/trading.html",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3713,7 +2651,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "40821"
+          "Value": "28532"
         },
         {
           "Name": "Content-Type",
@@ -3721,11 +2659,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ=\""
+          "Value": "\"af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
+          "Value": "Sat, 06 Dec 2025 02:56:37 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3735,7 +2673,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "xluem7jh1n"
+          "Value": "r7411hfjbn"
         },
         {
           "Name": "label",
@@ -3743,13 +2681,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-i6spzsDUHqKfBxYT/8IrjGn0vOQzvCu23LjuFSL+MOQ="
+          "Value": "sha256-af8I2vnPD5D27eotEW/VuUsRdzVjMXMOAM5K71PEblo="
         }
       ]
     },
     {
-      "Route": "trading.xluem7jh1n.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-xluem7jh1n.gz",
+      "Route": "trading.r7411hfjbn.html.gz",
+      "AssetFile": "/home/pop28/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/s0mcb4hdwx-r7411hfjbn.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3758,7 +2696,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6019"
+          "Value": "5793"
         },
         {
           "Name": "Content-Type",
@@ -3766,11 +2704,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"J5X5E3XHr5CJtzMp3/24hHSe8feWI+oY2ld7UrLMscM=\""
+          "Value": "\"UbxuE0Dn2YGJl4Ffsnu6WvKapi/tQY/HlQYdxh0gmbY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
+          "Value": "Sat, 06 Dec 2025 02:56:37 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3788,7 +2726,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "xluem7jh1n"
+          "Value": "r7411hfjbn"
         },
         {
           "Name": "label",
@@ -3796,305 +2734,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-J5X5E3XHr5CJtzMp3/24hHSe8feWI+oY2ld7UrLMscM="
-        }
-      ]
-    },
-    {
-      "Route": "withdraw.bqzcq28bls.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/92poikq3cx-bqzcq28bls.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000206996481"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4830"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ibLnVcpprz6jz9ClBrUV2vNjg8HWmOWoXTVfsh/wt2s=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "bqzcq28bls"
-        },
-        {
-          "Name": "label",
-          "Value": "withdraw.html"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4="
-        }
-      ]
-    },
-    {
-      "Route": "withdraw.bqzcq28bls.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/withdraw.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "24395"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "bqzcq28bls"
-        },
-        {
-          "Name": "label",
-          "Value": "withdraw.html"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4="
-        }
-      ]
-    },
-    {
-      "Route": "withdraw.bqzcq28bls.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/92poikq3cx-bqzcq28bls.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4830"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ibLnVcpprz6jz9ClBrUV2vNjg8HWmOWoXTVfsh/wt2s=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "bqzcq28bls"
-        },
-        {
-          "Name": "label",
-          "Value": "withdraw.html.gz"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-ibLnVcpprz6jz9ClBrUV2vNjg8HWmOWoXTVfsh/wt2s="
-        }
-      ]
-    },
-    {
-      "Route": "withdraw.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/92poikq3cx-bqzcq28bls.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000206996481"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4830"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ibLnVcpprz6jz9ClBrUV2vNjg8HWmOWoXTVfsh/wt2s=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4="
-        }
-      ]
-    },
-    {
-      "Route": "withdraw.html",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/wwwroot/withdraw.html",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "24395"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-Hd4cK0daW8L1Zy6Gk+0yUMvS8vrvTbyYTrlHC9aJwp4="
-        }
-      ]
-    },
-    {
-      "Route": "withdraw.html.gz",
-      "AssetFile": "/home/theodor/Documents/github/projet-log-430/src/Infrastructure.Web/obj/Debug/net9.0/compressed/92poikq3cx-bqzcq28bls.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "4830"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/html"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"ibLnVcpprz6jz9ClBrUV2vNjg8HWmOWoXTVfsh/wt2s=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 29 Oct 2025 02:01:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-ibLnVcpprz6jz9ClBrUV2vNjg8HWmOWoXTVfsh/wt2s="
+          "Value": "sha256-UbxuE0Dn2YGJl4Ffsnu6WvKapi/tQY/HlQYdxh0gmbY="
         }
       ]
     }

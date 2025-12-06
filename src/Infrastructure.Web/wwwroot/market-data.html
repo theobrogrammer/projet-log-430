@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-04: Market Data Streaming - BrokerX</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .panel h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .symbol-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .symbol-btn {
+            padding: 12px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .symbol-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        .symbol-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .status.connected {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status.connecting {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .quotes-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .quote-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quote-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .quote-symbol {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .quote-time {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        .quote-prices {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .quote-price {
+            text-align: center;
+        }
+        .quote-label {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        .quote-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .quote-spread {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            display: flex;
+            justify-content: space-around;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .log {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin-top: 20px;
+        }
+        .log-entry {
+            padding: 5px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        .log-time {
+            color: #888;
+            margin-right: 10px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <div style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="/dashboard.html" style="text-decoration: none; color: #667eea; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.2rem;">←</span> Dashboard
+                </a>
+                <a href="/trading.html" style="text-decoration: none; color: #11998e; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                    💹 Trading
+                </a>
+            </div>
+            <div style="color: #333; font-weight: 500;">
+                <span id="userEmail" style="margin-right: 15px;">👤 Utilisateur connecté</span>
+                <a href="/signin.html" onclick="localStorage.removeItem('authToken')" style="color: #e74c3c; text-decoration: none; font-weight: 600;">
+                    🚪 Déconnexion
+                </a>
+            </div>
+        </div>
+
+        <h1>📊 Market Data Streaming (UC-04)</h1>
+        
+        <div class="dashboard">
+            <!-- Control Panel -->
+            <div class="panel">
+                <h2>🎛️ Controls</h2>
+                
+                <div id="status" class="status disconnected">
+                    ⚫ Disconnected
+                </div>
+
+                <div class="input-group">
+                    <label for="clientId">Client ID (UUID)</label>
+                    <input type="text" id="clientId" placeholder="Enter your client ID" 
+                           value="123e4567-e89b-12d3-a456-426614174000">
+                </div>
+
+                <h3 style="margin: 20px 0 10px 0; color: #333;">Select Symbols</h3>
+                <div class="symbol-list" id="symbolList">
+                    <!-- Symbols will be loaded here -->
+                </div>
+
+                <button class="btn btn-primary" id="subscribeBtn" disabled>
+                    🚀 Subscribe to Market Data
+                </button>
+                
+                <button class="btn btn-danger" id="unsubscribeBtn" disabled style="display: none;">
+                    🛑 Unsubscribe
+                </button>
+
+                <div class="log" id="log">
+                    <div class="log-entry">
+                        <span class="log-time">[System]</span>
+                        <span>Ready to connect...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quotes Display -->
+            <div class="panel">
+                <h2>📈 Live Quotes</h2>
+                <div id="quotesContainer" class="quotes-grid">
+                    <div class="empty-state">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <p>Subscribe to symbols to see live market data</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Vous devez vous connecter pour accéder à cette page');
+                window.location.href = '/signin.html';
+                return null;
+            }
+            return token;
+        }
+
+        // Decode JWT token (simple base64 decode - for display only)
+        function decodeJWT(token) {
+            try {
+                const payload = token.split('.')[1];
+                const decoded = JSON.parse(atob(payload));
+                return decoded;
+            } catch (error) {
+                console.error('Error decoding JWT:', error);
+                return null;
+            }
+        }
+
+        // Initialize user info from token
+        function initUserInfo() {
+            const token = checkAuth();
+            if (!token) return;
+
+            const payload = decodeJWT(token);
+            if (payload) {
+                // Extract email from token claims
+                const email = payload.email || payload.sub || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+                const clientId = payload.clientId || payload.sub || payload.nameid;
+                
+                // Display user email in navbar
+                const userEmailElem = document.getElementById('userEmail');
+                if (email && userEmailElem) {
+                    userEmailElem.textContent = `👤 ${email}`;
+                }
+
+                // Auto-fill clientId input
+                const clientIdInput = document.getElementById('clientId');
+                if (clientId && clientIdInput) {
+                    clientIdInput.value = clientId;
+                    log(`✅ Client ID auto-rempli: ${clientId}`);
+                }
+            }
+        }
+
+        // Architecture complète: KrakenD Gateway (REST) + Direct SignalR
+        // REST API: Client → KrakenD (8080) → NGINX LB → API instances
+        // WebSocket: Client → Direct API (5000) → SignalR Hub (bypass gateway)
+        const API_BASE = 'http://localhost:8080';  // Via KrakenD Gateway
+        const HUB_URL = 'http://localhost:5000/hub/marketdata';  // Direct API (SignalR)
+        
+        let connection = null;
+        let subscriptionId = null;
+        let selectedSymbols = [];
+        const quotes = new Map();
+
+        // Elements
+        const clientIdInput = document.getElementById('clientId');
+        const symbolList = document.getElementById('symbolList');
+        const subscribeBtn = document.getElementById('subscribeBtn');
+        const unsubscribeBtn = document.getElementById('unsubscribeBtn');
+        const statusDiv = document.getElementById('status');
+        const quotesContainer = document.getElementById('quotesContainer');
+        const logDiv = document.getElementById('log');
+
+        // Logging
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            const time = new Date().toLocaleTimeString();
+            entry.innerHTML = `<span class="log-time">[${time}]</span><span>${message}</span>`;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // Load available symbols
+        async function loadSymbols() {
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/market/symbols`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                
+                symbolList.innerHTML = '';
+                data.symbols.forEach(symbol => {
+                    const btn = document.createElement('button');
+                    btn.className = 'symbol-btn';
+                    btn.textContent = symbol;
+                    btn.onclick = () => toggleSymbol(symbol, btn);
+                    symbolList.appendChild(btn);
+                });
+                
+                log(`Loaded ${data.symbols.length} symbols`);
+            } catch (error) {
+                log(`Error loading symbols: ${error.message}`, 'error');
+            }
+        }
+
+        // Toggle symbol selection
+        function toggleSymbol(symbol, btn) {
+            const index = selectedSymbols.indexOf(symbol);
+            if (index > -1) {
+                selectedSymbols.splice(index, 1);
+                btn.classList.remove('active');
+            } else {
+                selectedSymbols.push(symbol);
+                btn.classList.add('active');
+            }
+            subscribeBtn.disabled = selectedSymbols.length === 0;
+        }
+
+        // Setup SignalR connection
+        async function setupSignalR() {
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl(HUB_URL)
+                .withAutomaticReconnect()
+                .build();
+
+            connection.on('ReceiveQuote', (quote) => {
+                updateQuote(quote);
+            });
+
+            connection.on('SubscriptionConfirmed', (symbol) => {
+                log(`✅ Subscribed to ${symbol}`);
+            });
+
+            connection.onreconnecting(() => {
+                updateStatus('connecting', '🟡 Reconnecting...');
+            });
+
+            connection.onreconnected(() => {
+                updateStatus('connected', '🟢 Reconnected');
+                // Resubscribe to symbols
+                selectedSymbols.forEach(symbol => {
+                    connection.invoke('SubscribeToSymbol', symbol);
+                });
+            });
+
+            connection.onclose(() => {
+                updateStatus('disconnected', '⚫ Disconnected');
+            });
+
+            try {
+                await connection.start();
+                updateStatus('connected', '🟢 Connected to WebSocket');
+                log('WebSocket connection established');
+            } catch (error) {
+                updateStatus('disconnected', '⚫ Connection failed');
+                log(`WebSocket error: ${error.message}`, 'error');
+            }
+        }
+
+        // Update connection status
+        function updateStatus(state, text) {
+            statusDiv.className = `status ${state}`;
+            statusDiv.textContent = text;
+        }
+
+        // Subscribe to market data
+        async function subscribe() {
+            const clientId = clientIdInput.value.trim();
+            if (!clientId || selectedSymbols.length === 0) {
+                alert('Please enter a Client ID and select at least one symbol');
+                return;
+            }
+
+            try {
+                // Create subscription via REST API (Architecture Hexagonale)
+                const response = await fetch(`${API_BASE}/api/v1/market/subscribe`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        clientId,
+                        symbols: selectedSymbols,
+                        canal: 'WebSocket'
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                subscriptionId = data.subscriptionId;
+                
+                log(`Created subscription: ${subscriptionId}`);
+                
+                // Subscribe via SignalR
+                for (const symbol of selectedSymbols) {
+                    await connection.invoke('SubscribeToSymbol', symbol);
+                }
+                
+                subscribeBtn.style.display = 'none';
+                unsubscribeBtn.style.display = 'block';
+                unsubscribeBtn.disabled = false;
+                
+            } catch (error) {
+                log(`Subscription error: ${error.message}`, 'error');
+                alert('Failed to subscribe. Check console for details.');
+            }
+        }
+
+        // Unsubscribe from market data
+        async function unsubscribe() {
+            if (!subscriptionId) return;
+
+            try {
+                // Unsubscribe via REST API (Architecture Hexagonale)
+                const response = await fetch(`${API_BASE}/api/v1/market/unsubscribe`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subscriptionId })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `HTTP ${response.status}`);
+                }
+
+                // Unsubscribe via SignalR
+                for (const symbol of selectedSymbols) {
+                    await connection.invoke('UnsubscribeFromSymbol', symbol);
+                }
+
+                log('Unsubscribed successfully');
+                
+                subscriptionId = null;
+                quotes.clear();
+                quotesContainer.innerHTML = '<div class="empty-state"><p>Unsubscribed from all symbols</p></div>';
+                
+                subscribeBtn.style.display = 'block';
+                subscribeBtn.disabled = false;
+                unsubscribeBtn.style.display = 'none';
+                
+            } catch (error) {
+                log(`Unsubscribe error: ${error.message}`, 'error');
+            }
+        }
+
+        // Update quote display
+        function updateQuote(quote) {
+            quotes.set(quote.symbol, quote);
+            renderQuotes();
+        }
+
+        // Render all quotes
+        function renderQuotes() {
+            if (quotes.size === 0) return;
+
+            quotesContainer.innerHTML = '';
+            
+            quotes.forEach((quote, symbol) => {
+                const card = document.createElement('div');
+                card.className = 'quote-card';
+                
+                const time = new Date(quote.timestamp).toLocaleTimeString();
+                
+                card.innerHTML = `
+                    <div class="quote-header">
+                        <div class="quote-symbol">${symbol}</div>
+                        <div class="quote-time">${time}</div>
+                    </div>
+                    <div class="quote-prices">
+                        <div class="quote-price">
+                            <div class="quote-label">BID</div>
+                            <div class="quote-value">${quote.bid.toFixed(2)}</div>
+                        </div>
+                        <div class="quote-price">
+                            <div class="quote-label">ASK</div>
+                            <div class="quote-value">${quote.ask.toFixed(2)}</div>
+                        </div>
+                        <div class="quote-price">
+                            <div class="quote-label">LAST</div>
+                            <div class="quote-value">${quote.last?.toFixed(2) || 'N/A'}</div>
+                        </div>
+                        <div class="quote-price">
+                            <div class="quote-label">VOLUME</div>
+                            <div class="quote-value">${(quote.volume || 0).toLocaleString()}</div>
+                        </div>
+                    </div>
+                    <div class="quote-spread">
+                        <div>Spread: $${quote.spread.toFixed(4)}</div>
+                        <div>Spread BPS: ${quote.spreadBps.toFixed(2)}</div>
+                    </div>
+                `;
+                
+                quotesContainer.appendChild(card);
+            });
+        }
+
+        // Event listeners
+        subscribeBtn.onclick = subscribe;
+        unsubscribeBtn.onclick = unsubscribe;
+
+        // Initialize
+        (async function init() {
+            initUserInfo();
+            await loadSymbols();
+            await setupSignalR();
+        })();
+    </script>
+</body>
+</html>

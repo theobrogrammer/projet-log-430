@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrokerX - UC-04 Market Data Feed Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.0/dist/browser/signalr.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .status.connecting {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status.connected {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .controls {
+            margin-bottom: 30px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .quote-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            background: #f8f9fa;
+            transition: all 0.3s;
+        }
+        .quote-card.updated {
+            animation: pulse 0.5s;
+            border-color: #667eea;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .quote-symbol {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .quote-price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        .quote-change {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .quote-change.positive {
+            background: #d4edda;
+            color: #155724;
+        }
+        .quote-change.negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .quote-details {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        .quote-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+        }
+        .logs {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        .log-entry {
+            padding: 5px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        .log-timestamp {
+            color: #666;
+            margin-right: 10px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 BrokerX - UC-04 Market Data Feed</h1>
+        <div class="subtitle">Real-Time Market Data via SignalR WebSocket</div>
+        
+        <div id="status" class="status connecting">⏳ Connecting to server...</div>
+        
+        <div class="controls">
+            <button class="btn-primary" onclick="connect()">🔌 Connect</button>
+            <button class="btn-danger" onclick="disconnect()">🔌 Disconnect</button>
+            <button class="btn-success" onclick="subscribeAll()">📊 Subscribe All</button>
+            <button class="btn-danger" onclick="unsubscribeAll()">🚫 Unsubscribe All</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="quoteCount">0</div>
+                <div class="stat-label">Total Quotes Received</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="subscriptionCount">0</div>
+                <div class="stat-label">Active Subscriptions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="latency">-</div>
+                <div class="stat-label">Avg Latency (ms)</div>
+            </div>
+        </div>
+
+        <h2>📈 Live Market Quotes</h2>
+        <div id="quotes" class="quotes-grid"></div>
+
+        <h2>📋 Activity Log</h2>
+        <div id="logs" class="logs"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000';
+        const HUB_PATH = '/hub/marketdata'; // Changed from /hubs/ to /hub/ to match server
+        const SYMBOLS = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA', 'META', 'NVDA', 'AMD', 'INTC', 'NFLX'];
+        
+        let connection = null;
+        let quotes = {};
+        let quoteCount = 0;
+        let subscriptions = new Set();
+        let latencies = [];
+
+        function log(message) {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-timestamp">[${timestamp}]</span>${message}`;
+            logsDiv.insertBefore(entry, logsDiv.firstChild);
+            
+            // Keep only last 50 entries
+            while (logsDiv.children.length > 50) {
+                logsDiv.removeChild(logsDiv.lastChild);
+            }
+        }
+
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+
+        function updateStats() {
+            document.getElementById('quoteCount').textContent = quoteCount;
+            document.getElementById('subscriptionCount').textContent = subscriptions.size;
+            
+            if (latencies.length > 0) {
+                const avgLatency = latencies.reduce((a, b) => a + b, 0) / latencies.length;
+                document.getElementById('latency').textContent = avgLatency.toFixed(2);
+            }
+        }
+
+        function renderQuote(quote) {
+            const quotesDiv = document.getElementById('quotes');
+            let card = document.getElementById(`quote-${quote.symbol}`);
+            
+            if (!card) {
+                card = document.createElement('div');
+                card.id = `quote-${quote.symbol}`;
+                card.className = 'quote-card';
+                quotesDiv.appendChild(card);
+            }
+
+            const changePercent = ((quote.last - quote.bid) / quote.bid * 100).toFixed(2);
+            const isPositive = changePercent >= 0;
+            const spreadBps = (quote.spreadBps || 0).toFixed(2);
+            
+            card.innerHTML = `
+                <div class="quote-symbol">${quote.symbol}</div>
+                <div class="quote-price">$${quote.last.toFixed(2)}</div>
+                <div class="quote-change ${isPositive ? 'positive' : 'negative'}">
+                    ${isPositive ? '▲' : '▼'} ${Math.abs(changePercent)}%
+                </div>
+                <div class="quote-details">
+                    <div class="quote-detail-row">
+                        <span>Bid:</span>
+                        <span>$${quote.bid.toFixed(2)}</span>
+                    </div>
+                    <div class="quote-detail-row">
+                        <span>Ask:</span>
+                        <span>$${quote.ask.toFixed(2)}</span>
+                    </div>
+                    <div class="quote-detail-row">
+                        <span>Spread:</span>
+                        <span>${spreadBps} bps</span>
+                    </div>
+                    <div class="quote-detail-row">
+                        <span>Volume:</span>
+                        <span>${quote.volume.toLocaleString()}</span>
+                    </div>
+                    <div class="quote-detail-row">
+                        <span>Updated:</span>
+                        <span>${new Date(quote.timestamp).toLocaleTimeString()}</span>
+                    </div>
+                </div>
+            `;
+            
+            // Add pulse animation
+            card.classList.add('updated');
+            setTimeout(() => card.classList.remove('updated'), 500);
+        }
+
+        async function connect() {
+            if (connection && connection.state === signalR.HubConnectionState.Connected) {
+                log('⚠️ Already connected');
+                return;
+            }
+
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl(`${API_URL}${HUB_PATH}`)
+                .withAutomaticReconnect()
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+            connection.on('ReceiveQuote', (quote) => {
+                const receiveTime = Date.now();
+                const sentTime = new Date(quote.timestamp).getTime();
+                const latency = receiveTime - sentTime;
+                
+                latencies.push(latency);
+                if (latencies.length > 100) latencies.shift();
+
+                quotes[quote.symbol] = quote;
+                quoteCount++;
+                renderQuote(quote);
+                updateStats();
+                
+                log(`📊 Received quote: ${quote.symbol} @ $${quote.last.toFixed(2)} (${latency}ms latency)`);
+            });
+
+            connection.onreconnecting(() => {
+                updateStatus('🔄 Reconnecting...', 'connecting');
+                log('🔄 Connection lost, attempting to reconnect...');
+            });
+
+            connection.onreconnected(() => {
+                updateStatus('✅ Connected to SignalR Hub', 'connected');
+                log('✅ Reconnected successfully');
+                // Resubscribe to all symbols
+                subscriptions.forEach(symbol => subscribeToSymbol(symbol, false));
+            });
+
+            connection.onclose(() => {
+                updateStatus('❌ Disconnected from server', 'disconnected');
+                log('❌ Connection closed');
+            });
+
+            try {
+                updateStatus('⏳ Connecting...', 'connecting');
+                await connection.start();
+                updateStatus('✅ Connected to SignalR Hub', 'connected');
+                log('✅ Connected to SignalR hub successfully');
+            } catch (err) {
+                updateStatus('❌ Connection failed', 'disconnected');
+                log(`❌ Connection failed: ${err.message}`);
+                console.error(err);
+            }
+        }
+
+        async function disconnect() {
+            if (connection) {
+                await connection.stop();
+                updateStatus('❌ Disconnected', 'disconnected');
+                log('🔌 Disconnected from server');
+            }
+        }
+
+        async function subscribeToSymbol(symbol, logIt = true) {
+            if (!connection || connection.state !== signalR.HubConnectionState.Connected) {
+                log('⚠️ Not connected. Please connect first.');
+                return;
+            }
+
+            try {
+                await connection.invoke('SubscribeToSymbol', symbol);
+                subscriptions.add(symbol);
+                updateStats();
+                if (logIt) log(`✅ Subscribed to ${symbol}`);
+            } catch (err) {
+                log(`❌ Failed to subscribe to ${symbol}: ${err.message}`);
+                console.error(err);
+            }
+        }
+
+        async function unsubscribeFromSymbol(symbol) {
+            if (!connection || connection.state !== signalR.HubConnectionState.Connected) {
+                log('⚠️ Not connected');
+                return;
+            }
+
+            try {
+                await connection.invoke('UnsubscribeFromSymbol', symbol);
+                subscriptions.delete(symbol);
+                updateStats();
+                log(`🚫 Unsubscribed from ${symbol}`);
+            } catch (err) {
+                log(`❌ Failed to unsubscribe from ${symbol}: ${err.message}`);
+                console.error(err);
+            }
+        }
+
+        async function subscribeAll() {
+            for (const symbol of SYMBOLS) {
+                await subscribeToSymbol(symbol);
+            }
+            log(`📊 Subscribed to all ${SYMBOLS.length} symbols`);
+        }
+
+        async function unsubscribeAll() {
+            for (const symbol of SYMBOLS) {
+                await unsubscribeFromSymbol(symbol);
+            }
+            log(`🚫 Unsubscribed from all symbols`);
+        }
+
+        // Auto-connect on load
+        window.addEventListener('load', () => {
+            log('🌐 Page loaded, ready to connect');
+            connect();
+        });
+    </script>
+</body>
+</html>

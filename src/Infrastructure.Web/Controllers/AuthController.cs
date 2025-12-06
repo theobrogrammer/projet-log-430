@@ -59,11 +59,21 @@ public sealed class AuthController : ControllerBase
             device: device,
             ct: ct);
 
+        // Si authentification réussie, récupérer l'accountId
+        Guid? accountId = null;
+        if (!result.MfaRequired && result.ClientId.HasValue)
+        {
+            var client = await _clients.GetByIdAsync(result.ClientId.Value, ct);
+            accountId = client?.Comptes?.FirstOrDefault()?.AccountId;
+        }
+
         var resp = new LoginResponseDto {
             Token       = result.Token,
             MfaRequired = result.MfaRequired,
             ClientId    = result.ClientId,
-            ChallengeId = result.ChallengeId
+            ChallengeId = result.ChallengeId,
+            AccountId   = accountId,
+            Email       = dto.Email
         };
         return Ok(resp);
     }
@@ -80,9 +90,22 @@ public sealed class AuthController : ControllerBase
             code: dto.Code,
             ct: ct);
 
+        // Récupérer l'accountId après vérification MFA réussie
+        Guid? accountId = null;
+        string? email = null;
+        if (dto.ClientId != Guid.Empty)
+        {
+            var client = await _clients.GetByIdAsync(dto.ClientId, ct);
+            accountId = client?.Comptes?.FirstOrDefault()?.AccountId;
+            email = client?.Email;
+        }
+
         var resp = new LoginResponseDto {
             Token       = result.Token,
-            MfaRequired = false
+            MfaRequired = false,
+            ClientId    = dto.ClientId,
+            AccountId   = accountId,
+            Email       = email
         };
         return Ok(resp);
     }

@@ -115,6 +115,10 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Microsoft.AspNetCore.SignalR": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
             "Serilog": {
               "target": "Package",
               "version": "[4.1.0, )"

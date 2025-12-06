@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using ProjetLog430.Domain.Model.Identite;
 using ProjetLog430.Domain.Model.PortefeuilleReglement;
 using ProjetLog430.Domain.Model.Securite;
+using ProjetLog430.Domain.Model.MarketData;
+using ProjetLog430.Domain.Model.Trading;
 
 namespace ProjetLog430.Infrastructure.Persistence;
 
@@ -21,7 +23,15 @@ public sealed class BrokerXDbContext : DbContext
     public DbSet<PolitiqueMFA> MfaPolicies => Set<PolitiqueMFA>();
     public DbSet<DefiMFA> MfaChallenges => Set<DefiMFA>();
     public DbSet<Session> Sessions => Set<Session>();
-
+    
+    // Tables Market Data (UC-04)
+    public DbSet<Quote> Quotes => Set<Quote>();
+    public DbSet<Subscription> Subscriptions => Set<Subscription>();
+    
+    // Tables Trading (UC-05)
+    public DbSet<Ordre> Ordres => Set<Ordre>();
+    public DbSet<Execution> Executions => Set<Execution>();
+    
     protected override void OnModelCreating(ModelBuilder b)
     {
         // === Client ===
@@ -47,6 +57,9 @@ public sealed class BrokerXDbContext : DbContext
               .WithOne()
               .HasForeignKey(o => o.ClientId)
               .OnDelete(DeleteBehavior.Cascade);
+              
+            // Configurer EF Core pour utiliser le backing field _contactOtps
+            eb.Navigation(x => x.ContactOtps).UsePropertyAccessMode(PropertyAccessMode.Field);
               
             eb.HasMany(x => x.Comptes)
               .WithOne()
@@ -173,6 +186,82 @@ public sealed class BrokerXDbContext : DbContext
             eb.HasIndex(x => x.ClientId);
             eb.HasIndex(x => x.Token).IsUnique();
             eb.HasIndex(x => x.ExpiresAt);
+        });
+
+        // === Quote (UC-04) ===
+        b.Entity<Quote>(eb =>
+        {
+            eb.HasKey(x => x.QuoteId);
+            eb.Property(x => x.Symbol).IsRequired().HasMaxLength(20);
+            eb.Property(x => x.Bid).HasColumnType("decimal(18,4)").IsRequired();
+            eb.Property(x => x.Ask).HasColumnType("decimal(18,4)").IsRequired();
+            eb.Property(x => x.Timestamp).IsRequired();
+            eb.HasIndex(x => x.Symbol);
+            eb.HasIndex(x => x.Timestamp);
+        });
+
+        // === Subscription (UC-04) ===
+        b.Entity<Subscription>(eb =>
+        {
+            eb.HasKey(x => x.SubscriptionId);
+            eb.Property(x => x.ClientId).IsRequired();
+            eb.Property(x => x.Canal).HasConversion<string>().HasMaxLength(20).IsRequired();
+            eb.Property(x => x.Statut).HasConversion<string>().HasMaxLength(20).IsRequired();
+            eb.Property(x => x.CreatedAt).IsRequired();
+            
+            // Symbols as JSON list
+            eb.Property(x => x.Symbols)
+              .HasConversion(
+                  v => string.Join(',', v),
+                  v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList())
+              .HasMaxLength(500)
+              .IsRequired();
+            
+            eb.HasIndex(x => x.ClientId);
+            eb.HasIndex(x => x.Statut);
+        });
+
+        // === Ordre (UC-05) ===
+        b.Entity<Ordre>(eb =>
+        {
+            eb.HasKey(x => x.OrderId);
+            eb.Property(x => x.AccountId).IsRequired();
+            eb.Property(x => x.ClientOrderId).IsRequired().HasMaxLength(100);
+            eb.Property(x => x.Symbol).IsRequired().HasMaxLength(20);
+            eb.Property(x => x.Side).HasConversion<string>().HasMaxLength(10).IsRequired();
+            eb.Property(x => x.Type).HasConversion<string>().HasMaxLength(10).IsRequired();
+            eb.Property(x => x.Quantity).HasColumnType("decimal(18,4)").IsRequired();
+            eb.Property(x => x.Price).HasColumnType("decimal(18,4)");
+            eb.Property(x => x.TimeInForce).HasConversion<string>().HasMaxLength(10).IsRequired();
+            eb.Property(x => x.Statut).HasConversion<string>().HasMaxLength(20).IsRequired();
+            eb.Property(x => x.FilledQuantity).HasColumnType("decimal(18,4)").IsRequired();
+            eb.Property(x => x.AvgPrice).HasColumnType("decimal(18,4)");
+            eb.Property(x => x.RejectReason).HasMaxLength(500);
+            eb.Property(x => x.CreatedAt).IsRequired();
+            eb.Property(x => x.UpdatedAt);
+            eb.HasIndex(x => x.AccountId);
+            eb.HasIndex(x => new { x.AccountId, x.ClientOrderId }).IsUnique();
+            eb.HasIndex(x => x.Symbol);
+            eb.HasIndex(x => x.Statut);
+            
+            // Relations
+            eb.HasMany(x => x.Executions)
+              .WithOne()
+              .HasForeignKey(e => e.OrderId)
+              .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // === Execution (UC-05) ===
+        b.Entity<Execution>(eb =>
+        {
+            eb.HasKey(x => x.ExecutionId);
+            eb.Property(x => x.OrderId).IsRequired();
+            eb.Property(x => x.ExecQuantity).HasColumnType("decimal(18,4)").IsRequired();
+            eb.Property(x => x.ExecPrice).HasColumnType("decimal(18,4)").IsRequired();
+            eb.Property(x => x.Commission).HasColumnType("decimal(18,4)").IsRequired();
+            eb.Property(x => x.Timestamp).IsRequired();
+            eb.HasIndex(x => x.OrderId);
+            eb.HasIndex(x => x.Timestamp);
         });
     }
 }

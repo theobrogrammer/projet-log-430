@@ -13,13 +13,11 @@ public sealed class InMemoryClientRepository : IClientRepository
     public Task<Client?> GetByIdAsync(Guid clientId, CancellationToken ct = default)
         => _db.Clients
             .Include(c => c.ContactOtps) // Charger les OTPs liés
-            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.ClientId == clientId, ct);
 
     public Task<Client?> GetByEmailAsync(string email, CancellationToken ct = default)
         => _db.Clients
             .Include(c => c.ContactOtps) // Charger les OTPs liés
-            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Email == email, ct);
 
     public async Task AddAsync(Client client, CancellationToken ct = default)
@@ -30,7 +28,16 @@ public sealed class InMemoryClientRepository : IClientRepository
 
     public async Task UpdateAsync(Client client, CancellationToken ct = default)
     {
-        _db.Clients.Update(client);
+        // Détecter et ajouter les nouveaux OTPs qui ne sont pas encore trackés
+        foreach (var otp in client.ContactOtps)
+        {
+            var entry = _db.Entry(otp);
+            if (entry.State == EntityState.Detached)
+            {
+                _db.ContactOtps.Add(otp);
+            }
+        }
+        
         await _db.SaveChangesAsync(ct);
     }
 }

@@ -3,581 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Dépôts - BrokerX</title>
+    <title>Dépôt de fonds - BrokerX</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #3b82f6;
-            --accent-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --dark-color: #1f2937;
-            --light-bg: #f8fafc;
+        body { font-family: system-ui, Arial; background: #f8f9fa; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .step-indicator { display: flex; justify-content: center; align-items: center; margin-bottom: 2rem; }
+        .step { 
+            width: 40px; height: 40px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; margin: 0 10px; font-weight: bold;
         }
-
-        body {
-            background-color: var(--light-bg);
-        }
-
-        .deposit-header {
-            background: linear-gradient(135deg, var(--accent-color) 0%, #059669 100%);
-            color: white;
-            padding: 2rem 0;
-        }
-
-        .deposit-card {
-            border: none;
-            border-radius: 1rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .deposit-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
-        }
-
-        .payment-method-card {
-            border: 2px solid #e5e7eb;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .payment-method-card:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-        }
-
-        .payment-method-card.selected {
-            border-color: var(--accent-color);
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .amount-preset {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .amount-preset:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .amount-preset.selected {
-            border-color: var(--accent-color);
-            background: var(--accent-color);
-            color: white;
-        }
-
-        .status-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            font-size: 0.875rem;
-        }
-
-        .status-pending {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .status-completed {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-processing {
-            background: #e0e7ff;
-            color: #3730a3;
-        }
-
-        .status-failed {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .progress-timeline {
-            position: relative;
-        }
-
-        .progress-step {
-            position: relative;
-            padding: 1rem 0;
-            border-left: 3px solid #e5e7eb;
-            margin-left: 1rem;
-            padding-left: 2rem;
-        }
-
-        .progress-step.completed {
-            border-left-color: var(--accent-color);
-        }
-
-        .progress-step::before {
-            content: '';
-            position: absolute;
-            left: -8px;
-            top: 1.5rem;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #e5e7eb;
-        }
-
-        .progress-step.completed::before {
-            background: var(--accent-color);
-        }
-
-        .form-floating-custom {
-            position: relative;
-        }
-
-        .form-floating-custom .form-control {
-            height: calc(3.5rem + 2px);
-            padding: 1rem 0.75rem;
-        }
-
-        .navbar-custom {
-            background: var(--dark-color);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .transaction-item {
-            background: white;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-left: 4px solid var(--accent-color);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
+        .step.active { background: #10b981; color: white; }
+        .step.inactive { background: #e9ecef; color: #6c757d; }
+        .step-line { flex: 1; height: 2px; background: #e9ecef; max-width: 100px; }
+        .step-line.active { background: #10b981; }
+        .amount-btn { border: 2px solid #dee2e6; background: white; transition: all 0.3s; }
+        .amount-btn:hover, .amount-btn.active { border-color: #10b981; background: #10b981; color: white; }
+        .payment-method { border: 2px solid #dee2e6; cursor: pointer; transition: all 0.3s; }
+        .payment-method:hover, .payment-method.selected { border-color: #10b981; background: rgba(16, 185, 129, 0.05); }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
-            <a class="navbar-brand" href="/dashboard.html">
+            <a class="navbar-brand fw-bold" href="/">
                 <i class="fas fa-chart-line"></i> BrokerX
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard.html">
-                            <i class="fas fa-home"></i> Tableau de bord
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/deposit.html">
-                            <i class="fas fa-plus-circle"></i> Dépôts
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/withdraw.html">
-                            <i class="fas fa-minus-circle"></i> Retraits
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/trading.html">
-                            <i class="fas fa-exchange-alt"></i> Trading
-                        </a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <span class="navbar-text me-3">
-                        <i class="fas fa-wallet"></i> Solde: <span id="currentBalance">$--,---.--</span>
-                    </span>
-                    <a class="nav-link" href="/api/auth/logout">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </a>
-                </div>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/dashboard.html"><i class="fas fa-arrow-left"></i> Retour</a>
+                <a class="nav-link" href="/signin.html"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
             </div>
         </div>
     </nav>
 
     <!-- Header -->
-    <section class="deposit-header">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <h1 class="display-5 fw-bold mb-3">
-                        <i class="fas fa-plus-circle"></i> Gestion des Dépôts
-                    </h1>
-                    <p class="lead mb-0">
-                        Effectuez vos dépôts de manière sécurisée avec traitement idempotent et confirmation en temps réel.
-                    </p>
-                </div>
-                <div class="col-lg-4 text-end">
-                    <div class="bg-white bg-opacity-20 rounded p-3">
-                        <h6 class="mb-1">Dépôts ce mois</h6>
-                        <h4 id="monthlyDeposits">$--,---</h4>
-                    </div>
-                </div>
-            </div>
+    <div class="bg-success text-white py-4 mb-4">
+        <div class="container text-center">
+            <h2><i class="fas fa-plus-circle"></i> Dépôt de fonds (UC-03)</h2>
+            <p class="mb-0 opacity-75">Déposez des fonds de manière sécurisée avec garantie d'idempotence</p>
         </div>
-    </section>
+    </div>
 
-    <div class="container py-5">
-        <div class="row">
-            <!-- New Deposit Form -->
-            <div class="col-lg-8">
-                <div class="card deposit-card">
-                    <div class="card-header bg-white">
-                        <h5 class="mb-0">
-                            <i class="fas fa-credit-card text-success"></i> Nouveau dépôt
-                        </h5>
+    <div class="container py-3">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                
+                <!-- Indicateur d'étapes -->
+                <div class="step-indicator mb-4">
+                    <div class="step active" id="step1">1</div>
+                    <div class="step-line" id="line1"></div>
+                    <div class="step inactive" id="step2">2</div>
+                    <div class="step-line" id="line2"></div>
+                    <div class="step inactive" id="step3">✓</div>
+                </div>
+
+                <!-- Étape 1: Formulaire de dépôt -->
+                <div id="depositForm" class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-credit-card"></i> Nouveau dépôt</h5>
                     </div>
-                    <div class="card-body p-4">
-                        <form id="depositForm">
+                    <div class="card-body">
+                        <form id="depositFormElement">
                             <!-- Montant -->
                             <div class="mb-4">
-                                <label class="form-label fw-bold">Montant du dépôt</label>
-                                <div class="form-floating-custom mb-3">
-                                    <div class="input-group input-group-lg">
-                                        <span class="input-group-text">$</span>
-                                        <input type="number" class="form-control" id="amount" name="amount" 
-                                               step="0.01" min="1" max="100000" required
-                                               placeholder="0.00">
-                                    </div>
+                                <label class="form-label fw-bold"><i class="fas fa-dollar-sign"></i> Montant</label>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-3"><button type="button" class="btn amount-btn w-100" data-amount="50">$50</button></div>
+                                    <div class="col-3"><button type="button" class="btn amount-btn w-100" data-amount="100">$100</button></div>
+                                    <div class="col-3"><button type="button" class="btn amount-btn w-100" data-amount="500">$500</button></div>
+                                    <div class="col-3"><button type="button" class="btn amount-btn w-100" data-amount="1000">$1000</button></div>
                                 </div>
-                                
-                                <!-- Montants prédéfinis -->
-                                <div class="row g-2">
-                                    <div class="col-6 col-md-3">
-                                        <div class="amount-preset" onclick="selectAmount(100)">
-                                            $100
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <div class="amount-preset" onclick="selectAmount(500)">
-                                            $500
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <div class="amount-preset" onclick="selectAmount(1000)">
-                                            $1,000
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-3">
-                                        <div class="amount-preset" onclick="selectAmount(5000)">
-                                            $5,000
-                                        </div>
-                                    </div>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="amount" min="1" max="100000" step="0.01" required placeholder="Montant personnalisé">
                                 </div>
-                                <div class="form-text">Minimum: $1 - Maximum: $100,000 par transaction</div>
-                                <div id="amountError" class="text-danger small"></div>
+                                <small class="text-muted">Min: $1 - Max: $100,000</small>
+                                <div class="text-danger small" id="amountError"></div>
                             </div>
 
                             <!-- Méthode de paiement -->
                             <div class="mb-4">
-                                <label class="form-label fw-bold">Méthode de paiement</label>
-                                <div class="row g-3">
-                                    <div class="col-md-4">
-                                        <div class="payment-method-card" onclick="selectPaymentMethod('credit_card', this)">
-                                            <div class="text-center">
-                                                <i class="fas fa-credit-card fa-2x text-primary mb-2"></i>
-                                                <h6>Carte de crédit</h6>
-                                                <small class="text-muted">Instantané • Frais: 2.9%</small>
-                                            </div>
+                                <label class="form-label fw-bold"><i class="fas fa-wallet"></i> Méthode de paiement</label>
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <div class="payment-method rounded p-3 text-center" data-method="credit_card">
+                                            <i class="fas fa-credit-card fa-2x text-primary mb-2"></i>
+                                            <div class="small">Carte</div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="payment-method-card" onclick="selectPaymentMethod('bank_transfer', this)">
-                                            <div class="text-center">
-                                                <i class="fas fa-university fa-2x text-success mb-2"></i>
-                                                <h6>Virement bancaire</h6>
-                                                <small class="text-muted">1-3 jours • Frais: 0%</small>
-                                            </div>
+                                    <div class="col-4">
+                                        <div class="payment-method rounded p-3 text-center" data-method="bank_transfer">
+                                            <i class="fas fa-university fa-2x text-info mb-2"></i>
+                                            <div class="small">Virement</div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="payment-method-card" onclick="selectPaymentMethod('crypto', this)">
-                                            <div class="text-center">
-                                                <i class="fab fa-bitcoin fa-2x text-warning mb-2"></i>
-                                                <h6>Cryptomonnaie</h6>
-                                                <small class="text-muted">Variable • Frais réseau</small>
-                                            </div>
+                                    <div class="col-4">
+                                        <div class="payment-method rounded p-3 text-center" data-method="crypto">
+                                            <i class="fab fa-bitcoin fa-2x text-warning mb-2"></i>
+                                            <div class="small">Crypto</div>
                                         </div>
                                     </div>
                                 </div>
-                                <input type="hidden" id="paymentMethod" name="paymentMethod" required>
-                                <div id="paymentMethodError" class="text-danger small"></div>
+                                <input type="hidden" id="paymentMethod" required>
+                                <div class="text-danger small" id="methodError"></div>
                             </div>
 
                             <!-- Description -->
                             <div class="mb-4">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="description" name="description" 
-                                           maxlength="500" placeholder="Description optionnelle">
-                                    <label for="description">Description (optionnel)</label>
-                                </div>
-                                <div class="form-text">Ex: Recharge mensuelle, Ajout capital, etc.</div>
+                                <label class="form-label"><i class="fas fa-comment"></i> Description (optionnel)</label>
+                                <input type="text" class="form-control" id="description" maxlength="500" placeholder="Ex: Recharge mensuelle">
                             </div>
 
-                            <!-- Résumé -->
-                            <div id="depositSummary" class="alert alert-light border" style="display: none;">
-                                <h6><i class="fas fa-receipt"></i> Résumé de la transaction</h6>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <strong>Montant:</strong> <span id="summaryAmount">$0.00</span><br>
-                                        <strong>Frais:</strong> <span id="summaryFees">$0.00</span>
-                                    </div>
-                                    <div class="col-6">
-                                        <strong>Total à débiter:</strong> <span id="summaryTotal">$0.00</span><br>
-                                        <strong>Méthode:</strong> <span id="summaryMethod">-</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- Clé d'idempotence (cachée) -->
+                            <input type="hidden" id="idempotencyKey">
 
-                            <!-- Idempotency key (hidden) -->
-                            <input type="hidden" id="idempotencyKey" name="idempotencyKey">
-
-                            <!-- Informations importantes -->
+                            <!-- Info box -->
                             <div class="alert alert-info">
-                                <h6><i class="fas fa-info-circle"></i> Informations importantes</h6>
-                                <ul class="mb-0 small">
-                                    <li><strong>Sécurité:</strong> Tous les dépôts sont traités avec chiffrement SSL et idempotence</li>
-                                    <li><strong>Confirmation:</strong> Vous recevrez un email de confirmation automatiquement</li>
-                                    <li><strong>Traitement:</strong> Le temps varie selon la méthode (instantané à 3 jours)</li>
-                                    <li><strong>Support:</strong> Assistance 24/7 en cas de problème</li>
-                                </ul>
+                                <h6><i class="fas fa-info-circle"></i> Garantie d'idempotence</h6>
+                                <small>
+                                    Chaque dépôt possède une clé unique. Si vous soumettez le même dépôt plusieurs fois 
+                                    (ex: double-clic, erreur réseau), le système garantit qu'il ne sera traité qu'une seule fois.
+                                </small>
                             </div>
 
-                            <!-- Boutons -->
-                            <div class="d-flex gap-3">
-                                <button type="button" class="btn btn-success btn-lg flex-fill" onclick="reviewDeposit()">
-                                    <i class="fas fa-eye"></i> Réviser le dépôt
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary" onclick="resetForm()">
-                                    <i class="fas fa-redo"></i> Recommencer
-                                </button>
-                            </div>
+                            <button type="submit" class="btn btn-success btn-lg w-100">
+                                <i class="fas fa-paper-plane"></i> Confirmer le dépôt
+                            </button>
                         </form>
                     </div>
                 </div>
-            </div>
 
-            <!-- Sidebar -->
-            <div class="col-lg-4">
-                <!-- Statut du compte -->
-                <div class="card deposit-card mb-4">
-                    <div class="card-header bg-white">
-                        <h6 class="mb-0">
-                            <i class="fas fa-user-shield"></i> Statut du compte
-                        </h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="bg-success rounded-circle p-2 me-3">
-                                <i class="fas fa-check text-white"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0">Compte vérifié</h6>
-                                <small class="text-muted">KYC complété</small>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="bg-success rounded-circle p-2 me-3">
-                                <i class="fas fa-shield-alt text-white"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0">2FA activé</h6>
-                                <small class="text-muted">Sécurité renforcée</small>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <div class="bg-primary rounded-circle p-2 me-3">
-                                <i class="fas fa-star text-white"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0">Niveau Premium</h6>
-                                <small class="text-muted">Limites étendues</small>
-                            </div>
-                        </div>
+                <!-- Étape 2: Traitement -->
+                <div id="processingForm" class="card text-center" style="display: none;">
+                    <div class="card-body py-5">
+                        <div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;"></div>
+                        <h5>Traitement en cours...</h5>
+                        <p class="text-muted">Veuillez patienter</p>
                     </div>
                 </div>
 
-                <!-- Limites -->
-                <div class="card deposit-card mb-4">
-                    <div class="card-header bg-white">
-                        <h6 class="mb-0">
-                            <i class="fas fa-chart-bar"></i> Limites de dépôt
-                        </h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <small>Quotidien</small>
-                                <small id="dailyLimit">$5,000 / $50,000</small>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" style="width: 10%"></div>
-                            </div>
+                <!-- Étape 3: Succès -->
+                <div id="successForm" class="card text-center" style="display: none;">
+                    <div class="card-body py-5">
+                        <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                        <h4 class="text-success">Dépôt réussi ! 🎉</h4>
+                        <p class="text-muted">Votre dépôt a été traité avec succès.</p>
+                        <div class="alert alert-success">
+                            <strong>Transaction ID:</strong> <span id="transactionId">-</span><br>
+                            <strong>Montant:</strong> $<span id="depositAmount">-</span><br>
+                            <strong>Statut:</strong> <span class="badge bg-success">Complété</span>
                         </div>
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <small>Mensuel</small>
-                                <small id="monthlyLimit">$15,000 / $500,000</small>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-primary" style="width: 3%"></div>
-                            </div>
-                        </div>
-                        <small class="text-muted">Les limites se réinitialisent automatiquement</small>
-                    </div>
-                </div>
-
-                <!-- Aide -->
-                <div class="card deposit-card">
-                    <div class="card-header bg-white">
-                        <h6 class="mb-0">
-                            <i class="fas fa-question-circle"></i> Besoin d'aide ?
-                        </h6>
-                    </div>
-                    <div class="card-body">
-                        <p class="small text-muted mb-3">
-                            Notre équipe support est disponible 24/7 pour vous accompagner.
-                        </p>
                         <div class="d-grid gap-2">
-                            <a href="/support" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-headset"></i> Contacter le support
+                            <a href="/deposit.html" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Nouveau dépôt
                             </a>
-                            <a href="/faq" class="btn btn-outline-secondary btn-sm">
-                                <i class="fas fa-book"></i> FAQ Dépôts
+                            <a href="/dashboard.html" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Retour au tableau de bord
                             </a>
                         </div>
                     </div>
                 </div>
+
+                <!-- Erreur -->
+                <div id="errorForm" class="card text-center" style="display: none;">
+                    <div class="card-body py-5">
+                        <i class="fas fa-times-circle fa-4x text-danger mb-3"></i>
+                        <h4 class="text-danger">Erreur</h4>
+                        <p class="text-muted" id="errorMessage">Une erreur s'est produite.</p>
+                        <button class="btn btn-primary" onclick="resetForm()">
+                            <i class="fas fa-redo"></i> Réessayer
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <!-- Historique des dépôts -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="card deposit-card">
-                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">
-                            <i class="fas fa-history"></i> Historique des dépôts
-                        </h5>
-                        <div class="d-flex gap-2">
-                            <select class="form-select form-select-sm" id="statusFilter">
-                                <option value="">Tous les statuts</option>
-                                <option value="completed">Terminés</option>
-                                <option value="pending">En attente</option>
-                                <option value="processing">En cours</option>
-                                <option value="failed">Échoués</option>
-                            </select>
-                            <button class="btn btn-outline-primary btn-sm" onclick="loadDepositHistory()">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </div>
+        <!-- Info technique -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-code"></i> Détails techniques (UC-03)</h6>
                     </div>
-                    <div class="card-body p-0">
-                        <div id="depositHistory">
-                            <div class="p-4 text-center text-muted">
-                                <i class="fas fa-spinner fa-spin"></i> Chargement de l'historique...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Confirmation Modal -->
-    <div class="modal fade" id="confirmModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-check-circle text-success"></i> Confirmer le dépôt
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>Détails de la transaction</h6>
-                            <table class="table table-borderless">
-                                <tr>
-                                    <td><strong>Montant:</strong></td>
-                                    <td id="confirmAmount">$0.00</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Frais:</strong></td>
-                                    <td id="confirmFees">$0.00</td>
-                                </tr>
-                                <tr class="border-top">
-                                    <td><strong>Total:</strong></td>
-                                    <td><strong id="confirmTotal">$0.00</strong></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Méthode:</strong></td>
-                                    <td id="confirmMethod">-</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Sécurité</h6>
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="fas fa-shield-alt text-success me-2"></i>
-                                <small>Transaction chiffrée SSL</small>
-                            </div>
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="fas fa-redo text-primary me-2"></i>
-                                <small>Idempotence garantie</small>
-                            </div>
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="fas fa-envelope text-info me-2"></i>
-                                <small>Confirmation par email</small>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-headset text-warning me-2"></i>
-                                <small>Support 24/7 disponible</small>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="alert alert-warning mt-3">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <strong>Attention:</strong> Veuillez vérifier tous les détails avant de confirmer. 
-                        Cette action ne peut pas être annulée une fois confirmée.
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times"></i> Annuler
-                    </button>
-                    <button type="button" class="btn btn-success btn-lg" onclick="submitDeposit()">
-                        <i class="fas fa-paper-plane"></i> Confirmer le dépôt
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Processing Modal -->
-    <div class="modal fade" id="processingModal" tabindex="-1" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-center p-5">
-                    <div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;" role="status">
-                        <span class="visually-hidden">Traitement...</span>
-                    </div>
-                    <h5>Traitement en cours...</h5>
-                    <p class="text-muted mb-0">Veuillez patienter pendant que nous traitons votre dépôt</p>
-                    <div class="mt-3">
-                        <small class="text-muted">Transaction ID: <span id="processingTxId">--</span></small>
+                    <div class="card-body">
+                        <ul class="mb-0 small">
+                            <li><strong>Idempotency Key:</strong> <code id="displayIdempotencyKey">-</code></li>
+                            <li><strong>Endpoint:</strong> <code>POST /api/v1/wallet/deposit</code></li>
+                            <li><strong>Architecture:</strong> Hexagonale avec Ports & Adapters</li>
+                            <li><strong>Persistance:</strong> Entity Framework Core + MySQL</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -586,382 +203,111 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Global state
-        let selectedPaymentMethod = null;
-        let depositData = null;
+        let selectedMethod = null;
 
-        // Initialize page
+        // Générer clé d'idempotence au chargement
         document.addEventListener('DOMContentLoaded', function() {
-            loadBalance();
-            loadDepositHistory();
             generateIdempotencyKey();
-            
-            // Auto-update balance every 30 seconds
-            setInterval(loadBalance, 30000);
         });
 
         function generateIdempotencyKey() {
             const key = 'dep_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             document.getElementById('idempotencyKey').value = key;
+            document.getElementById('displayIdempotencyKey').textContent = key;
         }
 
-        async function loadBalance() {
-            try {
-                const response = await fetch('/api/wallet/balance');
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('currentBalance').textContent = 
-                        `$${data.totalBalance.toLocaleString('fr-FR', { minimumFractionDigits: 2 })}`;
-                    document.getElementById('monthlyDeposits').textContent = 
-                        `$${(data.monthlyDeposits || 0).toLocaleString('fr-FR', { maximumFractionDigits: 0 })}`;
-                }
-            } catch (error) {
-                console.error('Erreur lors du chargement du solde:', error);
-                // Données de démonstration
-                document.getElementById('currentBalance').textContent = '$12,500.75';
-                document.getElementById('monthlyDeposits').textContent = '$3,250';
-            }
-        }
+        // Boutons de montant prédéfini
+        document.querySelectorAll('.amount-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('amount').value = this.dataset.amount;
+            });
+        });
 
-        function selectAmount(amount) {
-            document.getElementById('amount').value = amount;
-            
-            // Update UI
-            document.querySelectorAll('.amount-preset').forEach(el => el.classList.remove('selected'));
-            event.target.classList.add('selected');
-            
-            updateSummary();
-        }
+        // Sélection méthode de paiement
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedMethod = this.dataset.method;
+                document.getElementById('paymentMethod').value = selectedMethod;
+                document.getElementById('methodError').textContent = '';
+            });
+        });
 
-        function selectPaymentMethod(method, element) {
-            selectedPaymentMethod = method;
-            document.getElementById('paymentMethod').value = method;
-            
-            // Update UI
-            document.querySelectorAll('.payment-method-card').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-            
-            updateSummary();
-        }
-
-        function updateSummary() {
-            const amount = parseFloat(document.getElementById('amount').value) || 0;
-            const method = selectedPaymentMethod;
-            
-            if (amount > 0 && method) {
-                const feeRates = {
-                    credit_card: 0.029,
-                    bank_transfer: 0,
-                    crypto: 0.001
-                };
-                
-                const fees = amount * (feeRates[method] || 0);
-                const total = amount + fees;
-                
-                document.getElementById('summaryAmount').textContent = `$${amount.toFixed(2)}`;
-                document.getElementById('summaryFees').textContent = `$${fees.toFixed(2)}`;
-                document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
-                document.getElementById('summaryMethod').textContent = getMethodDisplayName(method);
-                
-                document.getElementById('depositSummary').style.display = 'block';
-            } else {
-                document.getElementById('depositSummary').style.display = 'none';
-            }
-        }
-
-        function getMethodDisplayName(method) {
-            const names = {
-                credit_card: 'Carte de crédit',
-                bank_transfer: 'Virement bancaire',
-                crypto: 'Cryptomonnaie'
-            };
-            return names[method] || method;
-        }
-
-        function reviewDeposit() {
-            const amount = parseFloat(document.getElementById('amount').value);
-            const method = selectedPaymentMethod;
+        // Soumission du formulaire
+        document.getElementById('depositFormElement').addEventListener('submit', async function(e) {
+            e.preventDefault();
             
             // Validation
-            let isValid = true;
-            
+            const amount = parseFloat(document.getElementById('amount').value);
             if (!amount || amount < 1 || amount > 100000) {
-                document.getElementById('amountError').textContent = 'Le montant doit être entre $1 et $100,000';
-                isValid = false;
-            } else {
-                document.getElementById('amountError').textContent = '';
+                document.getElementById('amountError').textContent = 'Montant invalide (1 - 100,000)';
+                return;
             }
-            
-            if (!method) {
-                document.getElementById('paymentMethodError').textContent = 'Veuillez sélectionner une méthode de paiement';
-                isValid = false;
-            } else {
-                document.getElementById('paymentMethodError').textContent = '';
-            }
-            
-            if (!isValid) return;
-            
-            // Update confirmation modal
-            const feeRates = {
-                credit_card: 0.029,
-                bank_transfer: 0,
-                crypto: 0.001
-            };
-            
-            const fees = amount * (feeRates[method] || 0);
-            const total = amount + fees;
-            
-            document.getElementById('confirmAmount').textContent = `$${amount.toFixed(2)}`;
-            document.getElementById('confirmFees').textContent = `$${fees.toFixed(2)}`;
-            document.getElementById('confirmTotal').textContent = `$${total.toFixed(2)}`;
-            document.getElementById('confirmMethod').textContent = getMethodDisplayName(method);
-            
-            // Store deposit data
-            depositData = {
-                amount: amount,
-                paymentMethod: method,
-                description: document.getElementById('description').value || null,
-                idempotencyKey: document.getElementById('idempotencyKey').value,
-                fees: fees,
-                total: total
-            };
-            
-            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
-            modal.show();
-        }
-
-        async function submitDeposit() {
-            if (!depositData) return;
-            
-            // Hide confirmation modal and show processing modal
-            const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
-            const processingModal = new bootstrap.Modal(document.getElementById('processingModal'));
-            
-            confirmModal.hide();
-            processingModal.show();
-
-            try {
-                const response = await fetch('/api/wallet/deposit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(depositData)
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    
-                    // Show transaction ID
-                    document.getElementById('processingTxId').textContent = result.transactionId;
-                    
-                    // Wait a bit for user to see the transaction ID
-                    setTimeout(() => {
-                        processingModal.hide();
-                        showSuccessNotification(
-                            `Dépôt de $${depositData.amount.toFixed(2)} initié avec succès!`,
-                            `Transaction ID: ${result.transactionId}`
-                        );
-                        
-                        // Reset form and reload data
-                        resetForm();
-                        setTimeout(() => {
-                            loadBalance();
-                            loadDepositHistory();
-                        }, 1000);
-                    }, 2000);
-                } else {
-                    processingModal.hide();
-                    const error = await response.json();
-                    showErrorNotification(
-                        'Erreur lors du dépôt',
-                        error.message || 'Une erreur inconnue s\'est produite'
-                    );
-                }
-            } catch (error) {
-                processingModal.hide();
-                console.error('Erreur lors du dépôt:', error);
-                showErrorNotification('Erreur de connexion', 'Veuillez réessayer plus tard');
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('depositForm').reset();
-            selectedPaymentMethod = null;
-            depositData = null;
-            
-            // Reset UI
-            document.querySelectorAll('.payment-method-card').forEach(el => el.classList.remove('selected'));
-            document.querySelectorAll('.amount-preset').forEach(el => el.classList.remove('selected'));
-            document.getElementById('depositSummary').style.display = 'none';
-            document.getElementById('amountError').textContent = '';
-            document.getElementById('paymentMethodError').textContent = '';
-            
-            generateIdempotencyKey();
-        }
-
-        async function loadDepositHistory() {
-            const container = document.getElementById('depositHistory');
-            container.innerHTML = `
-                <div class="p-4 text-center text-muted">
-                    <i class="fas fa-spinner fa-spin"></i> Chargement de l'historique...
-                </div>
-            `;
-
-            try {
-                const statusFilter = document.getElementById('statusFilter').value;
-                const url = `/api/wallet/deposits${statusFilter ? `?status=${statusFilter}` : ''}`;
-                const response = await fetch(url);
-                
-                if (response.ok) {
-                    const deposits = await response.json();
-                    displayDepositHistory(deposits);
-                } else {
-                    // Données de démonstration
-                    const demoDeposits = [
-                        {
-                            id: 'dep_001',
-                            amount: 1000.00,
-                            fees: 29.00,
-                            total: 1029.00,
-                            paymentMethod: 'credit_card',
-                            status: 'completed',
-                            description: 'Recharge mensuelle',
-                            createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-                            completedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 + 5 * 60 * 1000).toISOString()
-                        },
-                        {
-                            id: 'dep_002',
-                            amount: 500.00,
-                            fees: 0.00,
-                            total: 500.00,
-                            paymentMethod: 'bank_transfer',
-                            status: 'pending',
-                            description: 'Virement bancaire',
-                            createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString()
-                        },
-                        {
-                            id: 'dep_003',
-                            amount: 2500.00,
-                            fees: 2.50,
-                            total: 2502.50,
-                            paymentMethod: 'crypto',
-                            status: 'processing',
-                            description: 'Dépôt Bitcoin',
-                            createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString()
-                        }
-                    ];
-                    displayDepositHistory(demoDeposits);
-                }
-            } catch (error) {
-                console.error('Erreur lors du chargement de l\'historique:', error);
-                container.innerHTML = `
-                    <div class="p-4 text-center text-muted">
-                        <i class="fas fa-exclamation-triangle"></i> Erreur lors du chargement
-                    </div>
-                `;
-            }
-        }
-
-        function displayDepositHistory(deposits) {
-            const container = document.getElementById('depositHistory');
-            
-            if (!deposits || deposits.length === 0) {
-                container.innerHTML = `
-                    <div class="p-4 text-center text-muted">
-                        <i class="fas fa-inbox"></i> Aucun dépôt trouvé
-                    </div>
-                `;
+            if (!selectedMethod) {
+                document.getElementById('methodError').textContent = 'Sélectionnez une méthode de paiement';
                 return;
             }
 
-            container.innerHTML = deposits.map(deposit => {
-                const statusClasses = {
-                    completed: 'status-completed',
-                    pending: 'status-pending',
-                    processing: 'status-processing',
-                    failed: 'status-failed'
-                };
+            // Afficher traitement
+            document.getElementById('depositForm').style.display = 'none';
+            document.getElementById('processingForm').style.display = 'block';
+            updateSteps(2);
 
-                const statusTexts = {
-                    completed: 'Terminé',
-                    pending: 'En attente',
-                    processing: 'En cours',
-                    failed: 'Échec'
-                };
+            try {
+                const response = await fetch('/api/v1/wallet/deposit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + (localStorage.getItem('authToken') || '')
+                    },
+                    body: JSON.stringify({
+                        amount: amount,
+                        paymentMethod: selectedMethod,
+                        description: document.getElementById('description').value || null,
+                        idempotencyKey: document.getElementById('idempotencyKey').value
+                    })
+                });
 
-                const methodIcons = {
-                    credit_card: 'fa-credit-card',
-                    bank_transfer: 'fa-university',
-                    crypto: 'fa-bitcoin'
-                };
+                const data = await response.json();
 
-                return `
-                    <div class="transaction-item">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="d-flex align-items-start">
-                                <div class="me-3 mt-1">
-                                    <i class="fas ${methodIcons[deposit.paymentMethod] || 'fa-credit-card'} fa-lg text-success"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-1">
-                                        ${deposit.description || 'Dépôt'} 
-                                        <span class="status-badge ${statusClasses[deposit.status]}">
-                                            ${statusTexts[deposit.status]}
-                                        </span>
-                                    </h6>
-                                    <div class="small text-muted mb-2">
-                                        <div><strong>ID:</strong> ${deposit.id}</div>
-                                        <div><strong>Méthode:</strong> ${getMethodDisplayName(deposit.paymentMethod)}</div>
-                                        <div><strong>Créé:</strong> ${new Date(deposit.createdAt).toLocaleString('fr-FR')}</div>
-                                        ${deposit.completedAt ? `<div><strong>Terminé:</strong> ${new Date(deposit.completedAt).toLocaleString('fr-FR')}</div>` : ''}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-end">
-                                <div class="h5 mb-1 text-success">
-                                    +$${deposit.amount.toLocaleString('fr-FR', { minimumFractionDigits: 2 })}
-                                </div>
-                                ${deposit.fees > 0 ? `<div class="small text-muted">Frais: $${deposit.fees.toFixed(2)}</div>` : ''}
-                                <div class="small text-muted">Total: $${deposit.total.toFixed(2)}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                if (response.ok) {
+                    document.getElementById('processingForm').style.display = 'none';
+                    document.getElementById('successForm').style.display = 'block';
+                    document.getElementById('transactionId').textContent = data.transactionId || data.id || '-';
+                    document.getElementById('depositAmount').textContent = amount.toFixed(2);
+                    updateSteps(3);
+                } else {
+                    showError(data.message || data.error || 'Erreur lors du dépôt');
+                }
+            } catch (error) {
+                showError('Erreur de connexion au serveur');
+            }
+        });
+
+        function showError(message) {
+            document.getElementById('processingForm').style.display = 'none';
+            document.getElementById('depositForm').style.display = 'none';
+            document.getElementById('errorForm').style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
         }
 
-        function showSuccessNotification(title, message) {
-            const notification = document.createElement('div');
-            notification.className = 'alert alert-success alert-dismissible fade show position-fixed';
-            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 350px;';
-            notification.innerHTML = `
-                <h6><i class="fas fa-check-circle"></i> ${title}</h6>
-                <div>${message}</div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 8000);
+        function resetForm() {
+            document.getElementById('errorForm').style.display = 'none';
+            document.getElementById('depositForm').style.display = 'block';
+            generateIdempotencyKey();
+            updateSteps(1);
         }
 
-        function showErrorNotification(title, message) {
-            const notification = document.createElement('div');
-            notification.className = 'alert alert-danger alert-dismissible fade show position-fixed';
-            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 350px;';
-            notification.innerHTML = `
-                <h6><i class="fas fa-exclamation-circle"></i> ${title}</h6>
-                <div>${message}</div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 8000);
+        function updateSteps(step) {
+            document.getElementById('step1').className = step >= 1 ? 'step active' : 'step inactive';
+            document.getElementById('step2').className = step >= 2 ? 'step active' : 'step inactive';
+            document.getElementById('step3').className = step >= 3 ? 'step active' : 'step inactive';
+            document.getElementById('line1').className = step >= 2 ? 'step-line active' : 'step-line';
+            document.getElementById('line2').className = step >= 3 ? 'step-line active' : 'step-line';
         }
-
-        // Event listeners
-        document.getElementById('amount').addEventListener('input', updateSummary);
-        document.getElementById('statusFilter').addEventListener('change', loadDepositHistory);
     </script>
 </body>
 </html>

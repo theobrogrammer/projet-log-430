@@ -161,6 +161,141 @@
       }
     },
     {
+      "endpoint": "/api/v1/orders/{accountId}",
+      "method": "POST",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/orders/{accountId}",
+          "encoding": "json",
+          "method": "POST",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 200,
+          "client_max_rate": 50,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 5,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/orders/{accountId}/orders",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/orders/{accountId}/orders",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 500,
+          "client_max_rate": 100,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 5,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/orders/{accountId}/orders/{orderId}",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/orders/{accountId}/orders/{orderId}",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 500,
+          "client_max_rate": 100,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 5,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/orders/{accountId}/orders/{orderId}",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/orders/{accountId}/orders/{orderId}",
+          "encoding": "json",
+          "method": "DELETE",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 200,
+          "client_max_rate": 50,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 5,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
+      "endpoint": "/api/v1/market/{symbol}/quote",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/api/v1/market/{symbol}/quote",
+          "encoding": "json",
+          "method": "GET",
+          "host": ["http://nginx:80"],
+          "disable_host_sanitize": false
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 1000,
+          "client_max_rate": 200,
+          "strategy": "ip"
+        },
+        "qos/circuit-breaker": {
+          "interval": 10,
+          "timeout": 3,
+          "max_errors": 5,
+          "log_status_change": true
+        }
+      }
+    },
+    {
       "endpoint": "/health",
       "method": "GET",
       "output_encoding": "json",

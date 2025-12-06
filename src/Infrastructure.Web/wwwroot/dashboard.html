@@ -6,87 +6,198 @@
     <title>Tableau de bord - BrokerX</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f8f9fa; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    </style>
 </head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-success">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-chart-line"></i> BrokerX
-            </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/signin.html">
+            <a class="navbar-brand fw-bold" href="/"><i class="fas fa-chart-line"></i> BrokerX</a>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3"><i class="fas fa-user"></i> Connecté</span>
+                <a href="/signin.html" class="btn btn-outline-light btn-sm" onclick="localStorage.removeItem('authToken')">
                     <i class="fas fa-sign-out-alt"></i> Déconnexion
                 </a>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header bg-success text-white">
-                        <h4 class="mb-0"><i class="fas fa-check-circle"></i> Connexion réussie !</h4>
+    <div class="container py-4">
+        <!-- Message de bienvenue -->
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <i class="fas fa-check-circle fa-2x me-3"></i>
+            <div>
+                <h5 class="mb-0">Connexion réussie !</h5>
+                <small>Authentification MFA complétée avec succès.</small>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- UC-03: Dépôt de fonds -->
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="fas fa-wallet"></i> UC-03 : Approvisionnement</h5>
                     </div>
                     <div class="card-body text-center">
-                        <div class="alert alert-success">
-                            <h5><i class="fas fa-shield-alt"></i> Authentification MFA complétée</h5>
-                            <p class="mb-0">Vous êtes maintenant connecté de façon sécurisée à votre compte BrokerX.</p>
-                        </div>
-                        
-                        <div class="row mt-4">
-                            <div class="col-md-6 mb-3">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h6><i class="fas fa-wallet"></i> Portefeuille</h6>
-                                        <p class="text-muted">Gestion de vos fonds</p>
-                                        <a href="/test-mfa.html" class="btn btn-outline-primary btn-sm">Accéder</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h6><i class="fas fa-shield-alt"></i> Sécurité 2FA</h6>
-                                        <p class="text-muted">Configurer l'authentification à deux facteurs</p>
-                                        <a href="/mfa-settings.html" class="btn btn-outline-primary btn-sm">Configurer</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="card bg-success bg-gradient text-white">
-                                    <div class="card-body">
-                                        <h6><i class="fas fa-plus-circle"></i> Dépôt de fonds (UC-03)</h6>
-                                        <p class="mb-2 opacity-75">Interface moderne pour déposer des fonds</p>
-                                        <a href="/dashboard-modern.html" class="btn btn-light btn-sm">
-                                            <i class="fas fa-credit-card"></i> Déposer maintenant
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h6><i class="fas fa-user-plus"></i> Inscription</h6>
-                                        <p class="text-muted">Créer un nouveau compte</p>
-                                        <a href="/signup-otp.html" class="btn btn-outline-primary btn-sm">Nouveau compte</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <i class="fas fa-plus-circle fa-4x text-warning mb-3"></i>
+                        <h5>Dépôt de fonds</h5>
+                        <p class="text-muted">Ajouter des fonds à votre compte avec garantie d'idempotence</p>
+                        <a href="/deposit.html" class="btn btn-warning btn-lg">
+                            <i class="fas fa-credit-card"></i> Déposer maintenant
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="mt-4">
-                            <p class="text-muted">
-                                <i class="fas fa-info-circle"></i>
-                                Cette application de démonstration montre le système d'authentification MFA complet.
-                            </p>
+            <!-- Configuration MFA -->
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-shield-alt"></i> Sécurité MFA</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h6 class="mb-0">Authentification Multi-Facteurs</h6>
+                                <small class="text-muted">Défi OTP requis à chaque connexion</small>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="mfaToggle" checked style="width: 3em; height: 1.5em;">
+                            </div>
+                        </div>
+                        <div id="mfaStatus" class="alert alert-success mb-3">
+                            <i class="fas fa-check-circle"></i> MFA activé - Votre compte est sécurisé
+                        </div>
+                        <div class="small text-muted">
+                            <i class="fas fa-info-circle"></i> Le MFA ajoute une couche de sécurité en demandant un code OTP par email lors de la connexion.
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- UC-04 : Market Data Streaming -->
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-chart-line"></i> UC-04 : Données de Marché</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <i class="fas fa-broadcast-tower fa-4x text-info mb-3"></i>
+                        <h5>Streaming temps réel</h5>
+                        <p class="text-muted">Abonnement aux cotations de marché via WebSocket</p>
+                        <a href="/market-data.html" class="btn btn-info btn-lg">
+                            <i class="fas fa-signal"></i> Voir les cotations
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informations de session -->
+
+            <!-- UC-05 : Trading (Placement d'ordres) -->
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-exchange-alt"></i> UC-05 : Trading</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-area fa-4x text-success mb-3"></i>
+                        <h5>Placement d'ordres</h5>
+                        <p class="text-muted">Placer des ordres d'achat/vente avec contrôles pré-trade</p>
+                        <a href="/trading.html" class="btn btn-success btn-lg">
+                            <i class="fas fa-shopping-cart"></i> Accéder au trading
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <div class="card mt-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="fas fa-info-circle"></i> Session</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>Token JWT:</strong></p>
+                        <code id="tokenDisplay" class="small">Chargement...</code>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>Statut:</strong> <span class="badge bg-success">Authentifié</span></p>
+                        <p class="mb-0"><strong>Expiration:</strong> <span id="tokenExpiry">-</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Retour -->
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-outline-secondary">
+                <i class="fas fa-home"></i> Retour à l'accueil
+            </a>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Afficher le token
+        const token = localStorage.getItem('authToken');
+        const tokenDisplay = document.getElementById('tokenDisplay');
+        const tokenExpiry = document.getElementById('tokenExpiry');
+        
+        if (token) {
+            tokenDisplay.textContent = token.length > 50 ? token.substring(0, 50) + '...' : token;
+            // Décoder le JWT pour obtenir l'expiration
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                if (payload.exp) {
+                    const expDate = new Date(payload.exp * 1000);
+                    tokenExpiry.textContent = expDate.toLocaleString('fr-FR');
+                }
+            } catch (e) {
+                tokenExpiry.textContent = 'Non disponible';
+            }
+        } else {
+            tokenDisplay.textContent = 'Non trouvé (mode démo)';
+            tokenExpiry.textContent = '-';
+        }
+
+        // Toggle MFA
+        const mfaToggle = document.getElementById('mfaToggle');
+        const mfaStatus = document.getElementById('mfaStatus');
+        
+        mfaToggle.addEventListener('change', async function() {
+            const enabled = this.checked;
+            
+            if (enabled) {
+                mfaStatus.className = 'alert alert-success mb-3';
+                mfaStatus.innerHTML = '<i class="fas fa-check-circle"></i> MFA activé - Votre compte est sécurisé';
+            } else {
+                mfaStatus.className = 'alert alert-warning mb-3';
+                mfaStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> MFA désactivé - Connexion sans code OTP';
+            }
+
+            // Appel API pour mettre à jour le MFA (si implémenté)
+            try {
+                const response = await fetch('/api/v1/auth/mfa/toggle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + (token || '')
+                    },
+                    body: JSON.stringify({ enabled: enabled })
+                });
+                
+                if (!response.ok) {
+                    console.log('API MFA toggle non implémentée (démo)');
+                }
+            } catch (e) {
+                console.log('Mode démo - MFA toggle local seulement');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -12,6 +12,7 @@ using ProjetLog430.Infrastructure.Adapters.Session;
 using ProjetLog430.Infrastructure.Adapters.Kyc;
 using ProjetLog430.Infrastructure.Adapters.Cache;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.SignalR;
 using Prometheus;
 using Serilog;
 using Serilog.Formatting.Compact;
@@ -47,6 +48,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Utiliser Serilog comme provider de logs
 builder.Host.UseSerilog();
+
+// ===================================================================
+// CORS CONFIGURATION (Pour permettre les connexions SignalR depuis le navigateur)
+// ===================================================================
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:5000", "http://127.0.0.1:5000", "null") // "null" pour file://
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); // Nécessaire pour SignalR
+    });
+});
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -86,6 +101,9 @@ builder.Services.AddScoped<ISignupUseCase, SignupService>();
 builder.Services.AddScoped<IAuthUseCase,   AuthService>();
 builder.Services.AddScoped<IDepositUseCase, WalletService>();
 builder.Services.AddScoped<ISettlementCallbackUseCase, WalletService>();
+builder.Services.AddScoped<IMarketDataUseCase, MarketDataService>();
+// UC-05 Order Management
+builder.Services.AddScoped<IOrderUseCase, ProjetLog430.Application.Services.OrderService>();
 
 // Repositories (mêmes noms)
 builder.Services.AddScoped<IClientRepository,    InMemoryClientRepository>();
@@ -95,6 +113,27 @@ builder.Services.AddScoped<IPayTxRepository,     InMemoryPayTxRepository>();
 builder.Services.AddScoped<IMfaPolicyRepository, InMemoryMfaPolicyRepository>();
 builder.Services.AddScoped<IMfaChallengeRepository, InMemoryMfaChallengeRepository>();
 builder.Services.AddScoped<ISessionRepository,   InMemorySessionRepository>();
+
+// UC-04 Market Data repositories
+builder.Services.AddScoped<IQuoteRepository, ProjetLog430.Infrastructure.Persistence.Repositories.InMemoryQuoteRepository>();
+builder.Services.AddScoped<ISubscriptionRepository, ProjetLog430.Infrastructure.Persistence.Repositories.InMemorySubscriptionRepository>();
+
+// UC-05 Order Management repositories
+builder.Services.AddScoped<IOrderRepository, ProjetLog430.Infrastructure.Persistence.Repositories.OrderRepository>();
+builder.Services.AddScoped<ICompteRepository, InMemoryAccountRepository>();  // Reuse existing Account repository
+
+// UC-04 Market Data - Architecture Hexagonale
+// Adapters
+builder.Services.AddScoped<IMarketFeedPort, ProjetLog430.Infrastructure.Adapters.MarketData.MarketFeedSimulator>();
+builder.Services.AddSingleton<ISignalRHubContextWrapper, ProjetLog430.Infrastructure.Web.SignalR.SignalRHubContextWrapper>();
+builder.Services.AddSingleton<ISubscriptionStatsPort, ProjetLog430.Infrastructure.Web.SignalR.MarketDataHubStatsAdapter>();
+builder.Services.AddScoped<IMarketDataBroadcastPort, ProjetLog430.Infrastructure.Adapters.SignalR.SignalRBroadcastAdapter>();
+// Background Service
+builder.Services.AddHostedService<ProjetLog430.Application.Services.MarketDataBroadcastService>();
+
+// UC-05 Order Management - Architecture Hexagonale Adapters
+builder.Services.AddScoped<IPreTradeCheckPort, ProjetLog430.Infrastructure.Adapters.PreTrade.PreTradeCheckAdapter>();
+builder.Services.AddSingleton<IOrderMatchingPort, ProjetLog430.Infrastructure.Adapters.OrderMatching.OrderMatchingSimulator>();
 
 // Adapters sortants (audit/ledger/otp/payment/session)
 builder.Services.AddSingleton<IAuditPort>(new StructuredAuditAdapter("logs/audit.jsonl"));
@@ -129,11 +168,19 @@ builder.Services.AddSingleton<IPaymentPort>(sp =>
     return new PaymentAdapterSim(httpClient, webhookUrl);
 });
 
+// SignalR for UC-04 WebSocket streaming
+builder.Services.AddSignalR();
+
 // Static files (pages)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// ===================================================================
+// CORS MIDDLEWARE (Must be before other middleware)
+// ===================================================================
+app.UseCors();
 
 // URL Rewriting pour pages HTML sans extension
 var rewriteOptions = new RewriteOptions()
@@ -169,6 +216,9 @@ app.UseStaticFiles();
 app.MapFallbackToFile("index.html");
 
 app.MapControllers();
+
+// SignalR Hub for UC-04 Market Data streaming
+app.MapHub<ProjetLog430.Infrastructure.Web.Hubs.MarketDataHub>("/hub/marketdata");
 
 // Endpoint Prometheus pour exposer les métriques (Phase 2 - Étape 2a)
 app.MapMetrics();

@@ -10,7 +10,7 @@ public sealed class JwtSessionAdapter : ISessionPort
 {
     public Task<string> IssueAsync(ProjetLog430.Domain.Model.Securite.Session session, CancellationToken ct = default)
     {
-        // Démo: jeton light (NE PAS utiliser en prod)
+        // Démo: jeton light 
         var payload = $"{session.SessionId}|{session.ExpiresAt:O}";
         var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(payload));
         return Task.FromResult(token);
